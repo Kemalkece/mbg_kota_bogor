@@ -6,6 +6,35 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-inter: 'Inter', sans-serif;
+    
+    /* Colors */
+    --color-primary: #667eea;
+    --color-secondary: #764ba2;
+    --color-accent: #f5576c;
+    --color-text-dark: #2d3436;
+    --color-text-light: #636e72;
+    --color-bg-light: #f8f9fa;
+    --color-gold-light: #D1B06C;
+    --color-gold-dark: #B8964F;
+    --color-navy: #071E49;
+
+    /* Gradients */
+    --image-gradient-primary: linear-gradient(135deg, #D1B06C 0%, #B8964F 100%);
+    --image-gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    
+    /* Box Shadows */
+    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+@layer utilities {
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #D1B06C 0%, #B8964F 100%);
+    }
+    .text-gradient-primary {
+        background: linear-gradient(135deg, #D1B06C 0%, #E8D4A2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 }
