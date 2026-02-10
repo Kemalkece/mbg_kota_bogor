@@ -158,6 +158,11 @@
         .navbar.scrolled .navbar-toggler-icon {
             filter: brightness(0);
         }
+        .nav-link.active {
+    color: #D1B06C !important;
+    border-bottom: 3px solid #D1B06C;
+}
+
 
         /* Mobile Menu Background */
         @media (max-width: 991.98px) {
@@ -3319,7 +3324,7 @@
 
         .logo-bar {
             position: relative;
-            background: #071e49;
+            background: #071E49;
             padding: 16px 40px 18px;
             overflow: hidden;
         }

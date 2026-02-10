@@ -1,4 +1,3 @@
-    <!-- Beranda -->
     <section id="beranda" class="hero-section">
         <div class="container">
             <div class="row align-items-center">

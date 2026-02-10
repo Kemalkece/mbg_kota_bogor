@@ -1,4 +1,5 @@
-<section class="logo-bar py-10 bg-white relative overflow-hidden flex flex-col items-center">
+<section class="logo-bar py-10 relative overflow-hidden flex flex-col items-center"
+         style="background:#071E49;">
 
    <img src="{{ asset('images/rubo_mencari.png') }}" alt="Batik kanan" class="batik-img batik-right absolute -right-10 top-1/2 -translate-y-1/2 h-32 opacity-10">
    <img src="{{ asset('images/rubo_mencari.png') }}" alt="Batik kiri" class="batik-img batik-left absolute -left-10 top-1/2 -translate-y-1/2 h-32 opacity-10 scale-x-[-1]">

@@ -16,7 +16,7 @@
                     <li><a href="#reg-5" class="regulasi-item block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-blue-600 [&.active]:bg-blue-50 [&.active]:text-blue-600 [&.active]:font-bold border-l-4 border-transparent [&.active]:border-blue-500" data-target="card-5">Juknis Pelaksanaan MBG</a></li>
                     <li><a href="#reg-6" class="regulasi-item block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-blue-600 [&.active]:bg-blue-50 [&.active]:text-blue-600 [&.active]:font-bold border-l-4 border-transparent [&.active]:border-blue-500" data-target="card-6">Standar Keamanan Pangan</a></li>
                 </ul>
-                <a href="#" class="btn-selengkapnya-regulasi-disabled mt-6 w-full bg-gradient-to-r from-[#D1B06C] to-[#C49955] text-white py-2.5 rounded-full font-semibold text-sm flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-1 transition"> Selengkapnya</a>
+                    <a  class="btn-selengkapnya-regulasi"> Selengkapnya</a>
             </div>
 
             <!-- Content -->
