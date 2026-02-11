@@ -5,24 +5,36 @@
             <p class="section-subtitle text-sm text-[#636e72]">Informasi penting tentang Program Makan Bergizi Gratis</p>
         </div>
 
-        <div class="regulasi-wrapper flex flex-col lg:flex-row gap-8" data-aos="fade-up">
-            <div class="regulasi-sidebar w-full lg:w-1/4 bg-white p-6 rounded-2xl shadow-lg h-fit sticky top-24">
-                <h6 class="font-bold text-[#071E49] mb-4 border-b pb-2">Pertanyaan Umum</h6>
-                <ul class="regulasi-menu list-none pl-0 space-y-2">
-                    <li><a href="#faq-1" class="regulasi-item block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-blue-600 [&.active]:bg-blue-50 [&.active]:text-blue-600 [&.active]:font-bold border-l-4 border-transparent [&.active]:border-blue-500 active" data-target="faq-card-1">Apakah makanan MBG
-                            halal?</a></li>
-                    <li><a href="#faq-2" class="regulasi-item block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-blue-600 [&.active]:bg-blue-50 [&.active]:text-blue-600 [&.active]:font-bold border-l-4 border-transparent [&.active]:border-blue-500" data-target="faq-card-2">Apakah makanan MBG aman?</a>
-                    </li>
-                    <li><a href="#faq-3" class="regulasi-item block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-blue-600 [&.active]:bg-blue-50 [&.active]:text-blue-600 [&.active]:font-bold border-l-4 border-transparent [&.active]:border-blue-500" data-target="faq-card-3">Siapa saja penerima MBG?</a>
-                    </li>
-                    <li><a href="#faq-4" class="regulasi-item block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-blue-600 [&.active]:bg-blue-50 [&.active]:text-blue-600 [&.active]:font-bold border-l-4 border-transparent [&.active]:border-blue-500" data-target="faq-card-4">Bagaimana proses
-                            pengawasan?</a>
-                    </li>
-                     <button class="btn-faq mt-4 w-full bg-[#f0f2f5] text-[#071E49] py-2.5 rounded-full font-semibold text-sm hover:bg-[#e0e4eb] transition">
-                         Selengkapnya
-                    </button>
-                </ul>   
-            </div>
+         <div class="regulasi-wrapper" data-aos="fade-up">
+                <div class="regulasi-sidebar">
+                    <h6>Pertanyaan Umum</h6>
+                    <ul class="regulasi-menu">
+                        <li><a href="#faq-1" class="regulasi-item active" data-target="faq-card-1">Apakah makanan MBG
+                                halal?</a></li>
+                        <li><a href="#faq-2" class="regulasi-item" data-target="faq-card-2">Apakah makanan MBG aman?</a>
+                        </li>
+                        <li><a href="#faq-3" class="regulasi-item" data-target="faq-card-3">Siapa saja penerima MBG?</a>
+                        </li>
+                        <li><a href="#faq-4" class="regulasi-item" data-target="faq-card-4">Bagaimana proses
+                                pengawasan?</a>
+                        </li>
+                        <button id="faqBtn" class="btn-faq">
+                            Selengkapnya
+                        </button>
+
+
+
+<script>
+document.getElementById("faqBtn").addEventListener("click", function () {
+    window.location.href = "{{ route('faq_detail') }}";
+});
+</script>
+
+
+
+
+                    </ul>
+                </div>
 
             <div class="regulasi-content w-full lg:w-3/4">
                 @php

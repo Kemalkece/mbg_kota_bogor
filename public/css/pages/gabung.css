@@ -1,100 +1,67 @@
 
-        .navbar {
-            background: #ffffff;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        /* NAVBAR DETAIL */
+.navbar-detail {
+    background: #ffffff;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            z-index: 1050;
-        }
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1050;
+}
 
-        .navbar.scrolled {
-            padding: 12px 0;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(15px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        }
+.navbar-detail.scrolled {
+    background: rgba(255, 255, 255, 0.98);
+}
 
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: white !important;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
+/* BRAND */
+.navbar-detail .navbar-brand {
+    font-weight: 700;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
-        .navbar-brand img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-            transition: all 0.3s ease;
-        }
+.navbar-detail .navbar-brand img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
 
-        .navbar-brand-text {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.1;
-        }
+.navbar-detail .navbar-brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
 
-        .navbar-brand-text .brand-label {
-            font-size: 0.65rem;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
+.navbar-detail .brand-label {
+    color: #58585893;
+    font-size: 12px;
+}
 
-        .navbar-brand-text .brand-name {
-            font-size: 1rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #D1B06C 0%, #E8D4A2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: #D1B06C;
-            transition: all 0.3s ease;
-        }
+.navbar-detail .brand-name {
+    color: #D1B06C;
+    font-weight: 600;
+}
 
-        #mainNav .brand-label {
-            color: #58585893 !important;
-            font-size: 12px;
-            display: block;
-        }
-
-        #mainNav .brand-name {
-            color: #071E49 !important;
-            font-weight: 600;
-            display: block;
-        }
-
-        #mainNav .navbar-brand-text {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.1;
-        }
-        
-        /* btn */
-        .btn-back {
-            background: #D1B06C;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 20px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(209, 176, 108, 0.2);
-        }
+/* BUTTON BACK */
+.btn-back {
+    background: #D1B06C;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(209, 176, 108, 0.2);
+}

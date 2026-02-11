@@ -542,10 +542,13 @@
             });
         }
 
-        // button faq
-       document.getElementById("faqBtn").addEventListener("click", function() {
-    window.location.href = "/faq";
+       <script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("faqBtn").addEventListener("click", function() {
+        window.location.href = "/faq_detail";
+    });
 });
+</script>
 
 	// scroll data slider
 	function scrollSlider(direction) {

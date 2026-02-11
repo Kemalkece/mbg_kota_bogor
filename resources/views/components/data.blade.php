@@ -76,10 +76,12 @@
                     </div>
                 </div>
 
-                <div class="data-btn-wrapper">
-                    <button class="detail-btn">
-    Lihat Detail
-</button>
+<div class="data-btn-wrapper">
+    <a href="{{ route('data_detail') }}" class="detail-btn">
+        Lihat Detail
+    </a>
+</div>
+
 
                 </div>
             </div>
