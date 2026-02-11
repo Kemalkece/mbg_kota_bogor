@@ -542,13 +542,11 @@
             });
         }
 
-       <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("faqBtn").addEventListener("click", function() {
         window.location.href = "/faq_detail";
     });
 });
-</script>
 
 	// scroll data slider
 	function scrollSlider(direction) {
@@ -559,3 +557,5 @@ document.addEventListener("DOMContentLoaded", function () {
 		const itemWidth = firstItem ? (firstItem.offsetWidth + gap) : 360;
 		slider.scrollBy({ left: direction * itemWidth, behavior: 'smooth' });
 	}
+
+    
