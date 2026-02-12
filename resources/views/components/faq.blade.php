@@ -18,19 +18,9 @@
                         <li><a href="#faq-4" class="regulasi-item" data-target="faq-card-4">Bagaimana proses
                                 pengawasan?</a>
                         </li>
-                        <button id="faqBtn" class="btn-faq">
-                            Selengkapnya
-                        </button>
-
-
-
-<script>
-document.getElementById("faqBtn").addEventListener("click", function () {
-    window.location.href = "";
-});
-</script>
-
-
+<button onclick="window.location.href='/faq-detail'" class="btn-faq">
+    Selengkapnya
+</button>
 
 
                     </ul>

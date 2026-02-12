@@ -20,5 +20,5 @@ Route::get('/regulasi-detail', function () {
 })->name('regulasi_detail');
 
 Route::get('/faq-detail', function () {
-    return view('components.detail.faq_detail');
-})->name('faq_detail');
+    return view('components.detail.faq-detail');
+})->name('faq-detail');

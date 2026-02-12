@@ -76,10 +76,12 @@
                     </div>
                 </div>
 
-                <div class="data-btn-wrapper">
-                    <button class="detail-btn">
-    Lihat Detail
-</button>
+<div class="data-btn-wrapper">
+    <button onclick="window.location.href='/data-detail'" class="detail-btn">
+        Lihat Detail
+    </button>
+</div>
+
 
                 </div>
             </div>
