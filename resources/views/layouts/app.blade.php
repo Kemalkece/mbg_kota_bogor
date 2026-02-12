@@ -13,22 +13,12 @@
     <link rel="stylesheet" href="{{ asset('css/pages/mbg.css') }}">
 </head>
 <body>
-
-@include('components.navbar')
-@include('partials.hero')
-@include('components.sasaran')
-@include('components.about')
-@include('components.data')
-@include('components.regulasi')
-@include('components.map')
-@include('components.faq')
-@include('components.logo-bar')
-@include('components.footer')
-@include('components.cek-gizi')
-@include('components.aksebilitas')
-
+    <x-navbar />
+    @yield('content')
+    <x-footer />
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('js/pages/mbg.js') }}"></script>
+
 
 </body>
 </html>

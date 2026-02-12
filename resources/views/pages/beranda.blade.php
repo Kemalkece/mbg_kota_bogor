@@ -2,16 +2,16 @@
 
 @section('content')
     <!-- Navbar -->
-    <x-navbar />
+
 
     <!-- Hero Section -->
-    <x-hero />
+    <x-hero :beritas="$beritas"/>
 
     <!-- Sasaran Section -->
-    <x-sasaran />
+    <x-sasaran  />
 
     <!-- About Section -->
-    <x-about />
+    <x-about /> 
 
     <!-- Data Section -->
     <x-data />
@@ -31,8 +31,6 @@
     <!-- Logo Bar -->
     <x-logo-bar />
 
-    <!-- Footer -->
-    <x-footer />
     
     <!-- Floating Action Buttons (FAB) for Accessibility/Tools -->
 

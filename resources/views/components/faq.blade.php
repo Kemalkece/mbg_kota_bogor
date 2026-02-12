@@ -26,7 +26,7 @@
 
 <script>
 document.getElementById("faqBtn").addEventListener("click", function () {
-    window.location.href = "{{ route('faq_detail') }}";
+    window.location.href = "";
 });
 </script>
 
