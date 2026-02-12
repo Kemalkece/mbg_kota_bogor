@@ -36,13 +36,6 @@
                         langsung di email Anda.
                     </p>
 
-                    <form class="newsletter-form mb-3">
-                        <input type="email" class="newsletter-input" placeholder="Email Anda">
-                        <button type="submit" class="newsletter-button">
-                            <i class="bi bi-send"></i>
-                        </button>
-                    </form>
-
                     <small>
                         Hotline: 1500-234<br>
                         Email: info@makanbergizigratis.go.id

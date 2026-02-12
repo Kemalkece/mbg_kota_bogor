@@ -2,23 +2,23 @@
     <div class="container">
         <div class="row align-items-center">
 
-            @php
+            {{-- @php
             $firstBerita = $beritas->first();
-            @endphp
+            @endphp --}}
 
             <!-- CAROUSEL -->
             <div class="col-lg-6">
                 <div class="hero-carousel-container">
                     <div class="hero-carousel" id="heroCarousel">
 
-                        @foreach($beritas as $berita)
+                        {{-- @foreach($beritas as $berita)
                         <div class="carousel-slide"
                             data-title="{{ $berita->title }}"
                             data-desc="{{ $berita->deskripsi }}">
                             <img src="{{ asset('storage/' . $berita->image) }}"
                                 alt="{{ $berita->title }}">
-                        </div>
-                        @endforeach
+                        </div> --}}
+                        {{-- @endforeach --}}
 
                     </div>
 
@@ -35,7 +35,8 @@
             </div>
 
             <!-- KONTEN -->
-            <div class="col-lg-6">
+            <div class="col-lg-3" style="flex:0 0 28%; max-width:28%;">
+
                 <div class="hero-content" id="heroContent">
                     <h1 class="hero-title" id="newsTitle">
                         {{ $firstBerita->title ?? '' }}
@@ -45,11 +46,12 @@
                         {{ $firstBerita->deskripsi ?? '' }}
                     </p>
 
-                    <div class="hero-buttons">
-                        <a href="#" class="btn-hero-primary" id="newsLink">
-                            Baca Selengkapnya
-                        </a>
-                    </div>
+                    <a href="{{ route('berita.show', $firstBerita->id ?? 0) }}"
+                    class="btn-hero-primary"
+                    id="newsLink">
+                        Baca Selengkapnya
+                    </a>
+
                 </div>
             </div>
 

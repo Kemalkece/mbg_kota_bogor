@@ -5,7 +5,8 @@
 
 
     <!-- Hero Section -->
-    <x-hero :beritas="$beritas"/>
+    {{-- <x-hero :beritas="$beritas"/> --}}
+     <x-hero />
 
     <!-- Sasaran Section -->
     <x-sasaran  />

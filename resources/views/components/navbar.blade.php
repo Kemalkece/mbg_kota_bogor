@@ -2,6 +2,7 @@
 $navData = [
     ['label' => 'Beranda', 'url' => '#beranda', 'section' => 'beranda'],
     ['label' => 'Sasaran', 'url' => '#sasaran', 'section' => 'sasaran'],
+    ['label' => 'tentang', 'url' => '#tentang', 'section' => 'tentang'],
     ['label' => 'Data', 'url' => '#data', 'section' => 'data'],
     ['label' => 'Regulasi', 'url' => '#regulasi', 'section' => 'regulasi'],
     ['label' => 'Peta MBG', 'url' => '#peta-mbg', 'section' => 'peta-mbg'],
