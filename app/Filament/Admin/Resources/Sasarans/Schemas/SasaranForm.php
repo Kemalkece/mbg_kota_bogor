@@ -13,8 +13,6 @@ class SasaranForm
     {
         return $schema
             ->components([
-                TextInput::make('title')
-                    ->required(),
                 TextInput::make('klasifikasi')
                     ->required(),
                 Textarea::make('title_deskripsi')

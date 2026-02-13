@@ -134,10 +134,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     var currentSlideEl = slides[currentSlide];
                     var title = currentSlideEl.getAttribute('data-title') || '';
                     var desc = currentSlideEl.getAttribute('data-desc') || '';
+                    var url = currentSlideEl.getAttribute('data-url') || '#';
 
                     newsTitle.innerText = title;
                     if (newsDesc) newsDesc.innerText = desc;
-                    if (newsLink) newsLink.setAttribute('href', '#');
+                    if (newsLink) newsLink.setAttribute('href', url);
 
                     if (heroContent) {
                         heroContent.style.opacity = '1';
@@ -579,21 +580,21 @@ document.addEventListener('DOMContentLoaded', function () {
     var btnLihatDetail = document.getElementById('btnLihatDetail');
     if (btnLihatDetail) {
         btnLihatDetail.addEventListener('click', function () {
-            window.location.href = 'statistik-detail.html';
+            window.location.href = '/data-detail';
         });
     }
 
     var btnSelengkapnyaRegulasi = document.querySelector('.btn-selengkapnya-regulasi');
     if (btnSelengkapnyaRegulasi) {
         btnSelengkapnyaRegulasi.addEventListener('click', function () {
-            window.location.href = 'regulasi-detail.html';
+            window.location.href = '/regulasi-detail';
         });
     }
 
     var faqBtn = document.getElementById('faqBtn');
     if (faqBtn) {
         faqBtn.addEventListener('click', function () {
-            window.location.href = '/faq_detail';
+            window.location.href = '/faq-detail';
         });
     }
 

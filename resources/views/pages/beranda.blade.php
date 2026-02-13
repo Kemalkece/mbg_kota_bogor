@@ -1,38 +1,36 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- Navbar -->
+<!-- Navbar -->
+
+<!-- Hero Section -->
+<x-hero :beritas="$beritas" />
+
+<!-- Sasaran Section -->
+<x-sasaran :sasarans="$sasarans" />
+
+<!-- About Section -->
+<x-about />
+
+<!-- Data Section -->
+<x-data />
+
+<!-- Cek Gizi Section -->
+<x-cek-gizi />
+
+<!-- Regulasi Section -->
+<x-regulasi />
+
+<!-- Map Section -->
+<x-map />
+
+<!-- FAQ Section -->
+<x-faq />
+
+<!-- Logo Bar -->
+<x-logo-bar />
 
 
-    <!-- Hero Section -->
-    {{-- <x-hero :beritas="$beritas"/> --}}
-     <x-hero />
-
-    <!-- Sasaran Section -->
-    <x-sasaran  />
-
-    <!-- About Section -->
-    <x-about /> 
-
-    <!-- Data Section -->
-    <x-data />
-
-    <!-- Cek Gizi Section -->
-    <x-cek-gizi />
-
-    <!-- Regulasi Section -->
-    <x-regulasi />
-
-    <!-- Map Section -->
-    <x-map />
-
-    <!-- FAQ Section -->
-    <x-faq />
-    
-    <!-- Logo Bar -->
-    <x-logo-bar />
-
-    
-    <!-- Floating Action Buttons (FAB) for Accessibility/Tools -->
+<!-- Floating Action Buttons (FAB) for Accessibility/Tools -->
 
 @endsection

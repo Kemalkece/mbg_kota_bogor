@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-5" style="max-width:900px;">
+<div class="container py-5 mt-5" style="max-width:900px;">
 
     {{-- tombol kembali --}}
-<a href="{{ url('/berita') }}"
+<a href="{{ url('/hero') }}"
    class="d-inline-block mb-3"
    style="background:#CFAD69; color:white; padding:8px 14px; border-radius:8px; text-decoration:none;">
    ← Kembali ke Berita

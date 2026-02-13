@@ -16,107 +16,107 @@
                     <li><a href="#reg-5" class="regulasi-item block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-blue-600 [&.active]:bg-blue-50 [&.active]:text-blue-600 [&.active]:font-bold border-l-4 border-transparent [&.active]:border-blue-500" data-target="card-5">Juknis Pelaksanaan MBG</a></li>
                     <li><a href="#reg-6" class="regulasi-item block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-blue-600 [&.active]:bg-blue-50 [&.active]:text-blue-600 [&.active]:font-bold border-l-4 border-transparent [&.active]:border-blue-500" data-target="card-6">Standar Keamanan Pangan</a></li>
                 </ul>
-<a href="{{ route('regulasi_detail') }}" class="btn-selengkapnya-regulasi">
-    Selengkapnya
-</a>
+                <a href="{{ route('regulasi_detail') }}" class="btn-selengkapnya-regulasi">
+                    Selengkapnya
+                </a>
 
             </div>
 
             <!-- Content -->
             <div class="regulasi-content w-full lg:w-3/4">
                 @php
-                    $regulasiItems = [
-                        [
-                            'id' => 'card-1',
-                            'icon' => 'file-earmark-text-fill',
-                            'type' => 'Perpres',
-                            'status' => 'Berlaku',
-                            'title' => 'Peraturan Presiden Nomor 83 Tahun 2024',
-                            'meta' => 'Ditetapkan: 2024',
-                            'desc' => 'Instrumen hukum utama yang melandasi pembentukan Badan Gizi Nasional sebagai motor penggerak perbaikan gizi nasional.',
-                            'points' => [
-                                'Pembentukan struktur organisasi Badan Gizi Nasional.',
-                                'Penetapan tugas dan fungsi koordinasi lintas kementerian.',
-                                'Landasan hukum pendanaan program MBG secara nasional.'
-                            ],
-                            'display' => 'flex' // first one visible
-                        ],
-                        [
-                            'id' => 'card-2',
-                            'icon' => 'clipboard-check-fill',
-                            'type' => 'SOP',
-                            'status' => 'Berlaku',
-                            'title' => 'SOP Pelaksanaan Program MBG',
-                            'meta' => 'Versi 1.0 - 2024',
-                            'desc' => 'Standar operasional baku yang mengatur dari proses pengadaan bahan hingga distribusi makanan ke penerima.',
-                            'points' => [
-                                'Prosedur kebersihan dan sanitasi dapur.',
-                                'Mekanisme distribusi tepat waktu.',
-                                'Sistem pelaporan dan evaluasi harian.'
-                            ],
-                            'display' => 'none'
-                        ],
-                         [
-                            'id' => 'card-3',
-                            'icon' => 'book-half',
-                            'type' => 'Pedoman',
-                            'status' => 'Aktif',
-                            'title' => 'Pedoman Gizi Sekolah (MBG Sekolah)',
-                            'meta' => 'Edisi 2024',
-                            'desc' => 'Buku paduan komprehensif untuk sekolah dalam mengelola dan mengawasi jalannya program MBG.',
-                            'points' => [
-                                'Kriteria menu seimbang untuk anak sekolah.',
-                                'Manajemen kantin dan ruang makan sekolah.',
-                                'Edukasi gizi bagi siswa dan orang tua.'
-                            ],
-                            'display' => 'none'
-                        ],
-                         [
-                            'id' => 'card-4',
-                            'icon' => 'shield-check',
-                            'type' => 'Formulir',
-                            'status' => 'Wajib',
-                            'title' => 'Permohonan SLHS (Higiene Sanitasi)',
-                            'meta' => 'Updated 2024',
-                            'desc' => 'Formulir pendaftaran untuk memastikan fasilitas dapur penyedia jasa makanan memenuhi standar sanitasi nasional.',
-                            'points' => [
-                                'Kelengkapan dokumen administrasi penyedia.',
-                                'Checklist standar kelayakan dapur umum.',
-                                'Alur verifikasi tim pemeriksa kesehatan.'
-                            ],
-                            'display' => 'none'
-                        ],
-                         [
-                            'id' => 'card-5',
-                            'icon' => 'journal-text',
-                            'type' => 'Juknis',
-                            'status' => 'Aktif',
-                            'title' => 'Petunjuk Teknis Pelaksanaan Program MBG',
-                            'meta' => 'Tahun 2024',
-                            'desc' => 'Dokumen teknis sebagai panduan operasional pelaksanaan MBG di lapangan bagi sekolah dan mitra penyedia makanan.',
-                            'points' => [
-                                'Alur pelaksanaan MBG dari persiapan hingga distribusi.',
-                                'Peran sekolah, penyedia, dan pemerintah daerah.',
-                                'Standar pelaporan dan monitoring kegiatan.'
-                            ],
-                            'display' => 'none'
-                        ],
-                         [
-                            'id' => 'card-6',
-                            'icon' => 'shield-fill-check',
-                            'type' => 'Standar',
-                            'status' => 'Wajib',
-                            'title' => 'Standar Keamanan & Mutu Pangan MBG',
-                            'meta' => 'Berlaku Nasional',
-                            'desc' => 'Standar wajib yang mengatur keamanan pangan untuk menjamin makanan MBG aman, higienis, dan layak konsumsi.',
-                            'points' => [
-                                'Standar bahan baku dan penyimpanan makanan.',
-                                'Prosedur pengolahan makanan yang aman.',
-                                'Pencegahan kontaminasi dan keracunan pangan.'
-                            ],
-                            'display' => 'none'
-                        ],
-                    ];
+                $regulasiItems = [
+                [
+                'id' => 'card-1',
+                'icon' => 'file-earmark-text-fill',
+                'type' => 'Perpres',
+                'status' => 'Berlaku',
+                'title' => 'Peraturan Presiden Nomor 83 Tahun 2024',
+                'meta' => 'Ditetapkan: 2024',
+                'desc' => 'Instrumen hukum utama yang melandasi pembentukan Badan Gizi Nasional sebagai motor penggerak perbaikan gizi nasional.',
+                'points' => [
+                'Pembentukan struktur organisasi Badan Gizi Nasional.',
+                'Penetapan tugas dan fungsi koordinasi lintas kementerian.',
+                'Landasan hukum pendanaan program MBG secara nasional.'
+                ],
+                'display' => 'flex' // first one visible
+                ],
+                [
+                'id' => 'card-2',
+                'icon' => 'clipboard-check-fill',
+                'type' => 'SOP',
+                'status' => 'Berlaku',
+                'title' => 'SOP Pelaksanaan Program MBG',
+                'meta' => 'Versi 1.0 - 2024',
+                'desc' => 'Standar operasional baku yang mengatur dari proses pengadaan bahan hingga distribusi makanan ke penerima.',
+                'points' => [
+                'Prosedur kebersihan dan sanitasi dapur.',
+                'Mekanisme distribusi tepat waktu.',
+                'Sistem pelaporan dan evaluasi harian.'
+                ],
+                'display' => 'none'
+                ],
+                [
+                'id' => 'card-3',
+                'icon' => 'book-half',
+                'type' => 'Pedoman',
+                'status' => 'Aktif',
+                'title' => 'Pedoman Gizi Sekolah (MBG Sekolah)',
+                'meta' => 'Edisi 2024',
+                'desc' => 'Buku paduan komprehensif untuk sekolah dalam mengelola dan mengawasi jalannya program MBG.',
+                'points' => [
+                'Kriteria menu seimbang untuk anak sekolah.',
+                'Manajemen kantin dan ruang makan sekolah.',
+                'Edukasi gizi bagi siswa dan orang tua.'
+                ],
+                'display' => 'none'
+                ],
+                [
+                'id' => 'card-4',
+                'icon' => 'shield-check',
+                'type' => 'Formulir',
+                'status' => 'Wajib',
+                'title' => 'Permohonan SLHS (Higiene Sanitasi)',
+                'meta' => 'Updated 2024',
+                'desc' => 'Formulir pendaftaran untuk memastikan fasilitas dapur penyedia jasa makanan memenuhi standar sanitasi nasional.',
+                'points' => [
+                'Kelengkapan dokumen administrasi penyedia.',
+                'Checklist standar kelayakan dapur umum.',
+                'Alur verifikasi tim pemeriksa kesehatan.'
+                ],
+                'display' => 'none'
+                ],
+                [
+                'id' => 'card-5',
+                'icon' => 'journal-text',
+                'type' => 'Juknis',
+                'status' => 'Aktif',
+                'title' => 'Petunjuk Teknis Pelaksanaan Program MBG',
+                'meta' => 'Tahun 2024',
+                'desc' => 'Dokumen teknis sebagai panduan operasional pelaksanaan MBG di lapangan bagi sekolah dan mitra penyedia makanan.',
+                'points' => [
+                'Alur pelaksanaan MBG dari persiapan hingga distribusi.',
+                'Peran sekolah, penyedia, dan pemerintah daerah.',
+                'Standar pelaporan dan monitoring kegiatan.'
+                ],
+                'display' => 'none'
+                ],
+                [
+                'id' => 'card-6',
+                'icon' => 'shield-fill-check',
+                'type' => 'Standar',
+                'status' => 'Wajib',
+                'title' => 'Standar Keamanan & Mutu Pangan MBG',
+                'meta' => 'Berlaku Nasional',
+                'desc' => 'Standar wajib yang mengatur keamanan pangan untuk menjamin makanan MBG aman, higienis, dan layak konsumsi.',
+                'points' => [
+                'Standar bahan baku dan penyimpanan makanan.',
+                'Prosedur pengolahan makanan yang aman.',
+                'Pencegahan kontaminasi dan keracunan pangan.'
+                ],
+                'display' => 'none'
+                ],
+                ];
                 @endphp
 
                 @foreach($regulasiItems as $item)

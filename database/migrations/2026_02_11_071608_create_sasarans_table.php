@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('image');
             $table->string('klasifikasi');
-            $table->string('title_deskprisi');
+            $table->string('title_deskripsi');
             $table->text('deskripsi');
             $table->timestamps();
         });

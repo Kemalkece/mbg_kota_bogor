@@ -2,14 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\SasaranController;
 
-Route::get('/', [BeritaController::class, 'index'])->name('home');
+Route::get('/', [BeritaController::class, 'index'])->name('beranda');
+Route::get('/home', [BeritaController::class, 'index'])->name('home');
 Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
 
-
-Route::get('/', function () {
-    return view('pages.beranda');
-})->name('home');
+Route::get('/sasaran', [SasaranController::class, 'index'])->name('sasaran');
+Route::get('/hero', [BeritaController::class, 'index'])->name('hero');
 
 Route::get('/data-detail', function () {
     return view('components.detail.data_detail');

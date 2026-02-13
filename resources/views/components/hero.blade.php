@@ -1,27 +1,27 @@
+@props(['beritas'])
 <section id="beranda" class="hero-section">
     <div class="container">
         <div class="row align-items-center">
 
-            {{-- @php
+            @php
             $firstBerita = $beritas->first();
-            @endphp --}}
+            @endphp
 
             <!-- CAROUSEL -->
             <div class="col-lg-6">
                 <div class="hero-carousel-container">
                     <div class="hero-carousel" id="heroCarousel">
 
-                        {{-- @foreach($beritas as $berita)
+                        @foreach($beritas as $berita)
                         <div class="carousel-slide"
                             data-title="{{ $berita->title }}"
-                            data-desc="{{ $berita->deskripsi }}">
+                            data-desc="{{ \Illuminate\Support\Str::limit($berita->deskripsi, 150) }}"
+                            data-url="{{ route('berita.show', $berita->id) }}">
                             <img src="{{ asset('storage/' . $berita->image) }}"
                                 alt="{{ $berita->title }}">
-                        </div> --}}
-                        {{-- @endforeach --}}
-
+                        </div>
+                        @endforeach
                     </div>
-
                     <button class="carousel-arrow prev" onclick="moveCarousel(-1)">
                         <i class="bi bi-chevron-left"></i>
                     </button>
@@ -43,12 +43,12 @@
                     </h1>
 
                     <p class="hero-description" id="newsDesc">
-                        {{ $firstBerita->deskripsi ?? '' }}
+                        {{ \Illuminate\Support\Str::limit($firstBerita->deskripsi ?? '', 150) }}
                     </p>
 
                     <a href="{{ route('berita.show', $firstBerita->id ?? 0) }}"
-                    class="btn-hero-primary"
-                    id="newsLink">
+                        class="btn-hero-primary"
+                        id="newsLink">
                         Baca Selengkapnya
                     </a>
 

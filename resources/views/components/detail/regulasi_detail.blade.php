@@ -191,23 +191,23 @@
 
 <body>
     <!-- Navbar -->
-<nav class="navbar-detail">
-    <div class="container-xl d-flex justify-content-between align-items-center">
+    <nav class="navbar-detail">
+        <div class="container-xl d-flex justify-content-between align-items-center">
 
-        <div class="d-flex align-items-center gap-2">
-            <img src="{{ asset('images/logo.png') }}" width="40">
-            <div>
-                <div class="brand-label">Program Nasional</div>
-                <div class="brand-name">Makan Bergizi Gratis</div>
+            <div class="d-flex align-items-center gap-2">
+                <img src="{{ asset('images/logo.png') }}" width="40">
+                <div>
+                    <div class="brand-label">Program Nasional</div>
+                    <div class="brand-name">Makan Bergizi Gratis</div>
+                </div>
             </div>
+
+            <a href="{{ route('beranda') }}" class="btn-back">
+                <i class="bi bi-arrow-left"></i> Kembali ke Dashboard
+            </a>
+
         </div>
-
-        <a href="{{ route('home') }}" class="btn-back">
-            <i class="bi bi-arrow-left"></i> Kembali ke Dashboard
-        </a>
-
-    </div>
-</nav>
+    </nav>
 
     <div style="height: 70px;"></div> <!-- Spacer -->
 
@@ -278,12 +278,12 @@
                         </div>
                     </div>
                     <a href="{{ asset('storage/regulasi/perpres_83_2024.pdf') }}"
-                       class="btn-download-file"
-                       title="Unduh"
-                       data-url="{{ asset('storage/regulasi/perpres_83_2024.pdf') }}"
-                       download
-                       target="_blank"
-                       rel="noopener noreferrer">
+                        class="btn-download-file"
+                        title="Unduh"
+                        data-url="{{ asset('storage/regulasi/perpres_83_2024.pdf') }}"
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer">
                         <i class="bi bi-download"></i>
                     </a>
                 </div>
@@ -304,12 +304,12 @@
                         </div>
                     </div>
                     <a href="{{ asset('storage/regulasi/juknis_distribusi_makanan.pdf') }}"
-                       class="btn-download-file"
-                       title="Unduh"
-                       data-url="{{ asset('storage/regulasi/juknis_distribusi_makanan.pdf') }}"
-                       download
-                       target="_blank"
-                       rel="noopener noreferrer">
+                        class="btn-download-file"
+                        title="Unduh"
+                        data-url="{{ asset('storage/regulasi/juknis_distribusi_makanan.pdf') }}"
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer">
                         <i class="bi bi-download"></i>
                     </a>
                 </div>
@@ -330,12 +330,12 @@
                         </div>
                     </div>
                     <a href="{{ asset('storage/regulasi/formulir_pengajuan_kerjasama_umkm.docx') }}"
-                       class="btn-download-file"
-                       title="Unduh"
-                       data-url="{{ asset('storage/regulasi/formulir_pengajuan_kerjasama_umkm.docx') }}"
-                       download
-                       target="_blank"
-                       rel="noopener noreferrer">
+                        class="btn-download-file"
+                        title="Unduh"
+                        data-url="{{ asset('storage/regulasi/formulir_pengajuan_kerjasama_umkm.docx') }}"
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer">
                         <i class="bi bi-download"></i>
                     </a>
                 </div>
@@ -356,12 +356,12 @@
                         </div>
                     </div>
                     <a href="{{ asset('storage/regulasi/standar_gizi_menu_harian.pdf') }}"
-                       class="btn-download-file"
-                       title="Unduh"
-                       data-url="{{ asset('storage/regulasi/standar_gizi_menu_harian.pdf') }}"
-                       download
-                       target="_blank"
-                       rel="noopener noreferrer">
+                        class="btn-download-file"
+                        title="Unduh"
+                        data-url="{{ asset('storage/regulasi/standar_gizi_menu_harian.pdf') }}"
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer">
                         <i class="bi bi-download"></i>
                     </a>
                 </div>
@@ -382,12 +382,12 @@
                         </div>
                     </div>
                     <a href="{{ asset('storage/regulasi/template_laporan_harian_sekolah.xlsx') }}"
-                       class="btn-download-file"
-                       title="Unduh"
-                       data-url="{{ asset('storage/regulasi/template_laporan_harian_sekolah.xlsx') }}"
-                       download
-                       target="_blank"
-                       rel="noopener noreferrer">
+                        class="btn-download-file"
+                        title="Unduh"
+                        data-url="{{ asset('storage/regulasi/template_laporan_harian_sekolah.xlsx') }}"
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer">
                         <i class="bi bi-download"></i>
                     </a>
                 </div>
@@ -407,7 +407,7 @@
         const menuItems = document.querySelectorAll(".list-group-item");
 
         menuItems.forEach(item => {
-            item.addEventListener("click", function () {
+            item.addEventListener("click", function() {
                 menuItems.forEach(el => el.classList.remove("active"));
                 this.classList.add("active");
             });
@@ -415,7 +415,7 @@
 
         // Updated: only show alert if url missing; otherwise let browser handle download/open.
         document.querySelectorAll('.btn-download-file').forEach(btn => {
-            btn.addEventListener('click', function (e) {
+            btn.addEventListener('click', function(e) {
                 const url = this.dataset.url || this.getAttribute('href');
                 if (!url || url === '#') {
                     e.preventDefault();
