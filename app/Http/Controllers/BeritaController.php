@@ -23,3 +23,4 @@ class BeritaController extends Controller
         return view("components.detail.detail_berita", compact("berita"));
     }
 }
+

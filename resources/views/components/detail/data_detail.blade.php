@@ -171,6 +171,132 @@
       font-size: 2rem;
       color: #D1B06C;
     }
+
+    /* RESPONSIVE DESIGN FOR MOBILE */
+    @media (max-width: 768px) {
+      body {
+        padding: 80px 20px 20px;
+      }
+
+      .content-card {
+        padding: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+
+      .page-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+      }
+
+      .dist-detail-cards {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .dist-detail-card {
+        padding: 20px;
+      }
+
+      .dist-detail-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+
+      .dist-detail-card h3 {
+        font-size: 1rem;
+      }
+
+      .dist-detail-number {
+        font-size: 1.5rem;
+      }
+
+      .analysis-section {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .analysis-item {
+        padding: 20px;
+      }
+
+      .stat-container {
+        gap: 10px;
+      }
+
+      .stat-box {
+        width: 140px;
+        height: 110px;
+        padding: 15px;
+      }
+
+      .btn-download {
+        padding: 12px 30px;
+        font-size: 0.9rem;
+      }
+
+      .download-wrapper {
+        margin-top: 30px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 70px 15px 15px;
+      }
+
+      .content-card {
+        padding: 15px;
+        border-radius: 15px;
+      }
+
+      .page-title {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+      }
+
+      .dist-detail-cards {
+        gap: 10px;
+      }
+
+      .dist-detail-card {
+        padding: 15px;
+        border-radius: 12px;
+      }
+
+      .dist-detail-icon {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+      }
+
+      .dist-detail-card h3 {
+        font-size: 0.9rem;
+      }
+
+      .dist-detail-number {
+        font-size: 1.3rem;
+      }
+
+      .analysis-item {
+        padding: 15px;
+        border-radius: 12px;
+      }
+
+      .stat-box {
+        width: 120px;
+        height: 100px;
+        padding: 12px;
+      }
+
+      .stat-box h5 {
+        font-size: 1rem;
+      }
+
+      .btn-download {
+        padding: 10px 25px;
+        font-size: 0.8rem;
+      }
+    }
   </style>
 </head>
 

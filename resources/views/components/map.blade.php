@@ -1,4 +1,7 @@
-    <!-- Map Section -->
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   
+   <!-- Map Section -->
     <section id="peta-mbg" class="map-section">
         <div class="map-card-container">
             <div class="map-info-card">

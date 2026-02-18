@@ -65,3 +65,64 @@
     transition: 0.3s;
     box-shadow: 0 4px 12px rgba(209, 176, 108, 0.2);
 }
+
+/* RESPONSIVE DESIGN FOR MOBILE */
+@media (max-width: 768px) {
+    .navbar-detail {
+        padding: 8px 0;
+    }
+
+    .navbar-detail .navbar-brand {
+        font-size: 1rem;
+        gap: 6px;
+    }
+
+    .navbar-detail .navbar-brand img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-detail .brand-label {
+        font-size: 10px;
+    }
+
+    .navbar-detail .brand-name {
+        font-size: 0.9rem;
+    }
+
+    .btn-back {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+        border-radius: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-detail {
+        padding: 6px 0;
+    }
+
+    .navbar-detail .navbar-brand {
+        font-size: 0.9rem;
+        gap: 4px;
+    }
+
+    .navbar-detail .navbar-brand img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .navbar-detail .brand-label {
+        font-size: 9px;
+    }
+
+    .navbar-detail .brand-name {
+        font-size: 0.8rem;
+    }
+
+    .btn-back {
+        padding: 6px 15px;
+        font-size: 0.8rem;
+        border-radius: 12px;
+    }
+}

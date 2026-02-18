@@ -22,3 +22,8 @@ Route::get('/regulasi-detail', function () {
 Route::get('/faq-detail', function () {
     return view('components.detail.faq-detail');
 })->name('faq-detail');
+
+Route::get('/aksebilitas', function () {
+    return view('components.aksebilitas');
+});
+

@@ -79,6 +79,9 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
+            background: none;
+            border: none;
+            padding: 0;
         }
 
         .navbar.scrolled .navbar-brand {
@@ -101,6 +104,9 @@
             display: flex;
             flex-direction: column;
             line-height: 1.1;
+            background: none;
+            border: none;
+            padding: 0;
         }
 
         .navbar-brand-text .brand-label {
@@ -110,6 +116,8 @@
             letter-spacing: 0.8px;
             text-transform: uppercase;
             transition: all 0.3s ease;
+            background: none;
+            padding: 0;
         }
 
         .navbar-brand-text .brand-name {
@@ -1966,6 +1974,13 @@
             opacity: 0.85;
         }
 
+        @media (max-width: 768px) {
+            .map-info-card::before,
+            .map-info-card::after {
+                display: none;
+            }
+        }
+
         .map-info-card:hover {
             box-shadow: 0 16px 50px rgba(0, 0, 0, 0.2);
             transform: translateY(-5px);
@@ -3322,6 +3337,8 @@
             background: #071E49;
             padding: 16px 40px 18px;
             overflow: hidden;
+            border: none;
+            box-shadow: none;
         }
 
         /* Judul */
@@ -3335,6 +3352,9 @@
             position: relative;
             z-index: 2;
             font-weight: bold;
+            background: none;
+            border: none;
+            padding: 0;
         }
 
         /* Batik ornament */
@@ -3377,6 +3397,8 @@
             align-items: center;
             justify-content: center;
             padding: 6px;
+            border: none;
+            box-shadow: none;
         }
 
         /* Gambar logo */
@@ -3694,4 +3716,399 @@
 
 .about-list li {
     margin-bottom: 8px;
+}
+
+/* =========================
+   RESPONSIVE MOBILE
+   ========================= */
+
+/* Tablet & HP besar */
+@media (max-width: 768px) {
+
+    /* FAB posisi aman */
+    .fab-container {
+        bottom: 16px;
+        right: 16px;
+        z-index: 1050;
+    }
+
+    /* Ukuran tombol */
+    .fab-main,
+    .fab-item {
+        width: 52px;
+        height: 52px;
+        font-size: 20px;
+    }
+
+    /* Label radial */
+    .fab-label-radial {
+        font-size: 11px;
+        padding: 4px 10px;
+        right: 64px;
+        white-space: nowrap;
+        border-radius: 999px;
+    }
+
+    /* Modal */
+    .modal-dialog {
+        margin: 12px;
+    }
+
+    .modal-content {
+        border-radius: 16px;
+    }
+
+    /* Grid aksesibilitas */
+    .accessibility-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .accessibility-btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .accessibility-btn i {
+        font-size: 18px;
+    }
+}
+
+/* =========================
+   HP KECIL (360–430px)
+   ========================= */
+@media (max-width: 480px) {
+
+    .fab-main,
+    .fab-item {
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+    }
+
+    .fab-label-radial {
+        font-size: 10px;
+        padding: 3px 8px;
+        right: 58px;
+    }
+
+    /* Biar FAB nggak ketutup navbar HP */
+    .fab-container {
+        bottom: 20px;
+        right: 14px;
+    }
+}
+
+/* =========================
+   FULLSCREEN MODAL MOBILE
+   ========================= */
+@media (max-width: 576px) {
+
+    .modal-dialog {
+        max-width: 100%;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+
+    .modal-content {
+        height: 100%;
+        border-radius: 0;
+    }
+
+    .modal-body {
+        overflow-y: auto;
+        padding-bottom: 80px;
+    }
+}
+
+/* =========================
+   GENERAL MOBILE OPTIMIZATIONS
+   ========================= */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+
+    h4 {
+        font-size: 1.25rem;
+    }
+
+    h5 {
+        font-size: 1.1rem;
+    }
+
+    h6 {
+        font-size: 1rem;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .card {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+
+    .table-responsive {
+        font-size: 12px;
+    }
+
+    .alert {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    /* Improve spacing */
+    .section {
+        padding: 40px 0;
+    }
+
+    /* Hide or adjust large elements */
+    .hero-image {
+        height: 200px;
+    }
+
+    /* FAB adjustments for mobile */
+    .fab-container {
+        bottom: 20px;
+        right: 15px;
+    }
+
+    .fab-main,
+    .fab-item {
+        width: 50px;
+        height: 50px;
+    }
+
+    .fab-label-radial {
+        font-size: 11px;
+        padding: 4px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 13px;
+    }
+
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    .fab-main,
+    .fab-item {
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+    }
+
+    .fab-label-radial {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+}
+
+/* =========================
+   MOBILE OPTIMIZATIONS (≤599px)
+   ========================= */
+@media (max-width: 599px) {
+    /* Data Portal Section Fixes */
+    .data-header h2 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+    }
+
+    .data-header p {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+
+    .slider-container {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .data-wrapper {
+        padding: 20px 0;
+    }
+
+    /* About Section Fixes */
+    .about-section {
+        padding: 35px 0 25px;
+        margin-top: -20px;
+    }
+
+    .about-wrapper {
+        flex-direction: column;
+        gap: 18px;
+        align-items: center;
+    }
+
+    .about-illustration-side {
+        order: -1;
+        min-height: 220px;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .about-content-side {
+        width: 100%;
+        text-align: center;
+        padding: 0 15px;
+    }
+
+    .about-content-side h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        line-height: 1.2;
+    }
+
+    .about-content-side p {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .about-tagline {
+        font-size: 1rem;
+        gap: 8px;
+        margin-bottom: 15px;
+        justify-content: center;
+    }
+
+    .about-tagline i {
+        font-size: 1.1rem;
+    }
+
+    .about-highlights {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 18px;
+        justify-items: center;
+    }
+
+    .about-highlight-item {
+        padding: 10px 12px;
+        border-left-width: 2px;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .about-highlight-item strong {
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+    }
+
+    .about-highlight-item span {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+
+    .about-dino-image {
+        width: 200px;
+        height: 230px;
+    }
+
+    .about-deco-circle-bg,
+    .about-deco-dots,
+    .about-deco-yellow-blob {
+        display: none;
+    }
+
+    .about-section::before {
+        display: none;
+    }
+
+    /* General small screen adjustments */
+    .container {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .section {
+        padding: 30px 0;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+
+    .btn {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    .card {
+        margin-bottom: 10px;
+    }
+
+    /* FAB for very small screens */
+    .fab-container {
+        bottom: 15px;
+        right: 10px;
+    }
+
+    .fab-main,
+    .fab-item {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .fab-label-radial {
+        font-size: 9px;
+        padding: 2px 6px;
+    }
 }
