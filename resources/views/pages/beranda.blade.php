@@ -19,13 +19,13 @@
 <x-cek-gizi />
 
 <!-- Regulasi Section -->
-<x-regulasi />
+<x-regulasi :regulasis="$regulasis" />
 
 <!-- Map Section -->
 <x-map />
 
 <!-- FAQ Section -->
-<x-faq />
+<x-faq :faqs="$faqs" />
 
 <!-- Logo Bar -->
 <x-logo-bar />

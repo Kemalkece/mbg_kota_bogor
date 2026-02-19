@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Berita;
 use App\Models\Sasaran;
+use App\Models\Regulasi;
 
 class BeritaController extends Controller
 {
@@ -12,9 +13,9 @@ class BeritaController extends Controller
     {
         $beritas = Berita::latest()->limit(5)->get();
         $sasarans = Sasaran::all();
-        return view("pages.beranda", compact("beritas", "sasarans"));
-
-        
+        $regulasis = Regulasi::orderBy('urutan', 'asc')->get();
+        $faqs = \App\Models\FAQ::orderBy('urutan', 'asc')->get();
+        return view("pages.beranda", compact("beritas", "sasarans", "regulasis", "faqs"));
     }
 
     public function show($id)
@@ -23,4 +24,3 @@ class BeritaController extends Controller
         return view("components.detail.detail_berita", compact("berita"));
     }
 }
-

@@ -113,124 +113,28 @@
         </div>
 
         <div class="accordion faq-accordion" id="faqExample">
-
+            @forelse($faqs as $index => $item)
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                        Apa itu Program Makan Bergizi Gratis?
+                    <button class="accordion-button {{ $index === 0 ? '' : 'collapsed' }}"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#faq-{{ $item->id }}"
+                        aria-expanded="{{ $index === 0 ? 'true' : 'false' }}">
+                        {{ $item->pertanyaan }}
                     </button>
                 </h2>
-                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqExample">
+                <div id="faq-{{ $item->id }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}" data-bs-parent="#faqExample">
                     <div class="accordion-body">
-                        Program nasional untuk menyediakan makanan bergizi bagi siswa sekolah guna meningkatkan kesehatan dan kualitas belajar.
+                        {!! nl2br(e($item->jawaban)) !!}
                     </div>
                 </div>
             </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq2">
-                        Siapa saja penerima manfaat program?
-                    </button>
-                </h2>
-                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqExample">
-                    <div class="accordion-body">
-                        Siswa sekolah, pesantren, dan kelompok masyarakat yang ditetapkan pemerintah.
-                    </div>
-                </div>
+            @empty
+            <div class="text-center py-5">
+                <p class="text-muted">Belum ada pertanyaan yang tersedia.</p>
             </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq3">
-                        Bagaimana cara menjadi mitra dapur umum?
-                    </button>
-                </h2>
-                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqExample">
-                    <div class="accordion-body">
-                        Mitra dapat mendaftar melalui formulir kerjasama yang tersedia di halaman regulasi & dokumen.
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq4">
-                        Dimana saya bisa mengunduh dokumen resmi?
-                    </button>
-                </h2>
-                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqExample">
-                    <div class="accordion-body">
-                        Dokumen resmi tersedia pada halaman Pusat Regulasi & Dokumen.
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq5">
-                        Bagaimana cara mendaftar sebagai penerima manfaat?
-                    </button>
-                </h2>
-                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqExample">
-                    <div class="accordion-body">
-                        Pendaftaran dilakukan melalui sekolah atau lembaga pendidikan. Siswa yang memenuhi kriteria akan didaftarkan oleh pihak sekolah ke sistem MBG. Pastikan data siswa lengkap dan akurat untuk proses verifikasi.
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq6">
-                        Apa saja manfaat dari program ini bagi siswa?
-                    </button>
-                </h2>
-                <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqExample">
-                    <div class="accordion-body">
-                        Program ini memberikan makanan bergizi gratis yang membantu meningkatkan nutrisi, kesehatan fisik, dan kemampuan belajar siswa. Selain itu, mendukung pencegahan stunting dan meningkatkan produktivitas generasi muda.
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq7">
-                        Bagaimana proses distribusi makanan?
-                    </button>
-                </h2>
-                <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqExample">
-                    <div class="accordion-body">
-                        Makanan disiapkan oleh mitra dapur umum yang telah terverifikasi dan didistribusikan ke sekolah melalui sistem logistik yang terkoordinasi. Distribusi dilakukan secara rutin sesuai jadwal, dengan pengawasan ketat untuk memastikan kualitas dan keamanan.
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq8">
-                        Siapa yang mengelola program MBG?
-                    </button>
-                </h2>
-                <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqExample">
-                    <div class="accordion-body">
-                        Program ini dikelola oleh Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi (Kemendikbudristek) bekerja sama dengan kementerian terkait seperti Kementerian Kesehatan dan Kementerian Sosial, serta pemerintah daerah.
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq9">
-                        Bagaimana cara menghubungi dukungan jika ada masalah?
-                    </button>
-                </h2>
-                <div id="faq9" class="accordion-collapse collapse" data-bs-parent="#faqExample">
-                    <div class="accordion-body">
-                        Untuk pertanyaan atau keluhan, hubungi hotline MBG di nomor 0800-XXXX-XXXX atau email ke support@mbg.go.id. Tim dukungan siap membantu dengan informasi lebih lanjut dan penyelesaian masalah.
-                    </div>
-                </div>
-            </div>
-
+            @endforelse
         </div>
 
     </div>

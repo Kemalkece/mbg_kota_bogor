@@ -219,7 +219,7 @@
 
             <div class="search-box">
                 <i class="bi bi-search"></i>
-                <input type="text" placeholder="Cari dokumen (misal: Perpres, Juknis, SOP)...">
+                <input type="text" id="searchInput" placeholder="Cari dokumen (misal: Perpres, Juknis, SOP)...">
             </div>
         </div>
     </div>
@@ -235,200 +235,158 @@
 
                     <div class="list-group list-group-flush">
                         <a href="#"
-                            class="list-group-item list-group-item-action active fw-bold border-0 rounded py-2 mb-1">
+                            data-category="all"
+                            class="list-group-item list-group-item-action active fw-bold border-0 rounded py-2 mb-1 category-filter">
                             <i class="bi bi-grid-fill me-2"></i> Semua Dokumen
                         </a>
 
-                        <a href="#" class="list-group-item list-group-item-action border-0 rounded py-2 mb-1">
-                            <i class="bi bi-bank2 me-2"></i> Peraturan Dasar
+                        @foreach($kategoris as $kategori)
+                        <a href="#"
+                            data-category="{{ $kategori->id }}"
+                            class="list-group-item list-group-item-action border-0 rounded py-2 mb-1 category-filter">
+                            <i class="bi bi-file-earmark-text-fill me-2"></i> {{ $kategori->nama_kategori }}
                         </a>
-
-                        <a href="#" class="list-group-item list-group-item-action border-0 rounded py-2 mb-1">
-                            <i class="bi bi-gear-fill me-2"></i> Petunjuk Teknis
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action border-0 rounded py-2 mb-1">
-                            <i class="bi bi-clipboard-check-fill me-2"></i> SOP Lapangan
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action border-0 rounded py-2 mb-1">
-                            <i class="bi bi-file-earmark-bar-graph-fill me-2"></i> Laporan Berkala
-                        </a>
+                        @endforeach
                     </div>
                 </div>
             </div>
 
             <!-- File List -->
             <div class="col-lg-9">
-                <h5 class="fw-bold mb-4 text-secondary">Daftar Dokumen Terbaru</h5>
-
-                <!-- File Item 1 -->
-                <div class="file-card" data-aos="fade-up">
-                    <div class="d-flex align-items-center flex-grow-1">
-                        <div class="file-icon pdf">
-                            <i class="bi bi-file-earmark-pdf-fill"></i>
-                        </div>
-                        <div class="file-info">
-                            <div class="file-title">Peraturan Presiden Nomor 83 Tahun 2024</div>
-                            <div class="file-meta">
-                                <span class="category-badge utama">Dasar Hukum</span>
-                                <span><i class="bi bi-calendar3"></i> 10 Jan 2024</span>
-                                <span><i class="bi bi-hdd"></i> 2.5 MB</span>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="{{ asset('storage/regulasi/perpres_83_2024.pdf') }}"
-                        class="btn-download-file"
-                        title="Unduh"
-                        data-url="{{ asset('storage/regulasi/perpres_83_2024.pdf') }}"
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        <i class="bi bi-download"></i>
-                    </a>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0 text-secondary">Daftar Dokumen</h5>
+                    <small class="text-muted" id="resultsCount">{{ count($regulasis) }} Dokumen ditemukan</small>
                 </div>
 
-                <!-- File Item 2 -->
-                <div class="file-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="d-flex align-items-center flex-grow-1">
-                        <div class="file-icon pdf">
-                            <i class="bi bi-file-earmark-pdf-fill"></i>
-                        </div>
-                        <div class="file-info">
-                            <div class="file-title">Petunjuk Teknis (Juknis) Distribusi Makanan</div>
-                            <div class="file-meta">
-                                <span class="category-badge teknis">Teknis</span>
-                                <span><i class="bi bi-calendar3"></i> 15 Jan 2024</span>
-                                <span><i class="bi bi-hdd"></i> 4.1 MB</span>
+                <div id="fileContainer">
+                    @forelse($regulasis as $regulasi)
+                    <!-- File Item -->
+                    <div class="file-card searchable-item" data-aos="fade-up" data-category-id="{{ $regulasi->kategori_id }}">
+                        <div class="d-flex align-items-center flex-grow-1">
+                            <div class="file-icon pdf">
+                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                            </div>
+                            <div class="file-info">
+                                <div class="file-title">{{ $regulasi->title }}</div>
+                                <div class="file-meta">
+                                    <span class="category-badge utama">{{ $regulasi->kategori->nama_kategori ?? 'Dokumen' }}</span>
+                                    <span><i class="bi bi-calendar3"></i> {{ \Carbon\Carbon::parse($regulasi->tahun)->format('d M Y') }}</span>
+                                    <span><i class="bi bi-info-circle"></i> {{ $regulasi->status }}</span>
+                                </div>
                             </div>
                         </div>
+                        <a href="{{ asset('storage/' . $regulasi->pdf_file) }}"
+                            class="btn-download-file"
+                            title="Unduh"
+                            download
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            <i class="bi bi-download"></i>
+                        </a>
                     </div>
-                    <a href="{{ asset('storage/regulasi/juknis_distribusi_makanan.pdf') }}"
-                        class="btn-download-file"
-                        title="Unduh"
-                        data-url="{{ asset('storage/regulasi/juknis_distribusi_makanan.pdf') }}"
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        <i class="bi bi-download"></i>
-                    </a>
+                    @empty
+                    <div class="text-center py-5">
+                        <p class="text-muted">Belum ada dokumen yang diunggah.</p>
+                    </div>
+                    @endforelse
                 </div>
 
-                <!-- File Item 3 -->
-                <div class="file-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="d-flex align-items-center flex-grow-1">
-                        <div class="file-icon doc">
-                            <i class="bi bi-file-earmark-word-fill"></i>
-                        </div>
-                        <div class="file-info">
-                            <div class="file-title">Formulir Pengajuan Kerjasama Dapur Umum (UMKM)</div>
-                            <div class="file-meta">
-                                <span class="category-badge">Administrasi</span>
-                                <span><i class="bi bi-calendar3"></i> 20 Jan 2024</span>
-                                <span><i class="bi bi-hdd"></i> 500 KB</span>
-                            </div>
-                        </div>
+                <!-- No Results Message -->
+                <div id="noResults" class="text-center py-5 d-none">
+                    <div class="mb-3">
+                        <i class="bi bi-search text-muted" style="font-size: 3rem;"></i>
                     </div>
-                    <a href="{{ asset('storage/regulasi/formulir_pengajuan_kerjasama_umkm.docx') }}"
-                        class="btn-download-file"
-                        title="Unduh"
-                        data-url="{{ asset('storage/regulasi/formulir_pengajuan_kerjasama_umkm.docx') }}"
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        <i class="bi bi-download"></i>
-                    </a>
+                    <h5 class="fw-bold text-secondary">Dokumen tidak ditemukan</h5>
+                    <p class="text-muted">Coba kata kunci lain atau periksa kembali ejaan Anda.</p>
                 </div>
-
-                <!-- File Item 4 -->
-                <div class="file-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="d-flex align-items-center flex-grow-1">
-                        <div class="file-icon pdf">
-                            <i class="bi bi-file-earmark-pdf-fill"></i>
-                        </div>
-                        <div class="file-info">
-                            <div class="file-title">Standar Gizi & Menu Harian (Siklus 10 Hari)</div>
-                            <div class="file-meta">
-                                <span class="category-badge teknis">Teknis</span>
-                                <span><i class="bi bi-calendar3"></i> 22 Jan 2024</span>
-                                <span><i class="bi bi-hdd"></i> 1.8 MB</span>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="{{ asset('storage/regulasi/standar_gizi_menu_harian.pdf') }}"
-                        class="btn-download-file"
-                        title="Unduh"
-                        data-url="{{ asset('storage/regulasi/standar_gizi_menu_harian.pdf') }}"
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        <i class="bi bi-download"></i>
-                    </a>
-                </div>
-
-                <!-- File Item 5 -->
-                <div class="file-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="d-flex align-items-center flex-grow-1">
-                        <div class="file-icon xlsx">
-                            <i class="bi bi-file-earmark-excel-fill"></i>
-                        </div>
-                        <div class="file-info">
-                            <div class="file-title">Template Laporan Harian Sekolah</div>
-                            <div class="file-meta">
-                                <span class="category-badge">Laporan</span>
-                                <span><i class="bi bi-calendar3"></i> 25 Jan 2024</span>
-                                <span><i class="bi bi-hdd"></i> 150 KB</span>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="{{ asset('storage/regulasi/template_laporan_harian_sekolah.xlsx') }}"
-                        class="btn-download-file"
-                        title="Unduh"
-                        data-url="{{ asset('storage/regulasi/template_laporan_harian_sekolah.xlsx') }}"
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        <i class="bi bi-download"></i>
-                    </a>
-                </div>
-
 
             </div>
+
+
         </div>
+    </div>
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({
-            duration: 800,
-            once: true
-        });
-
-        const menuItems = document.querySelectorAll(".list-group-item");
-
-        menuItems.forEach(item => {
-            item.addEventListener("click", function() {
-                menuItems.forEach(el => el.classList.remove("active"));
-                this.classList.add("active");
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                once: true
             });
-        });
 
-        // Updated: only show alert if url missing; otherwise let browser handle download/open.
-        document.querySelectorAll('.btn-download-file').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const url = this.dataset.url || this.getAttribute('href');
-                if (!url || url === '#') {
+            const searchInput = document.getElementById('searchInput');
+            const fileContainer = document.getElementById('fileContainer');
+            const fileCards = document.querySelectorAll('.searchable-item');
+            const noResults = document.getElementById('noResults');
+            const resultsCount = document.getElementById('resultsCount');
+
+            let activeCategory = 'all';
+
+            function filterFiles() {
+                const query = searchInput.value.toLowerCase().trim();
+                let visibleCount = 0;
+
+                fileCards.forEach(card => {
+                    const title = card.querySelector('.file-title').textContent.toLowerCase();
+                    const meta = card.querySelector('.file-meta').textContent.toLowerCase();
+                    const categoryId = card.getAttribute('data-category-id');
+
+                    const matchesSearch = title.includes(query) || meta.includes(query);
+                    const matchesCategory = activeCategory === 'all' || categoryId === activeCategory;
+
+                    if (matchesSearch && matchesCategory) {
+                        card.classList.remove('d-none');
+                        visibleCount++;
+                    } else {
+                        card.classList.add('d-none');
+                    }
+                });
+
+                if (resultsCount) {
+                    resultsCount.textContent = `${visibleCount} Dokumen ditemukan`;
+                }
+
+                if (visibleCount === 0 && fileCards.length > 0) {
+                    noResults.classList.remove('d-none');
+                    fileContainer.classList.add('d-none');
+                } else {
+                    noResults.classList.add('d-none');
+                    fileContainer.classList.remove('d-none');
+                }
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('input', filterFiles);
+            }
+
+            const menuItems = document.querySelectorAll(".category-filter");
+            menuItems.forEach(item => {
+                item.addEventListener("click", function(e) {
                     e.preventDefault();
-                    alert('File tidak tersedia.');
-                    return;
-                }
-                // If the anchor already has 'download' or target='_blank', allow browser default behavior.
-                if (this.hasAttribute('download') || this.getAttribute('target') === '_blank') {
-                    return;
-                }
-                // Fallback: open in new tab
-                e.preventDefault();
-                window.open(url, '_blank', 'noopener');
+                    menuItems.forEach(el => el.classList.remove("active", "fw-bold"));
+                    this.classList.add("active", "fw-bold");
+
+                    activeCategory = this.getAttribute('data-category');
+                    filterFiles();
+                });
+            });
+
+            // Updated: only show alert if url missing; otherwise let browser handle download/open.
+            document.querySelectorAll('.btn-download-file').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const url = this.dataset.url || this.getAttribute('href');
+                    if (!url || url === '#') {
+                        e.preventDefault();
+                        alert('File tidak tersedia.');
+                        return;
+                    }
+                    if (this.hasAttribute('download') || this.getAttribute('target') === '_blank') {
+                        return;
+                    }
+                    e.preventDefault();
+                    window.open(url, '_blank', 'noopener');
+                });
             });
         });
     </script>
