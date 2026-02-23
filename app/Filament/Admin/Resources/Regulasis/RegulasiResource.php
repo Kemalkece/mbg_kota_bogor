@@ -18,7 +18,7 @@ class RegulasiResource extends Resource
 {
     protected static ?string $model = Regulasi::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
     protected static ?string $recordTitleAttribute = 'regulasi';
 

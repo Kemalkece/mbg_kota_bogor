@@ -24,7 +24,7 @@
             <!-- TEKS KANAN -->
 <div class="about-content-side">
 
-    <span class="about-label">PROGRAM PEMERINTAH KOTA BOGOR</span>
+    <!-- <span class="about-label">PROGRAM PEMERINTAH KOTA BOGOR</span> -->
 
     <h3 class="about-title">Makan Bergizi Gratis (MBG)</h3>
 

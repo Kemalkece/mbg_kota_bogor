@@ -28,9 +28,15 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName('MBG Kota Bogor')
+            ->brandLogo(fn() => view('components.filament.brand-logo'))
+            ->favicon(asset('images/logo.png'))
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => '#D1B06C',
+                'gray' => Color::Slate,
             ])
+            ->sidebarCollapsibleOnDesktop()
+            ->maxContentWidth('full')
             ->discoverResources(
                 in: app_path('Filament/Admin/Resources'),
                 for: 'App\Filament\Admin\Resources'
@@ -47,8 +53,7 @@ class AdminPanelProvider extends PanelProvider
                 for: 'App\Filament\Admin\Widgets'
             )
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+                //
             ])
             ->middleware([
                 EncryptCookies::class,

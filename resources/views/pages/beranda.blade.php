@@ -13,7 +13,7 @@
 <x-about />
 
 <!-- Data Section -->
-<x-data />
+<x-data :dataPenyalurans="$dataPenyalurans" />
 
 <!-- Cek Gizi Section -->
 <x-cek-gizi />
@@ -28,7 +28,7 @@
 <x-faq :faqs="$faqs" />
 
 <!-- Logo Bar -->
-<x-logo-bar />
+<x-logo-bar :collabs="$collabs" />
 
 
 <!-- Floating Action Buttons (FAB) for Accessibility/Tools -->
