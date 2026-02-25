@@ -7,6 +7,7 @@ use App\Models\Berita;
 use App\Models\Sasaran;
 use App\Models\Regulasi;
 use App\Models\Collab;
+use App\Models\About;
 use App\Models\DataPenyaluran;
 
 class BeritaController extends Controller
@@ -19,7 +20,8 @@ class BeritaController extends Controller
         $faqs = \App\Models\FAQ::orderBy('urutan', 'asc')->get();
         $collabs = Collab::all();
         $dataPenyalurans = DataPenyaluran::all();
-        return view("pages.beranda", compact("beritas", "sasarans", "regulasis", "faqs", "collabs", "dataPenyalurans"));
+        $about = About::first();
+        return view("pages.beranda", compact("beritas", "sasarans", "regulasis", "faqs", "collabs", "dataPenyalurans", "about"));
     }
 
     public function show($id)

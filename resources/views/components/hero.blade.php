@@ -35,25 +35,24 @@
             </div>
 
             <!-- KONTEN -->
-            <div class="col-lg-3" style="flex:0 0 28%; max-width:28%;">
+<!-- KONTEN -->
+<div class="col-lg-6">
+    <div class="hero-content" id="heroContent">
+        <h1 class="hero-title" id="newsTitle">
+            {{ $firstBerita->title ?? '' }}
+        </h1>
 
-                <div class="hero-content" id="heroContent">
-                    <h1 class="hero-title" id="newsTitle">
-                        {{ $firstBerita->title ?? '' }}
-                    </h1>
+        <p class="hero-description" id="newsDesc">
+            {{ \Illuminate\Support\Str::limit($firstBerita->deskripsi ?? '', 150) }}
+        </p>
 
-                    <p class="hero-description" id="newsDesc">
-                        {{ \Illuminate\Support\Str::limit($firstBerita->deskripsi ?? '', 150) }}
-                    </p>
-
-                    <a href="{{ route('berita.show', $firstBerita->id ?? 0) }}"
-                        class="btn-hero-primary"
-                        id="newsLink">
-                        Baca Selengkapnya
-                    </a>
-
-                </div>
-            </div>
+        <a href="{{ route('berita.show', $firstBerita->id ?? 0) }}"
+            class="btn-hero-primary"
+            id="newsLink">
+            Baca Selengkapnya
+        </a>
+    </div>
+</div>
 
         </div>
     </div>

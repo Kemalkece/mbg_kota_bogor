@@ -1,60 +1,50 @@
 <?php
 
-namespace App\Filament\Admin\Resources\Beritas\Tables;
+namespace App\Filament\Admin\Resources\Abouts\Tables;
 
-use Filament\Tables\Table;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
-class BeritasTable
+class AboutsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('title')
+                TextColumn::make('judul')
                     ->label('Judul')
                     ->searchable(),
 
-                TextColumn::make('deskripsi')
-                    ->label('Deskripsi')
-                    ->limit(50),
-
-                ImageColumn::make('image')
-                    ->label('Gambar')
-                    ->getStateUsing(fn ($record) => asset('storage/' . $record->image))
-                    ->square()
-                    ->size(80),
-
                 TextColumn::make('created_at')
-                    ->label('Tanggal Dibuat')
+                    ->label('Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('updated_at')
-                    ->label('Terakhir Diubah')
+                    ->label('Diubah')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-
+            ->filters([
+                //
+            ])
             ->recordActions([
+                ViewAction::make('view')
+                    ->label('Lihat'),
+
                 EditAction::make('edit')
                     ->label('Ubah'),
-
-                DeleteAction::make('delete')
-                    ->label('Hapus'),
             ])
-
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->label('Hapus Massal'),
+                        ->label('Hapus'),
                 ]),
             ]);
     }

@@ -8,6 +8,7 @@ use App\Models\DataPenyaluran;
 use App\Models\FAQ;
 use App\Models\Kategori;
 use App\Models\Regulasi;
+use App\Models\About;
 use App\Models\Sasaran;
 use Illuminate\Database\Seeder;
 
@@ -54,6 +55,14 @@ class ProjectDataSeeder extends Seeder
             'title_deskripsi' => 'Pencegahan Stunting Sejak Dini',
             'deskripsi' => 'Nutrisi tambahan untuk ibu hamil guna memastikan tumbuh kembang janin yang optimal dan sehat.',
             'image' => 'sasaran/dummy-ibu.jpg',
+        ]);
+
+        // 3.5 About
+        About::create([
+            'judul' => 'Makan Bergizi Gratis (MBG)',
+            'deskripsi_1' => 'Program inovatif Pemerintah Kota Bogor untuk meningkatkan kualitas gizi masyarakat melalui pemberian makanan sehat standar tinggi yang didistribusikan secara merata ke seluruh wilayah.',
+            'deskripsi_2' => 'Dengan fokus pada generasi muda dan kelompok rentan, program ini bertujuan menciptakan masyarakat yang sehat, produktif, dan berkualitas.',
+            'list' => ['Pemberian makan bergizi gratis', 'Distribusi merata ke seluruh kecamatan', 'Kolaborasi dengan sekolah dan puskesmas', 'Monitoring kualitas nutrisi'],
         ]);
 
         // 4. FAQ

@@ -20,7 +20,13 @@ class RegulasiResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
+    // 🔥 Supaya tidak jadi "Regulasis"
+    protected static ?string $navigationLabel = 'Regulasi';
+    protected static ?string $modelLabel = 'Regulasi';
+    protected static ?string $pluralModelLabel = 'Regulasi';
+
     protected static ?string $recordTitleAttribute = 'regulasi';
+    // ganti jika kolom utama kamu berbeda (misalnya 'judul')
 
     public static function form(Schema $schema): Schema
     {

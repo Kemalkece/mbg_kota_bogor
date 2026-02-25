@@ -11,18 +11,21 @@ class BeritaForm
 {
     public static function configure(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                TextInput::make('title')
-                    ->required(),
-                FileUpload::make('image')
+        return $schema->schema([
+            TextInput::make('judul')
+                ->label('Judul')
+                ->required(),
+
+            FileUpload::make('gambar')
+                ->label('Gambar')
+                ->image()
                 ->disk('public')
                 ->directory('berita')
-                    ->image()
-                    ->required(),
-                Textarea::make('deskripsi')
-                    ->required()
-                    ->columnSpanFull(),
-            ]);
+                ->required(),
+
+            Textarea::make('deskripsi')
+                ->label('Deskripsi')
+                ->required(),
+        ]);
     }
 }

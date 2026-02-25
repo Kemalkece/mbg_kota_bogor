@@ -20,7 +20,13 @@ class CollabResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 
-    protected static ?string $recordTitleAttribute = null;
+    // 🔥 Biar tidak jadi "Collabs"
+    protected static ?string $navigationLabel = 'Collab';
+    protected static ?string $modelLabel = 'Collab';
+    protected static ?string $pluralModelLabel = 'Collab';
+
+    protected static ?string $recordTitleAttribute = 'nama'; 
+    // ganti 'nama' sesuai kolom utama di tabel kamu
 
     public static function form(Schema $schema): Schema
     {

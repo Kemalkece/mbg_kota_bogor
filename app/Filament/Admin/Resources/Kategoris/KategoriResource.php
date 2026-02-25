@@ -8,10 +8,6 @@ use App\Filament\Admin\Resources\Kategoris\Pages\ListKategoris;
 use App\Filament\Admin\Resources\Kategoris\Schemas\KategoriForm;
 use App\Filament\Admin\Resources\Kategoris\Tables\KategorisTable;
 use App\Models\Kategori;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -22,6 +18,11 @@ class KategoriResource extends Resource
     protected static ?string $model = Kategori::class;
 
     protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;
+
+    // 🔥 Biar tidak jadi "Kategoris"
+    protected static ?string $navigationLabel = 'Kategori';
+    protected static ?string $modelLabel = 'Kategori';
+    protected static ?string $pluralModelLabel = 'Kategori';
 
     protected static ?string $recordTitleAttribute = 'nama_kategori';
 

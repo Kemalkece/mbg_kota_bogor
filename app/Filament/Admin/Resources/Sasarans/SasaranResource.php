@@ -22,6 +22,11 @@ class SasaranResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'Sasaran';
 
+    // 🔥 Tambahkan ini supaya tidak jadi "Sasarans"
+    protected static ?string $navigationLabel = 'Sasaran';
+    protected static ?string $modelLabel = 'Sasaran';
+    protected static ?string $pluralModelLabel = 'Sasaran';
+
     public static function form(Schema $schema): Schema
     {
         return SasaranForm::configure($schema);
@@ -34,9 +39,7 @@ class SasaranResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array

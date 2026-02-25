@@ -20,7 +20,12 @@ class FAQResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedQuestionMarkCircle;
 
-    protected static ?string $recordTitleAttribute = 'FAQ';
+    // 🔥 INI YANG BIKIN TIDAK ADA "S"
+    protected static ?string $navigationLabel = 'FAQ';
+    protected static ?string $modelLabel = 'FAQ';
+    protected static ?string $pluralModelLabel = 'FAQ';
+
+    protected static ?string $recordTitleAttribute = 'pertanyaan';
 
     public static function form(Schema $schema): Schema
     {

@@ -10,7 +10,7 @@
 <x-sasaran :sasarans="$sasarans" />
 
 <!-- About Section -->
-<x-about />
+<x-about :about="$about" />
 
 <!-- Data Section -->
 <x-data :dataPenyalurans="$dataPenyalurans" />

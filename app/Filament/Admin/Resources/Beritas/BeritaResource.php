@@ -20,7 +20,11 @@ class BeritaResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedNewspaper;
 
-    protected static ?string $recordTitleAttribute = 'Berita';
+    protected static ?string $navigationLabel = 'Berita';      // Sidebar
+    protected static ?string $modelLabel = 'Berita';           // Singular
+    protected static ?string $pluralModelLabel = 'Berita';     // Plural (hilangkan "s")
+
+    protected static ?string $recordTitleAttribute = 'judul';  // biasanya pakai kolom judul
 
     public static function form(Schema $schema): Schema
     {
@@ -34,9 +38,7 @@ class BeritaResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
