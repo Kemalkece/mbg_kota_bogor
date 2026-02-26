@@ -11,6 +11,6 @@ class RegulasiController extends Controller
     {
         $regulasis = Regulasi::with('kategori')->orderBy('urutan', 'asc')->get();
         $kategoris = \App\Models\Kategori::all();
-        return view('components.detail.regulasi_detail', compact('regulasis', 'kategoris'));
+        return view('components.detail.detail_regulasi', compact('regulasis', 'kategoris'));
     }
 }

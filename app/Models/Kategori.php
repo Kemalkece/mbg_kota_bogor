@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Kategori extends Model
 {
-    protected $table = 'kategoris';
+    protected $table = 'kategori';
 
     protected $fillable = [
         'nama_kategori',
     ];
 
-    public function regulasis(): HasMany
+    public function regulasi(): HasMany
     {
         return $this->hasMany(Regulasi::class, 'kategori_id');
     }

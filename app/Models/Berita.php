@@ -6,22 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Berita extends Model
 {
-    protected $table = "beritas";
+    protected $table = 'berita';
     protected $fillable = [
-        'title',
-        'image',
+        'judul',
+        'gambar',
         'deskripsi',
-        'type',
+        'tipe',
     ];
 
     protected static function booted()
     {
         static::addGlobalScope('berita', function ($builder) {
-            $builder->where('type', 'berita');
+            $builder->where('tipe', 'berita');
         });
 
         static::creating(function ($model) {
-            $model->type = 'berita';
+            $model->tipe = 'berita';
         });
     }
 }

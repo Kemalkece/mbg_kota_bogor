@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Regulasi extends Model
 {
-    protected $table = "regulasis";
+    protected $table = 'regulasi';
 
     protected $fillable = [
-        'pdf_file',
-        'title',
-        'description',
+        'file_pdf',
+        'judul',
+        'deskripsi',
         'status',
         'tahun',
         'kategori_id',

@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Berita;
 use App\Models\Sasaran;
 use App\Models\Regulasi;
-use App\Models\Collab;
-use App\Models\About;
+use App\Models\Kolaborasi;
+use App\Models\Tentang;
 use App\Models\DataPenyaluran;
 
 class BeritaController extends Controller
@@ -18,10 +18,10 @@ class BeritaController extends Controller
         $sasarans = Sasaran::all();
         $regulasis = Regulasi::orderBy('urutan', 'asc')->get();
         $faqs = \App\Models\FAQ::orderBy('urutan', 'asc')->get();
-        $collabs = Collab::all();
+        $kolaborasi = Kolaborasi::all();
         $dataPenyalurans = DataPenyaluran::all();
-        $about = About::first();
-        return view("pages.beranda", compact("beritas", "sasarans", "regulasis", "faqs", "collabs", "dataPenyalurans", "about"));
+        $tentang = Tentang::first();
+        return view("pages.beranda", compact("beritas", "sasarans", "regulasis", "faqs", "kolaborasi", "dataPenyalurans", "tentang"));
     }
 
     public function show($id)

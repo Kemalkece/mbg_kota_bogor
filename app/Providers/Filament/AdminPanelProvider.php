@@ -27,7 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->default() // ⬅️ WAJIB di Filament v4
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(\App\Filament\Admin\Pages\Auth\Login::class)
             ->brandName('MBG Kota Bogor')
             ->brandLogo(fn() => view('components.filament.brand-logo'))
             ->favicon(asset('images/logo.png'))

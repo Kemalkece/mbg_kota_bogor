@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Widgets;
 
 use App\Models\Berita;
 use App\Models\Collab;
+use App\Models\Kolaborasi;
 use App\Models\Regulasi;
 use App\Models\Sasaran;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
@@ -26,7 +27,7 @@ class StatsOverview extends BaseWidget
                 ->description('Dokumen hukum & aturan')
                 ->descriptionIcon('heroicon-m-document-text')
                 ->color('warning'),
-            Stat::make('Kolaborasi', Collab::count())
+            Stat::make('Kolaborasi', Kolaborasi::count())
                 ->description('Mitra dan sinergi')
                 ->descriptionIcon('heroicon-m-hand-raised')
                 ->color('primary'),

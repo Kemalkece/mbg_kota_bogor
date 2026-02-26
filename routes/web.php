@@ -12,13 +12,13 @@ Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show
 Route::get('/sasaran', [SasaranController::class, 'index'])->name('sasaran');
 Route::get('/hero', [BeritaController::class, 'index'])->name('hero');
 
-Route::get('/data-detail', function () {
-    return view('components.detail.data_detail');
-})->name('data_detail');
+Route::get('/detail-data', function () {
+    return view('components.detail.detail_data');
+})->name('detail_data');
 
-Route::get('/regulasi-detail', [RegulasiController::class, 'index'])->name('regulasi_detail');
+Route::get('/detail-regulasi', [RegulasiController::class, 'index'])->name('detail_regulasi');
 
-Route::get('/faq-detail', [\App\Http\Controllers\FAQController::class, 'index'])->name('faq-detail');
+Route::get('/detail-faq', [\App\Http\Controllers\FAQController::class, 'index'])->name('detail_faq');
 
 Route::get('/aksebilitas', function () {
     return view('components.aksebilitas');

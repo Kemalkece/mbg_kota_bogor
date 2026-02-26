@@ -9,8 +9,8 @@
 <!-- Sasaran Section -->
 <x-sasaran :sasarans="$sasarans" />
 
-<!-- About Section -->
-<x-about :about="$about" />
+<!-- Tentang Section -->
+<x-tentang :tentang="$tentang" />
 
 <!-- Data Section -->
 <x-data :dataPenyalurans="$dataPenyalurans" />
@@ -21,14 +21,14 @@
 <!-- Regulasi Section -->
 <x-regulasi :regulasis="$regulasis" />
 
-<!-- Map Section -->
-<x-map />
+<!-- Peta Section -->
+<x-peta />
 
 <!-- FAQ Section -->
 <x-faq :faqs="$faqs" />
 
 <!-- Logo Bar -->
-<x-logo-bar :collabs="$collabs" />
+<x-logo_bar :kolaborasi="$kolaborasi" />
 
 
 <!-- Floating Action Buttons (FAB) for Accessibility/Tools -->

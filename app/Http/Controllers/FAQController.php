@@ -10,6 +10,6 @@ class FAQController extends Controller
     public function index()
     {
         $faqs = FAQ::orderBy('urutan', 'asc')->get();
-        return view('components.detail.faq-detail', compact('faqs'));
+        return view('components.detail.detail_faq', compact('faqs'));
     }
 }

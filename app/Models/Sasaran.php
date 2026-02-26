@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sasaran extends Model
 {
-    protected $table = 'sasarans';
+    protected $table = 'sasaran';
     protected $fillable = [
-        'image',
+        'gambar',
         'klasifikasi',
-        'title_deskripsi',
+        'judul_deskripsi',
         'deskripsi',
     ];
 }
