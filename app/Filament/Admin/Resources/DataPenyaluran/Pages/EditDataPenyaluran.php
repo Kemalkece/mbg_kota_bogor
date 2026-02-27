@@ -10,10 +10,16 @@ class EditDataPenyaluran extends EditRecord
 {
     protected static string $resource = DataPenyaluranResource::class;
 
+    public function getTitle(): \Illuminate\Contracts\Support\Htmlable | string
+    {
+        return 'Ubah Data Penyaluran';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->label('Hapus'),
         ];
     }
 }

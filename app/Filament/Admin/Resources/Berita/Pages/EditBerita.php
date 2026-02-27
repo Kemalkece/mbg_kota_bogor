@@ -10,10 +10,16 @@ class EditBerita extends EditRecord
 {
     protected static string $resource = BeritaResource::class;
 
+    public function getTitle(): \Illuminate\Contracts\Support\Htmlable | string
+    {
+        return 'Ubah Berita';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->label('Hapus'),
         ];
     }
 }

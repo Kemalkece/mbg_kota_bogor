@@ -15,7 +15,15 @@ class DataPenyaluranForm
             ->components([
                 TextInput::make('judul')
                     ->label('Judul Data')
-                    ->required(),
+                    ->required()
+                    ->rules([
+                        'required',
+                        'max:20',
+                    ])
+                    ->validationMessages([
+                        'max' => 'Judul Data tidak boleh lebih dari 20 karakter.',
+                    ])
+                    ->helperText('Maksimal 20 karakter.'),
                 FileUpload::make('gambar')
                     ->label('Gambar')
                     ->image()
@@ -28,8 +36,16 @@ class DataPenyaluranForm
                     ->directory('penyaluran')
                     ->required(),
                 Textarea::make('deskripsi')
-                    ->label('Keterangan')
+                    ->label('Deskripsi')
                     ->required()
+                    ->rules([
+                        'required',
+                        'max:300',
+                    ])
+                    ->validationMessages([
+                        'max' => 'Deskripsi tidak boleh lebih dari 300 karakter.',
+                    ])
+                    ->helperText('Maksimal 300 karakter.')
                     ->columnSpanFull(),
             ]);
     }

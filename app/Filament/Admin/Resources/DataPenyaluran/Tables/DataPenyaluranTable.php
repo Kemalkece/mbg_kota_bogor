@@ -21,6 +21,10 @@ class DataPenyaluranTable
                 TextColumn::make('judul')
                     ->label('Judul Data')
                     ->searchable(),
+                TextColumn::make('deskripsi')
+                    ->label('Deskripsi')
+                    ->limit(80)
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->label('Tanggal Dibuat')
                     ->dateTime()

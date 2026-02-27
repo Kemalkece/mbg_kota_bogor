@@ -10,10 +10,16 @@ class EditKolaborasi extends EditRecord
 {
     protected static string $resource = KolaborasiResource::class;
 
+    public function getTitle(): string
+    {
+        return 'Ubah Kolaborasi';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->label('Hapus'),
         ];
     }
 }

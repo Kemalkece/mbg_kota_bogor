@@ -10,10 +10,16 @@ class EditFAQ extends EditRecord
 {
     protected static string $resource = FAQResource::class;
 
+    public function getTitle(): \Illuminate\Contracts\Support\Htmlable | string
+    {
+        return 'Ubah FAQ';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->label('Hapus'),
         ];
     }
 }

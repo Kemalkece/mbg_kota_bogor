@@ -22,7 +22,9 @@ class BeritaTable
 
                 TextColumn::make('deskripsi')
                     ->label('Deskripsi')
-                    ->limit(50),
+                    ->limit(50)
+                    ->formatStateUsing(fn ($state) => strip_tags($state)),
+
 
                 ImageColumn::make('gambar')
                     ->label('Gambar')

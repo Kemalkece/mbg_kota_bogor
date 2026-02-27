@@ -12,6 +12,7 @@ class Regulasi extends Model
         'file_pdf',
         'judul',
         'deskripsi',
+        'penjelasan',
         'status',
         'tahun',
         'kategori_id',

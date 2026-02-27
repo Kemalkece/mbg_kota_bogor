@@ -80,13 +80,13 @@
     <nav class="navbar-detail">
         <div class="container-xl d-flex justify-content-between align-items-center">
 
-            <div class="d-flex align-items-center gap-2">
+            <a href="{{ route('beranda') }}" class="d-flex align-items-center gap-2 text-decoration-none">
                 <img src="{{ asset('images/logo.png') }}" width="40">
                 <div>
                     <div class="brand-label">Program Nasional</div>
                     <div class="brand-name">Makan Bergizi Gratis</div>
                 </div>
-            </div>
+            </a>
 
             <a href="{{ route('beranda') }}" class="btn-back">
                 <i class="bi bi-arrow-left"></i> Kembali ke Dashboard
@@ -148,6 +148,24 @@
                 <div class="regulasi-card-desc">
                     {!! nl2br(e($faq->jawaban)) !!}
                 </div>
+
+                @if($faq->penjelasan)
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                    <h6 style="font-weight: 600; color: #133056; margin-bottom: 16px; font-size: 1.1rem;">Poin Penjelasan</h6>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        @php
+                            $poin = array_filter(array_map('trim', explode("\n", $faq->penjelasan)));
+                            $poin = array_slice($poin, 0, 6);
+                        @endphp
+                        @foreach($poin as $point)
+                        <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;">
+                            <span style="color: #4ade80; font-size: 1.5rem; font-weight: bold; margin-top: -6px; flex-shrink: 0;">✓</span>
+                            <span style="color: #636e72; font-size: 1rem; line-height: 1.5;">{{ $point }}</span>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
             </div>
 
         </div>

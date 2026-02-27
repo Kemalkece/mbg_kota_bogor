@@ -131,27 +131,36 @@
         }
 
         .search-box {
-            background: white;
-            padding: 10px 20px;
+            background: #fff;
+            padding: 10px 90px;
             border-radius: 50px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 800px;
+            margin: 1.5rem auto 2rem;
+            transition: box-shadow .2s;
+            width: 100%;
+        }
+
+        .search-box:hover,
+        .search-box:focus-within {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
 
         .search-box input {
             border: none;
             outline: none;
             width: 100%;
-            padding: 10px;
+            padding: 8px 0;
             font-size: 1rem;
+            background: transparent;
         }
 
         .search-box i {
             color: #b2bec3;
             font-size: 1.2rem;
+            margin-right: 10px;
         }
 
         .sidebar-col {
@@ -194,13 +203,13 @@
     <nav class="navbar-detail">
         <div class="container-xl d-flex justify-content-between align-items-center">
 
-            <div class="d-flex align-items-center gap-2">
+            <a href="{{ route('beranda') }}" class="d-flex align-items-center gap-2 text-decoration-none">
                 <img src="{{ asset('images/logo.png') }}" width="40">
                 <div>
                     <div class="brand-label">Program Nasional</div>
                     <div class="brand-name">Makan Bergizi Gratis</div>
                 </div>
-            </div>
+            </a>
 
             <a href="{{ route('beranda') }}" class="btn-back">
                 <i class="bi bi-arrow-left"></i> Kembali ke Dashboard
@@ -217,14 +226,15 @@
             <p class="mb-5 text-white-50">Akses langsung ke seluruh dokumen legal, petunjuk teknis, dan standar
                 operasional prosedur.</p>
 
-            <div class="search-box">
-                <i class="bi bi-search"></i>
-                <input type="text" id="searchInput" placeholder="Cari dokumen (misal: Perpres, Juknis, SOP)...">
-            </div>
+
         </div>
     </div>
 
     <div class="container py-5">
+                    <div class="search-box">
+                <i class="bi bi-search"></i>
+                <input type="text" id="searchInput" placeholder="Cari dokumen (misal: Perpres, Juknis, SOP)...">
+            </div>
         <div class="row">
             <!-- Sidebar Filters -->
             <div class="col-lg-3">
@@ -260,30 +270,35 @@
 
                 <div id="fileContainer">
                     @forelse($regulasis as $regulasi)
-                    <!-- File Item -->
-                    <div class="file-card searchable-item" data-aos="fade-up" data-category-id="{{ $regulasi->kategori_id }}">
-                        <div class="d-flex align-items-center flex-grow-1">
-                            <div class="file-icon pdf">
-                                <i class="bi bi-file-earmark-pdf-fill"></i>
-                            </div>
-                            <div class="file-info">
-                                <div class="file-title">{{ $regulasi->judul }}</div>
-                                <div class="file-meta">
-                                    <span class="category-badge utama">{{ $regulasi->kategori->nama_kategori ?? 'Dokumen' }}</span>
-                                    <span><i class="bi bi-calendar3"></i> {{ \Carbon\Carbon::parse($regulasi->tahun)->format('d M Y') }}</span>
-                                    <span><i class="bi bi-info-circle"></i> {{ $regulasi->status }}</span>
+                    <!-- File Item Wrapper -->
+                    <div data-aos="fade-up" data-category-id="{{ $regulasi->kategori_id }}" class="searchable-item">
+                        <!-- File Card -->
+                        <div class="file-card">
+                            <div class="d-flex align-items-center flex-grow-1">
+                                <div class="file-icon pdf">
+                                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                                </div>
+                                <div class="file-info">
+                                    <div class="file-title">{{ $regulasi->judul }}</div>
+                                    <div class="file-meta">
+                                        <span class="category-badge utama">{{ $regulasi->kategori->nama_kategori ?? 'Dokumen' }}</span>
+                                        <span><i class="bi bi-calendar3"></i> {{ \Carbon\Carbon::parse($regulasi->tahun)->format('d M Y') }}</span>
+                                        <span><i class="bi bi-info-circle"></i> {{ $regulasi->status }}</span>
+                                    </div>
                                 </div>
                             </div>
+                            <a href="{{ asset('storage/' . $regulasi->file_pdf) }}"
+                                class="btn-download-file"
+                                title="Unduh"
+                                download
+                                target="_blank"
+                                rel="noopener noreferrer">
+                                <i class="bi bi-download"></i>
+                            </a>
                         </div>
-                        <a href="{{ asset('storage/' . $regulasi->file_pdf) }}"
-                            class="btn-download-file"
-                            title="Unduh"
-                            download
-                            target="_blank"
-                            rel="noopener noreferrer">
-                            <i class="bi bi-download"></i>
-                        </a>
+
                     </div>
+
                     @empty
                     <div class="text-center py-5">
                         <p class="text-muted">Belum ada dokumen yang diunggah.</p>

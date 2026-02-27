@@ -57,9 +57,26 @@
                             {{ $item->pertanyaan }}
                         </h4>
 
-                        <div class="regulasi-card-desc text-gray-600 leading-relaxed">
+                        <div class="regulasi-card-desc text-gray-600 leading-relaxed mb-6">
                             {!! nl2br(e($item->jawaban)) !!}
                         </div>
+
+                        @if($item->penjelasan)
+                        <div class="faq-poin-wrapper pb-2 border-b border-gray-200">
+                            <ul class="list-none pl-0" style="margin:0; list-style:none; padding-left:0;">
+                                @php
+                                    $poin = array_filter(array_map('trim', explode("\n", $item->penjelasan)));
+                                    $poin = array_slice($poin, 0, 6);
+                                @endphp
+                                @foreach($poin as $point)
+                                <li class="flex items-start gap-2 text-sm text-gray-600" style="margin-bottom:4px;">
+                                    <span style="color: #D1B06C; font-size: 1.5rem; font-weight: bold; line-height:1;">✓</span>
+                                    <span style="line-height: 1.4;">{{ $point }}</span>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                     </div>
                 </div>
 

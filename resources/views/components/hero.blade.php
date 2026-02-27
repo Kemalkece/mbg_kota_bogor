@@ -51,7 +51,7 @@
                         @foreach($beritas as $berita)
                         <div class="carousel-slide"
                             data-title="{{ $berita->judul }}"
-                            data-desc="{{ \Illuminate\Support\Str::limit($berita->deskripsi, 150) }}"
+                            data-desc="{{ \Illuminate\Support\Str::limit(strip_tags($berita->deskripsi), 150) }}"
                             data-url="{{ route('berita.show', $berita->id) }}">
                             <img src="{{ asset('storage/' . $berita->gambar) }}"
                                 alt="{{ $berita->judul }}">
@@ -79,7 +79,7 @@
                     </h1>
 
                     <p class="hero-description" id="newsDesc">
-                        {{ \Illuminate\Support\Str::limit($firstBerita->deskripsi ?? '', 150) }}
+                        {{ \Illuminate\Support\Str::limit(strip_tags($firstBerita->deskripsi ?? ''), 150) }}
                     </p>
 
                     <a href="{{ route('berita.show', $firstBerita->id ?? 0) }}"

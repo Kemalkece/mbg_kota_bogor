@@ -15,8 +15,14 @@ class FAQTable
         return $table
             ->columns([
                 TextColumn::make('pertanyaan')
+                    ->label('Pertanyaan')
+                    ->searchable(),
+                TextColumn::make('jawaban')
+                    ->label('Jawaban')
+                    ->limit(100)
                     ->searchable(),
                 TextColumn::make('urutan')
+                    ->label('Urutan')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

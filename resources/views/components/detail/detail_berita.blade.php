@@ -29,7 +29,7 @@
 
     {{-- isi berita --}}
     <div style="line-height:1.9; font-size:1.05rem;">
-        {{ $berita->deskripsi }}
+        {!! $berita->deskripsi !!}
     </div>
 
 </div>

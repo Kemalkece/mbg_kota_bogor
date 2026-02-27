@@ -395,13 +395,13 @@
   <nav class="navbar-detail">
     <div class="container-xl d-flex justify-content-between align-items-center">
 
-      <div class="d-flex align-items-center gap-2">
-        <img src="{{ asset('images/logo.png') }}" width="40">
-        <div>
-          <div class="brand-label">Program Nasional</div>
-          <div class="brand-name">Makan Bergizi Gratis</div>
-        </div>
-      </div>
+<a href="{{ route('beranda') }}" class="d-flex align-items-center gap-2 text-decoration-none">
+                <img src="{{ asset('images/logo.png') }}" width="40">
+                <div>
+                    <div class="brand-label">Program Nasional</div>
+                    <div class="brand-name">Makan Bergizi Gratis</div>
+                </div>
+            </a>
 
       <a href="{{ route('beranda') }}" class="btn-back">
         <i class="bi bi-arrow-left"></i> Kembali ke Dasbor

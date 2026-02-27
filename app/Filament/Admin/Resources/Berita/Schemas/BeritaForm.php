@@ -4,7 +4,6 @@ namespace App\Filament\Admin\Resources\Berita\Schemas;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\RichEditor;
 use Filament\Schemas\Schema;
 
@@ -15,7 +14,9 @@ class BeritaForm
         return $schema->schema([
             TextInput::make('judul')
                 ->label('Judul')
-                ->required(),
+                ->required()
+                ->rules(['required','max:50'])
+                ->helperText('Maksimal 50 karakter.'),
 
             FileUpload::make('gambar')
                 ->label('Gambar')

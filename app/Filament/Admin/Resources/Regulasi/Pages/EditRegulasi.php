@@ -10,10 +10,16 @@ class EditRegulasi extends EditRecord
 {
     protected static string $resource = RegulasiResource::class;
 
+    public function getTitle(): \Illuminate\Contracts\Support\Htmlable | string
+    {
+        return 'Ubah Regulasi';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->label('Hapus'),
         ];
     }
 }
