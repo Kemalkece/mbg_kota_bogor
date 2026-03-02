@@ -37,6 +37,40 @@ class FAQResource extends Resource
         return FAQTable::configure($table);
     }
 
+    // ensure penjelasan never exceeds five lines regardless of client behavior
+    public static function mutateFormDataBeforeCreate(array $data): array
+    {
+        if (! empty($data['penjelasan'])) {
+            $lines = preg_split('/\r?\n/', trim($data['penjelasan']));
+            $count = count(array_filter($lines, fn($l) => strlen(trim($l)) > 0));
+            if ($count > 5) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'penjelasan' => 'Penjelasan tidak boleh lebih dari 5 poin.',
+                ]);
+            }
+            // keep first five lines for any case the user pastes more
+            $data['penjelasan'] = implode("\n", array_slice($lines, 0, 5));
+        }
+
+        return $data;
+    }
+
+    public static function mutateFormDataBeforeSave(array $data): array
+    {
+        if (! empty($data['penjelasan'])) {
+            $lines = preg_split('/\r?\n/', trim($data['penjelasan']));
+            $count = count(array_filter($lines, fn($l) => strlen(trim($l)) > 0));
+            if ($count > 5) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'penjelasan' => 'Penjelasan tidak boleh lebih dari 5 poin.',
+                ]);
+            }
+            $data['penjelasan'] = implode("\n", array_slice($lines, 0, 5));
+        }
+
+        return $data;
+    }
+
     public static function getRelations(): array
     {
         return [

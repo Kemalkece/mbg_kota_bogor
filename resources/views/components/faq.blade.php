@@ -16,7 +16,7 @@
                 <h6>Pertanyaan Umum</h6>
 
                 <ul class="regulasi-menu">
-                    @foreach($faqs->take(3) as $index => $item)
+                    @foreach($faqs->take(5) as $index => $item)
                     <li>
                         <a href="#faq-{{ $item->id }}"
                             class="regulasi-item {{ $index === 0 ? 'active' : '' }}"
@@ -34,7 +34,7 @@
 
             <!-- Content -->
             <div class="regulasi-content w-full lg:w-3/4">
-                @forelse($faqs->take(3) as $index => $item)
+                @forelse($faqs->take(5) as $index => $item)
                 <div class="regulasi-card-compact bg-white p-8 rounded-2xl shadow-lg flex-col lg:flex-row gap-6 animate-[fadeIn_0.5s_ease-out]"
                     id="faq-card-{{ $item->id }}"
                     style="display: {{ $index === 0 ? 'flex' : 'none' }};">

@@ -40,19 +40,19 @@ class RegulasiForm
                     ->columnSpanFull(),
                 Textarea::make('penjelasan')
                     ->label('Poin Penjelasan')
-                    ->helperText('Setiap baris adalah satu poin. Maksimal 5 poin. Tekan Enter untuk poin baru.')
+                    ->helperText('Setiap baris adalah satu poin. Maksimal 5 poin. Tekan Enter untuk poin baru. Tidak bisa input lebih dari 5.')
                     ->rows(7)
                     ->reactive()
-                    ->rules([
-                        function ($attribute, $value, $fail) {
-                            if ($value) {
-                                $lines = preg_split('/\r?\n/', trim($value));
-                                if (count(array_filter($lines, fn($l) => strlen(trim((string) $l)) > 0)) > 5) {
-                                    $fail('Penjelasan tidak boleh lebih dari 5 poin.');
-                                }
-                            }
-                        },
-                    ])
+                    ->afterStateUpdated(function (?string $state, callable $set) {
+                        $lines = $state ? preg_split('/\r?\n/', $state) : [];
+                        $filtered = array_values(array_filter($lines, fn($l) => strlen(trim($l)) > 0));
+                        if (count($filtered) > 5) {
+                            $set('penjelasan', implode("\n", array_slice($filtered, 0, 5)));
+                        }
+                    })
+                    ->required()
+                    ->minLength(1)
+                    ->maxLength(600)
                     ->columnSpanFull(),
                 ViewField::make('warning')
                     ->view('components.poin-warning')

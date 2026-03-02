@@ -90,7 +90,7 @@
                         min-width:280px;
                         max-width:400px;
                         min-height:100px;
-                        max-height:200px;
+                        max-height:170px;
                         border-radius:20px;
                         padding:20px;
                         display:flex;
