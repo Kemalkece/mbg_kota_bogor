@@ -47,18 +47,18 @@
 
                     <div class="footer-stats-widget">
                         <div class="stat-item-w">
-                            <div><i class="bi bi-calendar2-check-fill"></i> Hari Ini</div>
-                            <span class="stat-value-w" id="stat-today">1,245</span>
+                            <div style="color:#071E49;"><i class="bi bi-calendar2-check-fill" style="color:#D1B06C;"></i> Hari Ini</div>
+                            <span class="stat-value-w" id="stat-today" style="color:#071E49 !important;">1,245</span>
                         </div>
 
                         <div class="stat-item-w">
-                            <div><i class="bi bi-people-fill"></i> Total</div>
-                            <span class="stat-value-w" id="stat-total">856,432</span>
+                            <div style="color:#071E49;"><i class="bi bi-people-fill" style="color:#D1B06C;"></i> Total</div>
+                            <span class="stat-value-w" id="stat-total" style="color:#071E49 !important;">856,432</span>
                         </div>
 
                         <div class="stat-item-w">
-                            <div><i class="bi bi-broadcast text-success"></i> Online</div>
-                            <span class="stat-value-w" id="stat-online">243</span>
+                            <div style="color:#071E49;"><i class="bi bi-broadcast text-success" style="color:#D1B06C;"></i> Online</div>
+                            <span class="stat-value-w" id="stat-online" style="color:#071E49 !important;">243</span>
                         </div>
                     </div>
                 </div>

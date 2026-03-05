@@ -40,12 +40,12 @@ class DataPenyaluranForm
                     ->required()
                     ->rules([
                         'required',
-                        'max:300',
+                        'max:100',
                     ])
                     ->validationMessages([
-                        'max' => 'Deskripsi tidak boleh lebih dari 300 karakter.',
+                        'max' => 'Deskripsi tidak boleh lebih dari 100 karakter.',
                     ])
-                    ->helperText('Maksimal 300 karakter.')
+                    ->helperText('Maksimal 100 karakter.')
                     ->columnSpanFull(),
             ]);
     }

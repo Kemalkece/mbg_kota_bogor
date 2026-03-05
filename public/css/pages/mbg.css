@@ -123,12 +123,12 @@ body {
 .navbar-brand-text .brand-name {
     font-size: 1rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #D1B06C 0%, #E8D4A2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: #D1B06C;
+    /* remove gradient and use solid color */
+    background: none;
+    color: #CDAA66;
     transition: all 0.3s ease;
 }
+
 
 .navbar.scrolled .navbar-brand-text .brand-label {
     color: #071E49;
@@ -136,10 +136,11 @@ body {
 }
 
 .navbar.scrolled .navbar-brand-text .brand-name {
-    background: var(--primary-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /* keep solid color when scrolled as well */
+    background: none;
+    color: #CDAA66;
 }
+
 
 /* Toggler Styles */
 .navbar-toggler {
@@ -2047,7 +2048,7 @@ body {
 /* Footer */
 .footer-modern {
     background: #ffffff;
-    color: #0b255a;
+    color: #071E49;
     padding: 16px 0 8px;
     border-top: 1px solid rgba(209, 176, 108, 0.35);
     position: relative;
@@ -2063,7 +2064,7 @@ body {
 .footer-brand {
     font-size: 1.05rem;
     font-weight: 700;
-    color: #0b255a;
+    color: #CDAA66;
     line-height: 1.3;
     margin-bottom: 6px;
 }
@@ -2073,7 +2074,7 @@ body {
     font-size: 0.9rem;
     font-weight: 700;
     margin-bottom: 8px;
-    color: #0b255a;
+    color: #CDAA66;
     position: relative;
 }
 
@@ -2090,7 +2091,7 @@ body {
 /* Deskripsi & kontak */
 .footer-description {
     font-size: 0.85rem;
-    color: #4a5568;
+    color: #071E49;
     line-height: 1.35;
     margin-bottom: 6px;
 }
@@ -2140,12 +2141,9 @@ body {
 /* Visitor Stats Widget */
 .stat-item-w {
     display: flex;
-    /* ✅ harus flex */
     justify-content: space-between;
-    /* biar kiri-kanan */
     align-items: center;
     width: 100%;
-    /* ✅ WAJIB biar ikut lebar parent */
 }
 
 .footer-stats-widget {
@@ -2154,8 +2152,11 @@ body {
     align-items: flex-start;
 
     width: 220px;
-    /* ubah angka ini */
     padding: 12px 16px;
+
+ background: rgba(255, 255, 255, 0.08); /* merah transparan */
+    backdrop-filter: blur(10px); /* efek kaca */
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 
@@ -2165,7 +2166,7 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
-    color: #4a5568;
+    color: rgba(255,255,255,0.8); /* semi-transparent white */
 }
 
 /* Newsletter */
@@ -2436,10 +2437,13 @@ body {
 /* Footer Stats Widget (Vertical / Compact Grid) */
 .footer-stats-widget {
     margin-top: 30px;
-    background: #f8f9fa;
+    /* use transparent white background */
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
     border-radius: 12px;
     padding: 15px;
-    border: 1px solid #e9ecef;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #071E49;
 }
 
 .stat-item-w {
@@ -2475,7 +2479,7 @@ body {
 
 .stat-value-w {
     font-weight: 700;
-    color: #0b255a;
+    color: rgba(255,255,255,0.9);
 }
 
 

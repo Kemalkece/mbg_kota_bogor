@@ -515,17 +515,20 @@
             }
         }
 
-        navLinks.forEach(link => {
-            link.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                showSection(targetId);
+        // only hook SPA navigation on homepage where sections exist
+        if (sections.length && document.getElementById('beranda')) {
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    showSection(targetId);
+                });
             });
-        });
 
-        // Initial setup
-        hideAllSections();
-        document.getElementById('beranda').classList.add('active');
+            // Initial setup
+            hideAllSections();
+            document.getElementById('beranda').classList.add('active');
+        }
 
         // Distribution Detail Navigation
         const btnLihatDetail = document.getElementById('btnLihatDetail');

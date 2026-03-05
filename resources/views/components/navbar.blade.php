@@ -1,19 +1,20 @@
 @php
 $navData = [
-    ['label' => 'Beranda', 'url' => '#beranda', 'section' => 'beranda'],
-    ['label' => 'Sasaran', 'url' => '#sasaran', 'section' => 'sasaran'],
-    ['label' => 'tentang', 'url' => '#tentang', 'section' => 'tentang'],
-    ['label' => 'Data', 'url' => '#data', 'section' => 'data'],
-    ['label' => 'Regulasi', 'url' => '#regulasi', 'section' => 'regulasi'],
-    ['label' => 'Peta MBG', 'url' => '#peta-mbg', 'section' => 'peta-mbg'],
-    ['label' => 'FAQ', 'url' => '#faq', 'section' => 'faq']
+    ['label' => 'Beranda', 'type' => 'anchor', 'target' => 'beranda'],
+    ['label' => 'Sasaran', 'type' => 'anchor', 'target' => 'sasaran'],
+    ['label' => 'Tentang', 'type' => 'anchor', 'target' => 'tentang'],
+    ['label' => 'Data', 'type' => 'route',  'route' => 'detail_data'],
+    ['label' => 'Regulasi', 'type' => 'route', 'route' => 'detail_regulasi'],
+    ['label' => 'Peta MBG', 'type' => 'anchor', 'target' => 'peta-mbg'],
+    ['label' => 'FAQ', 'type' => 'route', 'route' => 'detail_faq'],
 ];
 @endphp
 
 <nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
     <div class="container-xl">
 
-        <a class="navbar-brand" href="#beranda">
+        {{-- logo --}}
+        <a class="navbar-brand" href="{{ url('/') }}" onclick="window.location.href=this.href;">
             <img src="/images/logo.png">
             <div class="navbar-brand-text">
                 <span class="brand-label">Program Nasional</span>
@@ -29,11 +30,21 @@ $navData = [
             <ul class="navbar-nav ms-auto">
                 @foreach($navData as $nav)
                 <li class="nav-item">
-                    <a class="nav-link"
-                       href="{{ $nav['url'] }}"
-                       data-section="{{ $nav['section'] }}">
-                       {{ $nav['label'] }}
+
+                    @php
+                        // compute href based on type
+                        $link = '#';
+                        if ($nav['type'] === 'route' && isset($nav['route']) && Route::has($nav['route'])) {
+                            $link = route($nav['route']);
+                        } elseif ($nav['type'] === 'anchor' && isset($nav['target'])) {
+                            // always navigate to homepage anchor (ensure slash before #)
+                            $link = url('/') . '/#' . $nav['target'];
+                        }
+                    @endphp
+                    <a class="nav-link" href="{{ $link }}" onclick="window.location.href=this.href;">
+                        {{ $nav['label'] }}
                     </a>
+
                 </li>
                 @endforeach
             </ul>

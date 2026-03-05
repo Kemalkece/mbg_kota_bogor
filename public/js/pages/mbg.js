@@ -561,18 +561,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    navLinks.forEach(function (link) {
-        link.addEventListener('click', function (e) {
-            e.preventDefault();
-            var targetId = this.getAttribute('href').substring(1);
-            showSection(targetId);
+    // Bind SPA navigation only if home sections are present
+    if (sections.length && document.getElementById('beranda')) {
+        navLinks.forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                var targetId = this.getAttribute('href').substring(1);
+                showSection(targetId);
+            });
         });
-    });
 
-    // Setup awal
-    hideAllSections();
-    var berandaSection = document.getElementById('beranda');
-    if (berandaSection) berandaSection.classList.add('active');
+        // Setup awal
+        hideAllSections();
+        var berandaSection = document.getElementById('beranda');
+        if (berandaSection) berandaSection.classList.add('active');
+    }
 
     // ============================
     // NAVIGASI DETAIL

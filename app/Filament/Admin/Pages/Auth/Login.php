@@ -78,23 +78,40 @@ class Login extends BaseAuth
         $authGuard = Filament::auth();
         $credentials = $this->getCredentialsFromFormData($data);
 
-        // Fitur percobaan login maksimal 5x
+        // Fitur percobaan login maksimal 5x, blokir 10 menit
         $maxAttempts = 5;
+        $blockMinutes = 10;
         $key = 'login_attempts_' . request()->ip();
+        $blockKey = 'login_blocked_' . request()->ip();
         $attempts = cache()->get($key, 0);
+        $blockedUntil = cache()->get($blockKey);
+
+        if ($blockedUntil && now()->lt($blockedUntil)) {
+            $wait = now()->diffInSeconds($blockedUntil);
+            Notification::make()
+                ->title('Login diblokir')
+                ->body("Terlalu banyak percobaan login. Silakan coba lagi dalam $wait detik.")
+                ->danger()
+                ->send();
+            throw ValidationException::withMessages([
+                'email' => "Terlalu banyak percobaan login. Silakan coba lagi dalam $wait detik."
+            ]);
+        }
 
         if (! $authGuard->attempt($credentials, $data['remember'] ?? false)) {
             $attempts++;
-            cache()->put($key, $attempts, now()->addMinutes(10));
+            cache()->put($key, $attempts, now()->addMinutes($blockMinutes + 1));
             $sisa = $maxAttempts - $attempts;
             if ($sisa <= 0) {
+                $blockedUntil = now()->addMinutes($blockMinutes);
+                cache()->put($blockKey, $blockedUntil, $blockedUntil);
                 Notification::make()
                     ->title('Login diblokir')
-                    ->body('Terlalu banyak percobaan login. Silakan coba lagi dalam 10 menit.')
+                    ->body("Terlalu banyak percobaan login. Silakan coba lagi dalam {$blockMinutes} menit.")
                     ->danger()
                     ->send();
                 throw ValidationException::withMessages([
-                    'email' => 'Terlalu banyak percobaan login. Silakan coba lagi dalam 10 menit.'
+                    'email' => "Terlalu banyak percobaan login. Silakan coba lagi dalam {$blockMinutes} menit."
                 ]);
             }
             if ($sisa <= 3) {
@@ -110,6 +127,7 @@ class Login extends BaseAuth
         } else {
             // Reset percobaan jika berhasil login
             cache()->forget($key);
+            cache()->forget($blockKey);
         }
 
         $user = $authGuard->user();
@@ -156,6 +174,13 @@ if ($user->password_changed_at->diffInYear(now()) >= 1) {
         }
 
         session()->regenerate();
+
+        // mark this tab as the current active one so that any previously-open
+        // tabs become stale. we no longer rely on a client-provided identifier
+        // (the JS stopped appending a hidden field), so just generate a fresh
+        // UUID each time.
+        $tabId = (string) \Illuminate\Support\Str::uuid();
+        session()->put('active_tab', $tabId);
 
         return app(LoginResponse::class);
     }

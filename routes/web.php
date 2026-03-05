@@ -52,3 +52,34 @@ Route::get('/detail-faq', [\App\Http\Controllers\FAQController::class, 'index'])
 Route::get('/aksebilitas', function () {
     return view('components.aksebilitas');
 });
+
+// Group route admin with session timeout and an endpoint used by our
+// tab-management script. the route is intentionally simple so it can be
+// reached during feature tests (Filament may not be "serving" in that
+// context).
+Route::middleware(['web', \App\Http\Middleware\SessionTimeout::class])->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::post('activate-tab', function (\Illuminate\Http\Request $request) {
+            $tabId = $request->input('tabId');
+
+            // keep a small log trace to aid debugging when we review logs later
+            \Log::debug('activate-tab called', [
+                'old_session' => $request->session()->getId(),
+                'tabId' => $tabId,
+            ]);
+
+            $request->session()->regenerate();
+            \Log::debug('session regenerated to', [$request->session()->getId()]);
+
+            if ($tabId) {
+                $request->session()->put('active_tab', $tabId);
+            }
+
+            return response()->json(['success' => true]);
+        });
+
+        // Other admin routes can live here, or Filament may register its own
+        // automatically.
+    });
+});
+

@@ -32,8 +32,46 @@ class BeritaForm
 
             RichEditor::make('deskripsi')
                 ->label('Deskripsi')
-
-                ->required(),
+                ->required()
+                ->rules(['required', 'max:300'])
+                ->maxLength(300)
+                ->helperText('Maksimal 300 karakter.')
+                ->extraAttributes([
+                    'x-init' => "() => {
+                        // attach a warning element below the editor
+                        const container = $el;
+                        const warn = document.createElement('div');
+                        warn.classList.add('text-sm','mt-1');
+                        container.appendChild(warn);
+                        
+                        const el = container.querySelector('trix-editor');
+                        if (!el) return;
+                        const form = el.closest('form');
+                        const submit = form?.querySelector('button[type=submit]');
+                        const updateWarning = () => {
+                            const txt = el.editor.getDocument().toString();
+                            if (txt.length > 300) {
+                                warn.textContent = 'Karakter lebih dari 300';
+                                warn.classList.add('text-red-600');
+                            } else {
+                                warn.textContent = '';
+                                warn.classList.remove('text-red-600');
+                            }
+                        };
+                        const updateSubmit = () => {
+                            if (submit) {
+                                submit.disabled = el.editor.getDocument().toString().length > 300;
+                            }
+                        };
+                        el.addEventListener('trix-change', () => {
+                            updateWarning();
+                            updateSubmit();
+                        });
+                        updateWarning();
+                        updateSubmit();
+                    }",
+                ])
+                ->reactive(),
         ]);
     }
 }
