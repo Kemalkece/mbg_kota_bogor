@@ -6,11 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\SasaranController;
 use App\Http\Controllers\RegulasiController;
+use App\Http\Controllers\ChangePasswordController;
 
 // Redirect login ke Filament
 Route::get('/login', function () {
     return redirect('/admin/login');
 })->name('login');
+
+// Change Password Routes (protected by auth middleware)
+Route::middleware('auth')->group(function () {
+    Route::get('/change-password', [ChangePasswordController::class, 'show'])->name('change-password.show');
+    Route::post('/change-password', [ChangePasswordController::class, 'update'])->name('change-password.update');
+});
 
 // POST ubah password (versi popup sederhana)
 Route::post('/ubah-password', function (Request $request) {

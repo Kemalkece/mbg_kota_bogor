@@ -15,15 +15,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Admin MBG',
-            'email' => 'admin@mbg.com',
-            'password' => bcrypt('password'),
-        ]);
-
         $this->call([
+            SuperAdminSeeder::class,
+            AdminSeeder::class,
             ProjectDataSeeder::class,
         ]);
     }

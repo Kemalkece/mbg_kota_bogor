@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -21,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'is_active',
     ];
 
     /**
@@ -44,6 +47,39 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'password_changed_at' => 'datetime',
+            'is_active' => 'boolean',
         ];
+    }
+
+    /**
+     * Relasi HASMANY ke ActivityLog
+     */
+    public function activityLogs(): HasMany
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
+
+    /**
+     * Check jika user adalah super admin
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'super_admin';
+    }
+
+    /**
+     * Check jika user adalah admin
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin' || $this->isSuperAdmin();
+    }
+
+    /**
+     * Check jika user aktif
+     */
+    public function isActive(): bool
+    {
+        return $this->is_active === true;
     }
 }

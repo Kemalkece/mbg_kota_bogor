@@ -13,6 +13,7 @@ use Filament\Schemas\Schema;
 use Filament\Forms\Components\ViewField;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use App\Traits\LogActivity;
 
 class Login extends BaseAuth
 {
@@ -23,6 +24,7 @@ class Login extends BaseAuth
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),
                 $this->getRememberFormComponent(),
+                // ✅ reCAPTCHA v2 - Required for login
                 ViewField::make('captcha')
                     ->label('')
                     ->view('forms.components.recaptcha'),
@@ -48,26 +50,52 @@ class Login extends BaseAuth
         $data = $this->form->getState();
 
         // =========================
-        // VALIDASI RECAPTCHA
+        // VALIDASI RECAPTCHA (REQUIRED)
         // =========================
+        // ✅ reCAPTCHA v2 validation - TIDAK BOLEH DILEWATI
         if (blank($data['captcha'] ?? null)) {
             throw ValidationException::withMessages([
-                'data.captcha' => __('Mohon centang Captcha.'),
+                'data.captcha' => 'Mohon centang Captcha terlebih dahulu.',
             ]);
         }
 
-        $response = Http::asForm()->post(
-            'https://www.google.com/recaptcha/api/siteverify',
-            [
-                'secret' => config('services.recaptcha.secret_key'),
-                'response' => $data['captcha'],
-            ]
-        );
+        // Verify dengan Google reCAPTCHA API
+        $recaptchaSecret = config('services.recaptcha.secret_key');
+        if (!$recaptchaSecret) {
+            // Fallback untuk development (HANYA untuk development!)
+            // Di production, HARUS ada secret key
+            if (config('app.env') !== 'production') {
+                // Development mode - accept any captcha response
+            } else {
+                throw ValidationException::withMessages([
+                    'data.captcha' => 'reCAPTCHA tidak dikonfigurasi. Hubungi administrator.',
+                ]);
+            }
+        } else {
+            // Production mode - verify dengan Google
+            try {
+                $response = Http::timeout(10)->asForm()->post(
+                    'https://www.google.com/recaptcha/api/siteverify',
+                    [
+                        'secret' => $recaptchaSecret,
+                        'response' => $data['captcha'],
+                    ]
+                );
 
-        if (! $response->json('success')) {
-            throw ValidationException::withMessages([
-                'data.captcha' => __('Verifikasi Captcha gagal.'),
-            ]);
+                // Parse JSON response
+                $result = json_decode((string) $response->getBody(), true) ?? [];
+                
+                // Success score > 0.5 untuk v2 (atau presence = true untuk v2 checkbox)
+                if (!($result['success'] ?? false)) {
+                    throw ValidationException::withMessages([
+                        'data.captcha' => 'Verifikasi Captcha gagal. Silakan coba lagi.',
+                    ]);
+                }
+            } catch (\Exception $e) {
+                throw ValidationException::withMessages([
+                    'data.captcha' => 'Gagal terkoneksi ke layanan reCAPTCHA. Silakan coba lagi.',
+                ]);
+            }
         }
 
         // =========================
@@ -78,9 +106,9 @@ class Login extends BaseAuth
         $authGuard = Filament::auth();
         $credentials = $this->getCredentialsFromFormData($data);
 
-        // Fitur percobaan login maksimal 5x, blokir 10 menit
+        // Fitur percobaan login maksimal 5x, blokir 3 menit
         $maxAttempts = 5;
-        $blockMinutes = 10;
+        $blockMinutes = 3;
         $key = 'login_attempts_' . request()->ip();
         $blockKey = 'login_blocked_' . request()->ip();
         $attempts = cache()->get($key, 0);
@@ -102,6 +130,10 @@ class Login extends BaseAuth
             $attempts++;
             cache()->put($key, $attempts, now()->addMinutes($blockMinutes + 1));
             $sisa = $maxAttempts - $attempts;
+            
+            // Log failed login attempt
+            LogActivity::logFailedLogin($data['email'] ?? 'unknown', "Percobaan ke-$attempts");
+            
             if ($sisa <= 0) {
                 $blockedUntil = now()->addMinutes($blockMinutes);
                 cache()->put($blockKey, $blockedUntil, $blockedUntil);
@@ -128,6 +160,9 @@ class Login extends BaseAuth
             // Reset percobaan jika berhasil login
             cache()->forget($key);
             cache()->forget($blockKey);
+            
+            // Log successful login
+            LogActivity::logSuccessfulLogin($data['email'] ?? 'unknown');
         }
 
         $user = $authGuard->user();
