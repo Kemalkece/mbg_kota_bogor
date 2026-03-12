@@ -28,6 +28,9 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(\App\Filament\Admin\Pages\Auth\Login::class)
+            ->passwordReset(resetAction: \App\Filament\Admin\Pages\Auth\ResetPassword::class)
+            ->emailVerification()
+            ->profile(\App\Filament\Admin\Pages\Auth\EditProfile::class)
             ->brandName('MBG Kota Bogor')
             ->brandLogo(fn() => view('components.filament.brand-logo'))
             ->favicon(asset('images/logo.png'))
@@ -65,9 +68,11 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                \App\Http\Middleware\AuditLogMiddleware::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
+                \App\Http\Middleware\ForcePasswordChange::class,
             ]);
     }
 }

@@ -14,16 +14,28 @@ class TentangForm
             ->components([
                 TextInput::make('judul')
                     ->label('Judul')
-                    ->required(),
+                    ->required()
+                    ->maxLength(255)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('judul', strip_tags($state))),
                 Textarea::make('deskripsi_1')
                     ->label('Deskripsi 1')
                     ->required()
+                    ->maxLength(2000)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('deskripsi_1', strip_tags($state)))
                     ->columnSpanFull(),
                 Textarea::make('deskripsi_2')
                     ->label('Deskripsi 2')
+                    ->maxLength(2000)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('deskripsi_2', strip_tags($state)))
                     ->columnSpanFull(),
                 Textarea::make('list')
                     ->label('Daftar Item')
+                    ->maxLength(2000)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('list', strip_tags($state)))
                     ->columnSpanFull(),
             ]);
     }

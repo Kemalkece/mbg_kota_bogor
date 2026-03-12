@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Berita\Schemas;
 
+use Illuminate\Support\Str;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\RichEditor;
@@ -11,12 +12,16 @@ class BeritaForm
 {
     public static function configure(Schema $schema): Schema
     {
-        return $schema->schema([
+        return $schema->components([
             TextInput::make('judul')
                 ->label('Judul')
                 ->required()
-                ->rules(['required','max:50'])
-                ->helperText('Maksimal 50 karakter.'),
+                ->maxLength(255)
+                ->regex('/^[^<>]*$/')
+                ->validationMessages([
+                    'regex' => 'Judul tidak boleh mengandung karakter script atau HTML.',
+                ])
+                ->helperText('Maksimal 255 karakter.'),
 
             FileUpload::make('gambar')
                 ->label('Gambar')
@@ -28,12 +33,16 @@ class BeritaForm
                 ->helperText('Format: JPG, PNG, atau WEBP. Maksimal 2MB.')
                 ->disk('public')
                 ->directory('berita')
+                ->getUploadedFileNameForStorageUsing(
+                    fn(\Livewire\Features\SupportFileUploads\TemporaryUploadedFile $file): string =>
+                    (string) Str::uuid() . '.' . $file->getClientOriginalExtension()
+                )
                 ->required(),
 
             RichEditor::make('deskripsi')
                 ->label('Deskripsi')
-
-                ->required(),
+                ->required()
+                ->maxLength(5000),
         ]);
     }
 }

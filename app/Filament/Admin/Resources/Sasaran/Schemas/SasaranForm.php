@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Sasaran\Schemas;
 
+use Illuminate\Support\Str;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -15,14 +16,32 @@ class SasaranForm
             ->components([
                 TextInput::make('klasifikasi')
                     ->label('Klasifikasi')
-                    ->required(),
+                    ->required()
+                    ->maxLength(255)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('klasifikasi', strip_tags($state)))
+                    ->validationMessages([
+                        'regex' => 'Klasifikasi tidak boleh mengandung karakter script atau HTML.',
+                    ]),
                 Textarea::make('judul_deskripsi')
                     ->label('Judul Deskripsi')
                     ->required()
+                    ->maxLength(500)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('judul_deskripsi', strip_tags($state)))
+                    ->validationMessages([
+                        'regex' => 'Judul Deskripsi tidak boleh mengandung karakter script atau HTML.',
+                    ])
                     ->columnSpanFull(),
                 Textarea::make('deskripsi')
                     ->label('Deskripsi')
                     ->required()
+                    ->maxLength(1000)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('deskripsi', strip_tags($state)))
+                    ->validationMessages([
+                        'regex' => 'Deskripsi tidak boleh mengandung karakter script atau HTML.',
+                    ])
                     ->columnSpanFull(),
                 FileUpload::make('gambar')
                     ->label('Gambar')
@@ -34,6 +53,10 @@ class SasaranForm
                     ->helperText('Format: JPG, PNG, atau WEBP. Maksimal 2MB.')
                     ->disk('public')
                     ->directory('sasaran')
+                    ->getUploadedFileNameForStorageUsing(
+                        fn(\Livewire\Features\SupportFileUploads\TemporaryUploadedFile $file): string =>
+                        (string) Str::uuid() . '.' . $file->getClientOriginalExtension()
+                    )
                     ->required(),
             ]);
     }

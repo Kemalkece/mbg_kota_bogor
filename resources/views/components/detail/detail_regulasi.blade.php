@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/pages/gabung.css') }}">
-    <style>
+    <style nonce="{{ Vite::cspNonce() }}">
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
         body {
@@ -231,10 +231,10 @@
     </div>
 
     <div class="container py-5">
-                    <div class="search-box">
-                <i class="bi bi-search"></i>
-                <input type="text" id="searchInput" placeholder="Cari dokumen (misal: Perpres, Juknis, SOP)...">
-            </div>
+        <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text" id="searchInput" placeholder="Cari dokumen (misal: Perpres, Juknis, SOP)...">
+        </div>
         <div class="row">
             <!-- Sidebar Filters -->
             <div class="col-lg-3">
@@ -322,8 +322,8 @@
     </div>
     </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" nonce="{{ Vite::cspNonce() }}"></script>
+    <script nonce="{{ Vite::cspNonce() }}">
         document.addEventListener('DOMContentLoaded', function() {
             AOS.init({
                 duration: 800,

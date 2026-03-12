@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/pages/gabung.css') }}">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" nonce="{{ Vite::cspNonce() }}"></script>
+  <style nonce="{{ Vite::cspNonce() }}">
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
     :root {
@@ -395,13 +395,13 @@
   <nav class="navbar-detail">
     <div class="container-xl d-flex justify-content-between align-items-center">
 
-<a href="{{ route('beranda') }}" class="d-flex align-items-center gap-2 text-decoration-none">
-                <img src="{{ asset('images/logo.png') }}" width="40">
-                <div>
-                    <div class="brand-label">Program Nasional</div>
-                    <div class="brand-name">Makan Bergizi Gratis</div>
-                </div>
-            </a>
+      <a href="{{ route('beranda') }}" class="d-flex align-items-center gap-2 text-decoration-none">
+        <img src="{{ asset('images/logo.png') }}" width="40">
+        <div>
+          <div class="brand-label">Program Nasional</div>
+          <div class="brand-name">Makan Bergizi Gratis</div>
+        </div>
+      </a>
 
       <a href="{{ route('beranda') }}" class="btn-back">
         <i class="bi bi-arrow-left"></i> Kembali ke Dasbor
@@ -816,7 +816,7 @@ transition:.25s;
 
         <div class="edu-wrapper">
 
-          <style>
+          <style nonce="{{ Vite::cspNonce() }}">
             /* ===== GLOBAL ===== */
             body {
               font-family: Poppins, sans-serif;
@@ -994,7 +994,7 @@ transition:.25s;
             }
           </style>
 
-          <script>
+          <script nonce="{{ Vite::cspNonce() }}">
             function toggleMain(el) {
               el.classList.toggle("active")
             }
@@ -2581,7 +2581,7 @@ transition:.25s;
 
           </div>
 
-          <style>
+          <style nonce="{{ Vite::cspNonce() }}">
             /* BUTTON */
             .dropdown-btn {
               background: #ffffff;
@@ -2662,7 +2662,7 @@ transition:.25s;
             }
           </style>
 
-          <script>
+          <script nonce="{{ Vite::cspNonce() }}">
             function toggleTable() {
               document
                 .getElementById("tableContent")
@@ -2674,8 +2674,8 @@ transition:.25s;
 
     </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" nonce="{{ Vite::cspNonce() }}"></script>
+    <script nonce="{{ Vite::cspNonce() }}">
       AOS.init({
         duration: 800,
         once: true

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\DataPenyaluran\Schemas;
 
+use Illuminate\Support\Str;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -16,12 +17,12 @@ class DataPenyaluranForm
                 TextInput::make('judul')
                     ->label('Judul Data')
                     ->required()
-                    ->rules([
-                        'required',
-                        'max:20',
-                    ])
+                    ->maxLength(20)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('judul', strip_tags($state)))
                     ->validationMessages([
                         'max' => 'Judul Data tidak boleh lebih dari 20 karakter.',
+                        'regex' => 'Judul tidak boleh mengandung karakter script atau HTML.',
                     ])
                     ->helperText('Maksimal 20 karakter.'),
                 FileUpload::make('gambar')
@@ -34,16 +35,20 @@ class DataPenyaluranForm
                     ->helperText('Format: JPG, PNG, atau WEBP. Maksimal 2MB.')
                     ->disk('public')
                     ->directory('penyaluran')
+                    ->getUploadedFileNameForStorageUsing(
+                        fn(\Livewire\Features\SupportFileUploads\TemporaryUploadedFile $file): string =>
+                        (string) Str::uuid() . '.' . $file->getClientOriginalExtension()
+                    )
                     ->required(),
                 Textarea::make('deskripsi')
                     ->label('Deskripsi')
                     ->required()
-                    ->rules([
-                        'required',
-                        'max:300',
-                    ])
+                    ->maxLength(300)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('deskripsi', strip_tags($state)))
                     ->validationMessages([
                         'max' => 'Deskripsi tidak boleh lebih dari 300 karakter.',
+                        'regex' => 'Deskripsi tidak boleh mengandung karakter script atau HTML.',
                     ])
                     ->helperText('Maksimal 300 karakter.')
                     ->columnSpanFull(),

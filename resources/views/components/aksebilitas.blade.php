@@ -25,13 +25,13 @@
     </div>
 
     <!-- Modal Layanan Disabilitas -->
-    <script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js" defer></script>
-    <style>
+    <script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js" defer nonce="{{ Vite::cspNonce() }}"></script>
+    <style nonce="{{ Vite::cspNonce() }}">
         .asw-widget {
             display: none;
         }
     </style>
-    <script>
+    <script nonce="{{ Vite::cspNonce() }}">
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.fab-item.item-2').addEventListener('click', function(e) {
                 e.preventDefault();

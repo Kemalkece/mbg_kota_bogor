@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin MBG',
             'email' => 'admin@mbg.com',
-            'password' => bcrypt('password'),
+            'password' => 'password', // Password akan di-hash otomatis oleh model User (hashed cast)
         ]);
 
         $this->call([

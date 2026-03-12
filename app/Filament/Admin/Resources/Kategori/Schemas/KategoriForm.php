@@ -12,7 +12,11 @@ class KategoriForm
         return $schema
             ->components([
                 TextInput::make('nama_kategori')
+                    ->label('Nama Kategori')
                     ->required()
+                    ->maxLength(100)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('nama_kategori', strip_tags($state)))
                     ->unique(ignoreRecord: true),
             ]);
     }

@@ -16,67 +16,67 @@
 
             @if ($dataPenyalurans->isEmpty())
 
-                <div style="text-align:center; padding:40px 0;">
-                    <h4 style="font-weight:800; color:#071E49;">
-                        Belum Ada Data Penyaluran
-                    </h4>
-                    <p style="color:#9CA3AF;">
-                        Data distribusi akan diperbarui secara berkala.
-                    </p>
-                </div>
+            <div style="text-align:center; padding:40px 0;">
+                <h4 style="font-weight:800; color:#071E49;">
+                    Belum Ada Data Penyaluran
+                </h4>
+                <p style="color:#9CA3AF;">
+                    Data distribusi akan diperbarui secara berkala.
+                </p>
+            </div>
             @else
-                <div class="slider-container" style="position:relative;">
+            <div class="slider-container" style="position:relative;">
 
-                    <!-- LEFT BUTTON -->
-                    <style>
-                        .slider-btn {
-                            position: absolute;
-                            top: 50%;
-                            transform: translateY(-50%);
-                            width: 50px;
-                            height: 50px;
-                            border-radius: 50%;
-                            border: none;
-                            background: white;
-                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                            cursor: pointer;
-                            z-index: 20;
-                            font-size: 24px;
-                            transition: all 0.3s ease;
-                        }
+                <!-- LEFT BUTTON -->
+                <style nonce="{{ Vite::cspNonce() }}">
+                    .slider-btn {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        border: none;
+                        background: white;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                        cursor: pointer;
+                        z-index: 20;
+                        font-size: 24px;
+                        transition: all 0.3s ease;
+                    }
 
-                        .slider-btn:hover {
-                            background: #D1B06C;
-                            /* warna hover */
-                            color: white;
-                            /* warna icon */
-                            transform: translateY(-50%) scale(1.1);
-                            /* sedikit membesar */
-                            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-                        }
+                    .slider-btn:hover {
+                        background: #D1B06C;
+                        /* warna hover */
+                        color: white;
+                        /* warna icon */
+                        transform: translateY(-50%) scale(1.1);
+                        /* sedikit membesar */
+                        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+                    }
 
-                        .slider-btn-left {
-                            left: -25px;
-                        }
+                    .slider-btn-left {
+                        left: -25px;
+                    }
 
-                        .slider-btn-right {
-                            right: -15px;
-                        }
-                    </style>
+                    .slider-btn-right {
+                        right: -15px;
+                    }
+                </style>
 
-                    <!-- LEFT BUTTON -->
-                    <button onclick="scrollSlider(-1)" class="slider-btn slider-btn-left">
-                        ‹
-                    </button>
+                <!-- LEFT BUTTON -->
+                <button onclick="scrollSlider(-1)" class="slider-btn slider-btn-left">
+                    ‹
+                </button>
 
-                    <!-- RIGHT BUTTON -->
-                    <button onclick="scrollSlider(1)" class="slider-btn slider-btn-right">
-                        ›
-                    </button>
+                <!-- RIGHT BUTTON -->
+                <button onclick="scrollSlider(1)" class="slider-btn slider-btn-right">
+                    ›
+                </button>
 
-                    <!-- SLIDER -->
-                    <div id="slider"
-                        style="
+                <!-- SLIDER -->
+                <div id="slider"
+                    style="
                     display:flex;
                     gap:24px;
                     overflow-x:auto;
@@ -84,9 +84,9 @@
                     padding:10px 5px;
                 ">
 
-                        @foreach ($dataPenyalurans as $index => $data)
-                            <div
-                                style="
+                    @foreach ($dataPenyalurans as $index => $data)
+                    <div
+                        style="
                         min-width:280px;
                         max-width:400px;
                         min-height:100px;
@@ -103,47 +103,47 @@
                         flex-shrink:0;
                     ">
 
-                                <!-- TEXT -->
-                                <div style="flex:1;">
-                                    <h3
-                                        style="
+                        <!-- TEXT -->
+                        <div style="flex:1;">
+                            <h3
+                                style="
                                 font-size:18px;
                                 font-weight:800;
                                 margin-bottom:8px;
                             ">
-                                        {{ $data->judul }}
-                                    </h3>
+                                {{ $data->judul }}
+                            </h3>
 
-                                    <p
-                                        style="
+                            <p
+                                style="
                                 font-size:14px;
                                 line-height:1.6;
                             ">
-                                        {{ $data->deskripsi }}
-                                    </p>
-                                </div>
+                                {{ $data->deskripsi }}
+                            </p>
+                        </div>
 
-                                <!-- IMAGE -->
-                                <div style="flex-shrink:0;">
-                                    <img src="{{ asset('storage/' . $data->gambar) }}" alt="{{ $data->judul }}"
-                                        style="
+                        <!-- IMAGE -->
+                        <div style="flex-shrink:0;">
+                            <img src="{{ asset('storage/' . $data->gambar) }}" alt="{{ $data->judul }}"
+                                style="
                                     width:95px;
                                     height:130px;
                                     object-fit:cover;
                                     border-radius:14px;
                                 ">
-                                </div>
-
-                            </div>
-                        @endforeach
+                        </div>
 
                     </div>
+                    @endforeach
 
                 </div>
 
-                <div style="text-align:center; margin-top:40px;">
-                    <button onclick="window.location.href='/detail-data'"
-                        style="
+            </div>
+
+            <div style="text-align:center; margin-top:40px;">
+                <button onclick="window.location.href='/detail-data'"
+                    style="
                     padding:12px 28px;
                     border:none;
                     border-radius:30px;
@@ -153,9 +153,9 @@
                     cursor:pointer;
                     box-shadow:0 6px 16px rgba(199,161,74,0.4);
                 ">
-                        Lihat Detail
-                    </button>
-                </div>
+                    Lihat Detail
+                </button>
+            </div>
 
             @endif
 
@@ -163,7 +163,7 @@
     </div>
 </section>
 
-<script>
+<script nonce="{{ Vite::cspNonce() }}">
     function scrollSlider(direction) {
         const slider = document.getElementById('slider');
         slider.scrollBy({

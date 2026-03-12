@@ -9,6 +9,11 @@ class CreateBerita extends CreateRecord
 {
     protected static string $resource = BeritaResource::class;
 
+    protected function afterCreate(): void
+    {
+        \App\Models\LogAktivitas::record('Membuat Berita baru: ' . $this->record->judul);
+    }
+
     // disable the "create another" button so only one submit exists
     protected static bool $canCreateAnother = false;
 

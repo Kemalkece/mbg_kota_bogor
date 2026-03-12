@@ -10,6 +10,11 @@ class EditBerita extends EditRecord
 {
     protected static string $resource = BeritaResource::class;
 
+    protected function afterSave(): void
+    {
+        \App\Models\LogAktivitas::record('Mengubah Berita: ' . $this->record->judul);
+    }
+
     public function getTitle(): \Illuminate\Contracts\Support\Htmlable | string
     {
         return 'Ubah Berita';

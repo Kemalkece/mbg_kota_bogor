@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Kolaborasi\Schemas;
 
+use Illuminate\Support\Str;
 use Filament\Forms\Components\FileUpload;
 use Filament\Schemas\Schema;
 
@@ -14,7 +15,12 @@ class KolaborasiForm
                 \Filament\Forms\Components\TextInput::make('nama_instansi')
                     ->label('Nama Instansi')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('nama_instansi', strip_tags($state)))
+                    ->validationMessages([
+                        'regex' => 'Nama instansi tidak boleh mengandung karakter script atau HTML.',
+                    ]),
                 FileUpload::make('gambar')
                     ->label('Logo Kolaborasi')
                     ->image()
@@ -25,6 +31,10 @@ class KolaborasiForm
                     ->helperText('Format: JPG, PNG, atau WEBP. Maksimal 2MB.')
                     ->disk('public')
                     ->directory('kolaborasi')
+                    ->getUploadedFileNameForStorageUsing(
+                        fn(\Livewire\Features\SupportFileUploads\TemporaryUploadedFile $file): string =>
+                        (string) Str::uuid() . '.' . $file->getClientOriginalExtension()
+                    )
                     ->required(),
             ]);
     }

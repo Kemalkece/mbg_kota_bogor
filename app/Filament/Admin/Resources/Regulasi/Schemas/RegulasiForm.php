@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Regulasi\Schemas;
 
+use Illuminate\Support\Str;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
@@ -20,6 +21,10 @@ class RegulasiForm
                     ->label('File PDF')
                     ->disk('public')
                     ->directory('regulasi')
+                    ->getUploadedFileNameForStorageUsing(
+                        fn(\Livewire\Features\SupportFileUploads\TemporaryUploadedFile $file): string =>
+                        (string) Str::uuid() . '.' . $file->getClientOriginalExtension()
+                    )
                     ->acceptedFileTypes(['application/pdf'])
                     ->maxSize(10240) // Limit 10MB untuk Livewire
                     ->rules(['file', 'max:10240']) // Limit 10MB untuk Laravel Backend
@@ -31,18 +36,36 @@ class RegulasiForm
                     ->columnSpanFull(),
                 TextInput::make('judul')
                     ->label('Judul')
-                    ->required(),
+                    ->required()
+                    ->maxLength(255)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('judul', strip_tags($state)))
+                    ->validationMessages([
+                        'regex' => 'Judul tidak boleh mengandung karakter script atau HTML.',
+                    ]),
                 Textarea::make('deskripsi')
                     ->label('Deskripsi')
                     ->helperText('Maksimal 600 karakter')
-                    ->rules(['required', 'max:600'])
-                    ->validationMessages(['max' => 'Deskripsi tidak boleh lebih dari 600 karakter.'])
+                    ->required()
+                    ->maxLength(600)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('deskripsi', strip_tags($state)))
+                    ->validationMessages([
+                        'max' => 'Deskripsi tidak boleh lebih dari 600 karakter.',
+                        'regex' => 'Deskripsi tidak boleh mengandung karakter script atau HTML.',
+                    ])
                     ->columnSpanFull(),
                 Textarea::make('penjelasan')
                     ->label('Poin Penjelasan')
                     ->helperText('Setiap baris adalah satu poin. Maksimal 5 poin. Tekan Enter untuk poin baru.')
                     ->rows(7)
                     ->reactive()
+                    ->maxLength(2000)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('penjelasan', strip_tags($state)))
+                    ->validationMessages([
+                        'regex' => 'Penjelasan tidak boleh mengandung karakter script atau HTML.',
+                    ])
                     ->rules([
                         function ($attribute, $value, $fail) {
                             if ($value) {
@@ -61,7 +84,10 @@ class RegulasiForm
                     ->relationship('kategori', 'nama_kategori')
                     ->createOptionForm([
                         TextInput::make('nama_kategori')
-                            ->required(),
+                            ->required()
+                            ->maxLength(100)
+                            ->regex('/^[^<>]*$/')
+                            ->afterStateUpdated(fn($state, $set) => $set('nama_kategori', strip_tags($state))),
                     ])
                     ->required()
                     ->searchable()

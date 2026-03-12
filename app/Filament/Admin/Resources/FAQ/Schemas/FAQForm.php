@@ -15,18 +15,36 @@ class FAQForm
             ->components([
                 TextInput::make('pertanyaan')
                     ->label('Pertanyaan')
-                    ->required(),
+                    ->required()
+                    ->maxLength(255)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('pertanyaan', strip_tags($state)))
+                    ->validationMessages([
+                        'regex' => 'Pertanyaan tidak boleh mengandung karakter script atau HTML.',
+                    ]),
                 Textarea::make('jawaban')
                     ->label('Jawaban')
                     ->helperText('Maksimal 600 karakter')
-                    ->rules(['required', 'max:600'])
-                    ->validationMessages(['max' => 'Jawaban tidak boleh lebih dari 600 karakter.'])
+                    ->maxLength(600)
+                    ->required()
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('jawaban', strip_tags($state)))
+                    ->validationMessages([
+                        'max' => 'Jawaban tidak boleh lebih dari 600 karakter.',
+                        'regex' => 'Jawaban tidak boleh mengandung karakter script atau HTML.',
+                    ])
                     ->columnSpanFull(),
                 Textarea::make('penjelasan')
                     ->label('Poin Penjelasan')
                     ->helperText('Setiap baris adalah satu poin. Maksimal 5 poin. Tekan Enter untuk poin baru.')
                     ->rows(7)
                     ->reactive()
+                    ->maxLength(2000)
+                    ->regex('/^[^<>]*$/')
+                    ->afterStateUpdated(fn($state, $set) => $set('penjelasan', strip_tags($state)))
+                    ->validationMessages([
+                        'regex' => 'Penjelasan tidak boleh mengandung karakter script atau HTML.',
+                    ])
                     ->rules([
                         function ($attribute, $value, $fail) {
                             if ($value) {
