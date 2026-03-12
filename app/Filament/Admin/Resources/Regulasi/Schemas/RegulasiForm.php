@@ -57,16 +57,15 @@ class RegulasiForm
                     ->columnSpanFull(),
                 Textarea::make('penjelasan')
                     ->label('Poin Penjelasan')
-                    ->helperText('Setiap baris adalah satu poin. Maksimal 5 poin. Tekan Enter untuk poin baru.')
+                    ->helperText('Setiap baris adalah satu poin. Maksimal 5 poin. Tekan Enter untuk poin baru. Tidak bisa input lebih dari 5.')
                     ->rows(7)
                     ->reactive()
-                    ->maxLength(2000)
-                    ->regex('/^[^<>]*$/')
-                    ->afterStateUpdated(fn($state, $set) => $set('penjelasan', strip_tags($state)))
-                    ->validationMessages([
-                        'regex' => 'Penjelasan tidak boleh mengandung karakter script atau HTML.',
-                    ])
+                    ->required()
+                    ->minLength(1)
+                    ->maxLength(600)
                     ->rules([
+                        'required',
+                        'regex:/^[^<>]*$/',
                         function ($attribute, $value, $fail) {
                             if ($value) {
                                 $lines = preg_split('/\r?\n/', trim($value));
@@ -75,6 +74,19 @@ class RegulasiForm
                                 }
                             }
                         },
+                    ])
+                    ->afterStateUpdated(function (?string $state, callable $set) {
+                        $clean = $state ? strip_tags($state) : '';
+                        $lines = preg_split('/\r?\n/', $clean);
+                        $filtered = array_values(array_filter($lines, fn($l) => strlen(trim($l)) > 0));
+                        if (count($filtered) > 5) {
+                            $set('penjelasan', implode("\n", array_slice($filtered, 0, 5)));
+                        } else {
+                            $set('penjelasan', $clean);
+                        }
+                    })
+                    ->validationMessages([
+                        'regex' => 'Penjelasan tidak boleh mengandung karakter script atau HTML.',
                     ])
                     ->columnSpanFull(),
                 ViewField::make('warning')

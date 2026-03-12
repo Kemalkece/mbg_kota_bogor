@@ -1,9 +1,47 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\SasaranController;
 use App\Http\Controllers\RegulasiController;
+use App\Http\Controllers\ChangePasswordController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
+// Redirect login ke Filament
+Route::get('/login', function () {
+    return redirect('/admin/login');
+})->name('login');
+
+// Change Password Routes (protected by auth middleware)
+Route::middleware('auth')->group(function () {
+    Route::get('/change-password', [ChangePasswordController::class, 'show'])->name('change-password.show');
+    Route::post('/change-password', [ChangePasswordController::class, 'update'])->name('change-password.update');
+});
+
+// POST ubah password (versi popup sederhana)
+Route::post('/ubah-password', function (Request $request) {
+
+    $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
+    ]);
+
+    $user = \App\Models\User::where('email', $request->email)->first();
+
+    if (!$user) {
+        return response()->json(['message' => 'Email tidak ditemukan.'], 422);
+    }
+
+    $user->password = Hash::make($request->password);
+    $user->password_changed_at = now();
+    $user->save();
+
+    return response()->json(['message' => 'Password berhasil diubah!']);
+
+})->name('password.update');
 
 Route::get('/', [BeritaController::class, 'index'])->name('beranda');
 Route::get('/home', [BeritaController::class, 'index'])->name('home');
@@ -39,8 +77,8 @@ Route::get('/admin/verify-email/{id}/{hash}', function ($id, $hash) {
         event(new \Illuminate\Auth\Events\Verified($user));
     }
 
-    // Logout agar user bisa login ulang dengan status terverifikasi (Sesuai Permintaan Bos)
-    \Illuminate\Support\Facades\Auth::logout();
+    // Logout agar user bisa login ulang dengan status terverifikasi
+    Auth::logout();
     session()->invalidate();
     session()->regenerateToken();
 
@@ -49,7 +87,30 @@ Route::get('/admin/verify-email/{id}/{hash}', function ($id, $hash) {
 })->middleware(['signed'])->name('verification.verify');
 
 // ROUTE KIRIM ULANG MANUAL (Supaya tombol 'Kirim ulang' berfungsi)
-Route::post('/admin/email-verification/resend', function (\Illuminate\Http\Request $request) {
+Route::post('/admin/email-verification/resend', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('status', 'verification-link-sent');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+// Group route admin with session timeout and an endpoint used by our tab-management script.
+Route::middleware(['web', \App\Http\Middleware\SessionTimeout::class])->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::post('activate-tab', function (Request $request) {
+            $tabId = $request->input('tabId');
+
+            Log::debug('activate-tab called', [
+                'old_session' => $request->session()->getId(),
+                'tabId' => $tabId,
+            ]);
+
+            $request->session()->regenerate();
+            Log::debug('session regenerated to', [$request->session()->getId()]);
+
+            if ($tabId) {
+                $request->session()->put('active_tab', $tabId);
+            }
+
+            return response()->json(['success' => true]);
+        });
+    });
+});

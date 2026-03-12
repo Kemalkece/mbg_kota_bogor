@@ -36,7 +36,7 @@
                 </h6>
 
                 <ul class="regulasi-menu list-none pl-0 space-y-2">
-                    @foreach ($regulasis->take(3) as $index => $regulasi)
+                    @foreach ($regulasis->take(5) as $index => $regulasi)
                     <li>
                         <a href="#reg-{{ $regulasi->id }}"
                             class="regulasi-item block px-4 py-3 rounded-lg text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-blue-600 
@@ -58,7 +58,7 @@
 
             <!-- Content -->
             <div class="regulasi-content w-full lg:w-3/4">
-                @foreach ($regulasis->take(4) as $index => $regulasi)
+                @foreach ($regulasis->take(5) as $index => $regulasi)
                 <div class="regulasi-card-compact bg-white p-8 rounded-2xl shadow-lg flex-col lg:flex-row gap-6 animate-[fadeIn_0.5s_ease-out]"
                     id="card-{{ $regulasi->id }}"
                     style="display: {{ $index === 0 ? 'flex' : 'none' }};">
@@ -107,7 +107,15 @@
                         </div>
                         @endif
 
-                        <div class="regulasi-download-wrapper">
+                        <div class="regulasi-download-wrapper flex gap-3 justify-end">
+                            <a href="{{ asset('storage/' . $regulasi->file_pdf) }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn-download-regulasi-circle inline-flex items-center gap-2 px-5 py-2.5 bg-[#D1B06C] text-white rounded-xl font-bold text-sm transition hover:bg-[#b8975a] hover:scale-105 shadow-md"
+                                title="Lihat File PDF">
+                                <i class="bi bi-eye"></i>
+                                Lihat File
+                            </a>
                             <a href="{{ asset('storage/' . $regulasi->file_pdf) }}"
                                 target="_blank"
                                 download

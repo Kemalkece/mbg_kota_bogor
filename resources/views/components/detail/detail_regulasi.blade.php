@@ -230,12 +230,12 @@
         </div>
     </div>
 
-    <div class="container py-5">
+    <div class="container py-5 d-flex flex-column align-items-center justify-content-center">
         <div class="search-box">
             <i class="bi bi-search"></i>
             <input type="text" id="searchInput" placeholder="Cari dokumen (misal: Perpres, Juknis, SOP)...">
         </div>
-        <div class="row">
+        <div class="row justify-content-center w-100">
             <!-- Sidebar Filters -->
             <div class="col-lg-3">
                 <div class="card border-0 shadow-sm rounded-4 p-3 sidebar-card">
@@ -287,14 +287,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="{{ asset('storage/' . $regulasi->file_pdf) }}"
-                                class="btn-download-file"
-                                title="Unduh"
-                                download
-                                target="_blank"
-                                rel="noopener noreferrer">
-                                <i class="bi bi-download"></i>
-                            </a>
+                            <div class="d-flex justify-content-end gap-2 mt-2">
+                                <a href="{{ asset('storage/' . $regulasi->file_pdf) }}"
+                                    class="btn-download-file"
+                                    title="Lihat File PDF"
+                                    target="_blank"
+                                    rel="noopener noreferrer">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{{ asset('storage/' . $regulasi->file_pdf) }}"
+                                    class="btn-download-file"
+                                    title="Unduh"
+                                    download
+                                    target="_blank"
+                                    rel="noopener noreferrer">
+                                    <i class="bi bi-download"></i>
+                                </a>
+                            </div>
                         </div>
 
                     </div>

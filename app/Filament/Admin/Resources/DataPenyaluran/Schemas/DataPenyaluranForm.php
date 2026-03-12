@@ -43,14 +43,14 @@ class DataPenyaluranForm
                 Textarea::make('deskripsi')
                     ->label('Deskripsi')
                     ->required()
-                    ->maxLength(300)
-                    ->regex('/^[^<>]*$/')
+                    ->rules(['required', 'max:100', 'regex:/^[^<>]*$/'])
+                    ->maxLength(100)
                     ->afterStateUpdated(fn($state, $set) => $set('deskripsi', strip_tags($state)))
                     ->validationMessages([
-                        'max' => 'Deskripsi tidak boleh lebih dari 300 karakter.',
+                        'max' => 'Deskripsi tidak boleh lebih dari 100 karakter.',
                         'regex' => 'Deskripsi tidak boleh mengandung karakter script atau HTML.',
                     ])
-                    ->helperText('Maksimal 300 karakter.')
+                    ->helperText('Maksimal 100 karakter.')
                     ->columnSpanFull(),
             ]);
     }

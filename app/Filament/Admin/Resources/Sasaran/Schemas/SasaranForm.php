@@ -36,13 +36,40 @@ class SasaranForm
                 Textarea::make('deskripsi')
                     ->label('Deskripsi')
                     ->required()
-                    ->maxLength(1000)
-                    ->regex('/^[^<>]*$/')
+                    ->columnSpanFull()
+                    ->helperText('Maksimal 300 karakter.')
+                    ->rules(['required', 'max:300', 'regex:/^[^<>]*$/'])
                     ->afterStateUpdated(fn($state, $set) => $set('deskripsi', strip_tags($state)))
                     ->validationMessages([
                         'regex' => 'Deskripsi tidak boleh mengandung karakter script atau HTML.',
                     ])
-                    ->columnSpanFull(),
+                    ->extraAttributes([
+                        'x-init' => "() => {
+                            const warn = document.createElement('div');
+                            warn.classList.add('text-sm','mt-1');
+                            \$el.appendChild(warn);
+
+                            const update = () => {
+                                const txt = \$el.value || '';
+                                if (txt.length > 300) {
+                                    warn.textContent = 'Karakter lebih dari 300';
+                                    warn.classList.add('text-red-600');
+                                } else {
+                                    warn.textContent = '';
+                                    warn.classList.remove('text-red-600');
+                                }
+                                const form = \$el.closest('form');
+                                if (form) {
+                                    const submit = form.querySelector('button[type=submit]');
+                                    if (submit) {
+                                        submit.disabled = txt.length > 300;
+                                    }
+                                }
+                            };
+                            \$el.addEventListener('input', update);
+                            update();
+                        }",
+                    ]),
                 FileUpload::make('gambar')
                     ->label('Gambar')
                     ->image()

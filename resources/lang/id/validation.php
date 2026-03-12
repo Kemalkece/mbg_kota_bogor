@@ -130,7 +130,7 @@ return [
             'max' => 'Judul tidak boleh lebih dari 50 karakter.',
         ],
         'deskripsi' => [
-            'max' => 'Deskripsi tidak boleh lebih dari 170 karakter.',
+            'max' => 'Deskripsi tidak boleh lebih dari 300 karakter.',
         ],
     ],
 
