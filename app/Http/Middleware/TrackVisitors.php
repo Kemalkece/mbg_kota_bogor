@@ -25,15 +25,23 @@ class TrackVisitors
         $ip = $request->ip();
         $today = now()->toDateString();
 
-        Visitor::updateOrCreate(
-            [
-                'ip_address' => $ip,
-                'visited_date' => $today,
-            ],
-            [
-                'last_active_at' => now(),
-            ]
-        );
+        try {
+            Visitor::updateOrCreate(
+                [
+                    'ip_address' => $ip,
+                    'visited_date' => $today,
+                ],
+                [
+                    'last_active_at' => now(),
+                ]
+            );
+        } catch (\Exception $e) {
+            // Handle race condition with unique constraint
+            // Try to update directly if insert fails
+            Visitor::where('ip_address', $ip)
+                ->where('visited_date', $today)
+                ->update(['last_active_at' => now()]);
+        }
 
         return $next($request);
     }
