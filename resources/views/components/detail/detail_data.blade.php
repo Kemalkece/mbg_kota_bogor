@@ -426,6 +426,20 @@
         <p class="text-center text-muted mb-5">Analisis mendalam mengenai penyebaran program Makan Bergizi Gratis
           berdasarkan jenjang pendidikan di seluruh Indonesia.</p>
 
+        <!-- API calculations -->
+        @php
+          $totalSiswa = (float) str_replace('.', '', $posts['data']['jml_penerima_mbg'] ?? '1');
+          $smaSiswa = (float) str_replace('.', '', $posts['data']['sekolah_mbg']['sma']['siswa'] ?? '0');
+          $smpSiswa = (float) str_replace('.', '', $posts['data']['sekolah_mbg']['smp']['siswa'] ?? '0');
+          $sdSiswa = (float) str_replace('.', '', $posts['data']['sekolah_mbg']['sd']['siswa'] ?? '0');
+          $tkSiswa = (float) str_replace('.', '', $posts['data']['sekolah_mbg']['tk']['siswa'] ?? '0');
+
+          $pctSma = $totalSiswa > 0 ? round(($smaSiswa / $totalSiswa) * 100, 1) : 0;
+          $pctSmp = $totalSiswa > 0 ? round(($smpSiswa / $totalSiswa) * 100, 1) : 0;
+          $pctSd = $totalSiswa > 0 ? round(($sdSiswa / $totalSiswa) * 100, 1) : 0;
+          $pctTk = $totalSiswa > 0 ? round(($tkSiswa / $totalSiswa) * 100, 1) : 0;
+        @endphp
+
         <!-- Cards -->
         <div class="dist-detail-cards">
 
@@ -434,11 +448,11 @@
               <i class="bi bi-award-fill"></i>
             </div>
             <h3>SMA & Sederajat</h3>
-            <div class="dist-detail-number">650,000</div>
+            <div class="dist-detail-number">{{ $posts['data']['sekolah_mbg']['sma']['siswa'] ?? '0' }}</div>
             <div class="dist-detail-bar">
-              <div class="dist-detail-fill" style="width: 26%;"></div>
+              <div class="dist-detail-fill" style="width: {{ $pctSma }}%;"></div>
             </div>
-            <div class="dist-detail-percent">26% dari total penerima</div>
+            <div class="dist-detail-percent">{{ $pctSma }}% dari total penerima</div>
           </div>
 
           <div class="dist-detail-card">
@@ -446,11 +460,11 @@
               <i class="bi bi-journal-bookmark-fill"></i>
             </div>
             <h3>SMP & Sederajat</h3>
-            <div class="dist-detail-number">915,000</div>
+            <div class="dist-detail-number">{{ $posts['data']['sekolah_mbg']['smp']['siswa'] ?? '0' }}</div>
             <div class="dist-detail-bar">
-              <div class="dist-detail-fill" style="width: 36.6%;"></div>
+              <div class="dist-detail-fill" style="width: {{ $pctSmp }}%;"></div>
             </div>
-            <div class="dist-detail-percent">36.6% dari total penerima</div>
+            <div class="dist-detail-percent">{{ $pctSmp }}% dari total penerima</div>
           </div>
 
           <div class="dist-detail-card">
@@ -458,11 +472,11 @@
               <i class="bi bi-pencil-square"></i>
             </div>
             <h3>SD & Sederajat</h3>
-            <div class="dist-detail-number">765,000</div>
+            <div class="dist-detail-number">{{ $posts['data']['sekolah_mbg']['sd']['siswa'] ?? '0' }}</div>
             <div class="dist-detail-bar">
-              <div class="dist-detail-fill" style="width: 30.6%;"></div>
+              <div class="dist-detail-fill" style="width: {{ $pctSd }}%;"></div>
             </div>
-            <div class="dist-detail-percent">30.6% dari total penerima</div>
+            <div class="dist-detail-percent">{{ $pctSd }}% dari total penerima</div>
           </div>
 
           <div class="dist-detail-card">
@@ -470,11 +484,11 @@
               <i class="bi bi-stars"></i>
             </div>
             <h3>TK / PAUD & Sederajat</h3>
-            <div class="dist-detail-number">170,000</div>
+            <div class="dist-detail-number">{{ $posts['data']['sekolah_mbg']['tk']['siswa'] ?? '0' }}</div>
             <div class="dist-detail-bar">
-              <div class="dist-detail-fill" style="width: 6.8%;"></div>
+              <div class="dist-detail-fill" style="width: {{ $pctTk }}%;"></div>
             </div>
-            <div class="dist-detail-percent">6.8% dari total penerima</div>
+            <div class="dist-detail-percent">{{ $pctTk }}% dari total penerima</div>
           </div>
 
         </div>
@@ -521,7 +535,7 @@
                   <div class="col-md-3">
                     <div class="stat-box box1">
                       <i class="bi bi-geo"></i>
-                      <h4>6</h4>
+                      <h4>{{ $posts['data']['jml_kecamatan'] ?? '6' }}</h4>
                       <p>Kecamatan</p>
                     </div>
                   </div>
@@ -545,7 +559,7 @@
                   <div class="col-md-3">
                     <div class="stat-box box4">
                       <i class="bi bi-people"></i>
-                      <h4>128.579</h4>
+                      <h4>{{ $posts['data']['jml_penerima_mbg'] ?? '128.579' }}</h4>
                       <p>Penerima</p>
                     </div>
                   </div>
@@ -577,9 +591,9 @@
                     <div style="background:#fff;border-radius:12px;padding:20px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
                       <div style="width:45px;height:45px;background:#D1B06C;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-weight:bold;">SMA</div>
                       <p>SMA & Sederajat</p>
-                      <h4>288</h4>
+                      <h4>{{ $posts['data']['sekolah_mbg']['sma']['jumlah'] ?? '0' }}</h4>
                       <span>Sekolah</span><br>
-                      <h5>120976</h5>
+                      <h5>{{ $posts['data']['sekolah_mbg']['sma']['siswa'] ?? '0' }}</h5>
                       <span>Siswa</span>
                     </div>
                   </div>
@@ -588,9 +602,9 @@
                     <div style="background:#fff;border-radius:12px;padding:20px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
                       <div style="width:45px;height:45px;background:#D1B06C;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-weight:bold;">SMP</div>
                       <p>SMP & Sederajat</p>
-                      <h4>409</h4>
+                      <h4>{{ $posts['data']['sekolah_mbg']['smp']['jumlah'] ?? '0' }}</h4>
                       <span>Sekolah</span><br>
-                      <h5>144338</h5>
+                      <h5>{{ $posts['data']['sekolah_mbg']['smp']['siswa'] ?? '0' }}</h5>
                       <span>Siswa</span>
                     </div>
                   </div>
@@ -599,9 +613,9 @@
                     <div style="background:#fff;border-radius:12px;padding:20px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
                       <div style="width:45px;height:45px;background:#D1B06C;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-weight:bold;">SD</div>
                       <p>SD & Sederajat</p>
-                      <h4>1029</h4>
+                      <h4>{{ $posts['data']['sekolah_mbg']['sd']['jumlah'] ?? '0' }}</h4>
                       <span>Sekolah</span><br>
-                      <h5>304182</h5>
+                      <h5>{{ $posts['data']['sekolah_mbg']['sd']['siswa'] ?? '0' }}</h5>
                       <span>Siswa</span>
                     </div>
                   </div>
@@ -610,31 +624,9 @@
                     <div style="background:#fff;border-radius:12px;padding:20px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
                       <div style="width:45px;height:45px;background:#D1B06C;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-weight:bold;">TK</div>
                       <p>TK / PAUD</p>
-                      <h4>646</h4>
+                      <h4>{{ $posts['data']['sekolah_mbg']['tk']['jumlah'] ?? '0' }}</h4>
                       <span>Sekolah</span><br>
-                      <h5>25361</h5>
-                      <span>Siswa</span>
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div style="background:#fff;border-radius:12px;padding:20px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
-                      <div style="width:45px;height:45px;background:#D1B06C;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-weight:bold;">TK</div>
-                      <p>TK / PAUD</p>
-                      <h4>646</h4>
-                      <span>Sekolah</span><br>
-                      <h5>25361</h5>
-                      <span>Siswa</span>
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div style="background:#fff;border-radius:12px;padding:20px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
-                      <div style="width:45px;height:45px;background:#D1B06C;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-weight:bold;">TK</div>
-                      <p>TK / PAUD</p>
-                      <h4>646</h4>
-                      <span>Sekolah</span><br>
-                      <h5>25361</h5>
+                      <h5>{{ $posts['data']['sekolah_mbg']['tk']['siswa'] ?? '0' }}</h5>
                       <span>Siswa</span>
                     </div>
                   </div>
@@ -770,7 +762,7 @@ transition:.25s;
               <i class="bi bi-geo-alt-fill"></i>
             </div>
             <h3>Kecamatan</h3>
-            <div class="dist-detail-number">6</div>
+            <div class="dist-detail-number">{{ $posts['data']['jml_kecamatan'] ?? '0' }}</div>
             <div class="dist-detail-bar">
               <div class="dist-detail-fill" style="width: 100%;"></div>
             </div>
@@ -782,7 +774,7 @@ transition:.25s;
               <i class="bi bi-building"></i>
             </div>
             <h3>SPPG</h3>
-            <div class="dist-detail-number">95</div>
+            <div class="dist-detail-number">{{ $posts['data']['jml_sppg'] ?? '0' }}</div>
             <div class="dist-detail-bar">
               <div class="dist-detail-fill" style="width: 100%;"></div>
             </div>
@@ -794,7 +786,7 @@ transition:.25s;
               <i class="bi bi-people-fill"></i>
             </div>
             <h3>Kelompok Penerima</h3>
-            <div class="dist-detail-number">1,209</div>
+            <div class="dist-detail-number">{{ number_format((int)($posts['data']['jml_kelompok_penerima'] ?? 0), 0, ',', '.') }}</div>
             <div class="dist-detail-bar">
               <div class="dist-detail-fill" style="width: 100%;"></div>
             </div>
@@ -806,7 +798,7 @@ transition:.25s;
               <i class="bi bi-person-fill"></i>
             </div>
             <h3>Orang Penerima</h3>
-            <div class="dist-detail-number">150,155</div>
+            <div class="dist-detail-number">{{ $posts['data']['jml_penerima_mbg'] ?? '0' }}</div>
             <div class="dist-detail-bar">
               <div class="dist-detail-fill" style="width: 100%;"></div>
             </div>

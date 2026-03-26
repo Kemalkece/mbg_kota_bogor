@@ -3,7 +3,6 @@
 namespace App\Filament\Admin\Pages\Auth;
 
 use Filament\Auth\Pages\Register as BaseRegister;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Illuminate\Validation\Rules\Password;
 
@@ -37,18 +36,9 @@ class Register extends BaseRegister
                     ->validationMessages([
                         'regex' => 'Nama hanya boleh mengandung huruf dan karakter umum.',
                     ]),
-                \Filament\Forms\Components\Select::make('user_type')
-                    ->label('Tipe Pengguna')
-                    ->options([
-                        'Perangkat Daerah' => 'Perangkat Daerah',
-                        'Publik' => 'Publik',
-                    ])
-                    ->required()
-                    ->default('Publik')
-                    ->live(),
                 \Filament\Forms\Components\TextInput::make('instansi')
-                    ->label(fn(Get $get) => $get('user_type') === 'Perangkat Daerah' ? 'Nama Perangkat Daerah' : 'Asal Instansi/Alamat')
-                    ->placeholder(fn(Get $get) => $get('user_type') === 'Perangkat Daerah' ? 'Misal: Dinas Kesehatan' : 'Misal: Nama Organisasi atau Alamat')
+                    ->label('Asal Instansi / OPD')
+                    ->placeholder('Misal: Dinas Kesehatan atau Nama Organisasi')
                     ->required()
                     ->maxLength(255)
                     ->regex('/^[^<>]*$/') // Mencegah karakter < dan > yang umum untuk XSS

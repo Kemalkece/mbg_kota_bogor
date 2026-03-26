@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Pages;
 
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Tables\Columns\TextColumn;
@@ -39,7 +40,7 @@ class BackupControl extends Page implements HasTable
         foreach ($files as $file) {
             if (str_ends_with($file, '.zip')) {
                 $sizeInBytes = Storage::disk('local')->size($file);
-                $sizeDisplay = $sizeInBytes < 1024 * 100 
+                $sizeDisplay = $sizeInBytes < 1024 * 100
                     ? round($sizeInBytes / 1024, 2) . ' KB'
                     : round($sizeInBytes / 1024 / 1024, 2) . ' MB';
 
@@ -60,36 +61,52 @@ class BackupControl extends Page implements HasTable
             ->pluralModelLabel('Daftar Backup Data & Database')
             ->columns([
                 TextColumn::make('name')
-                    ->label('Identitas File')
-                    ->icon('heroicon-o-document-duplicate')
+                    ->label('Nama Arsip')
+                    ->icon('heroicon-o-archive-box')
                     ->iconColor('primary')
-                    ->weight('bold')
-                    ->searchable(),
+                    ->weight('medium')
+                    ->searchable()
+                    ->sortable()
+                    ->wrap()
+                    ->grow()
+                    ->extraHeaderAttributes(['style' => 'width: 100%']),
                 TextColumn::make('size')
-                    ->label('Ukuran File')
+                    ->label('Ukuran')
                     ->badge()
-                    ->color('gray'),
+                    ->color('gray')
+                    ->alignCenter(),
                 TextColumn::make('date')
-                    ->label('Dibuat Pada')
-                    ->description(fn($record) => 'Tersimpan secara lokal di server')
-                    ->since(),
+                    ->label('Tanggal Backup')
+                    ->since()
+                    ->sortable()
+                    ->alignEnd(),
             ])
             ->actions([
-                Action::make('download')
-                    ->label('Download')
-                    ->icon('heroicon-m-arrow-down-tray')
-                    ->action(fn ($record) => $this->downloadBackup($record['path'])),
-                Action::make('delete')
-                    ->label('Hapus')
-                    ->icon('heroicon-m-trash')
-                    ->color('danger')
-                    ->requiresConfirmation()
-                    ->action(function ($record) {
-                        $this->deleteBackup($record['path']);
-                    }),
+                ActionGroup::make([
+                    Action::make('download')
+                        ->label('Unduh')
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->color('primary')
+                        ->action(fn($record) => $this->downloadBackup($record['path'])),
+                    Action::make('delete')
+                        ->label('Hapus')
+                        ->icon('heroicon-o-trash')
+                        ->color('danger')
+                        ->requiresConfirmation()
+                        ->modalHeading('Hapus Cadangan?')
+                        ->modalDescription('File ini akan dihapus permanen dari server.')
+                        ->action(function ($record) {
+                            $this->deleteBackup($record['path']);
+                        }),
+                ])
+                    ->icon('heroicon-m-ellipsis-horizontal')
+                    ->size('sm')
+                    ->color('gray')
+                    ->button()
             ])
-            ->emptyStateHeading('Belum ada riwayat backup')
-            ->emptyStateDescription('Silakan klik tombol "Jalankan Backup" untuk membuat cadangan pertama.');
+            ->actionsAlignment('right')
+            ->emptyStateHeading('Riwayat Backup Kosong')
+            ->emptyStateDescription('Belum ada file cadangan yang tersimpan di server.');
     }
 
     protected function getHeaderActions(): array

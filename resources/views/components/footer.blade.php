@@ -48,17 +48,23 @@
                     <div class="footer-stats-widget">
                         <div class="stat-item-w">
                             <div style="color:#071E49;"><i class="bi bi-calendar2-check-fill" style="color:#D1B06C;"></i> Hari Ini</div>
-                            <span class="stat-value-w" id="stat-today" style="color:#071E49 !important;">1,245</span>
+                            <span class="stat-value-w" id="stat-today" style="color:#071E49 !important;">
+                                {{ number_format(\App\Models\Visitor::getTodayCount()) }}
+                            </span>
                         </div>
 
                         <div class="stat-item-w">
                             <div style="color:#071E49;"><i class="bi bi-people-fill" style="color:#D1B06C;"></i> Total</div>
-                            <span class="stat-value-w" id="stat-total" style="color:#071E49 !important;">856,432</span>
+                            <span class="stat-value-w" id="stat-total" style="color:#071E49 !important;">
+                                {{ number_format(\App\Models\Visitor::getTotalCount()) }}
+                            </span>
                         </div>
 
                         <div class="stat-item-w">
                             <div style="color:#071E49;"><i class="bi bi-broadcast text-success" style="color:#D1B06C;"></i> Online</div>
-                            <span class="stat-value-w" id="stat-online" style="color:#071E49 !important;">243</span>
+                            <span class="stat-value-w" id="stat-online" style="color:#071E49 !important;">
+                                {{ number_format(\App\Models\Visitor::getOnlineCount()) }}
+                            </span>
                         </div>
                     </div>
                 </div>

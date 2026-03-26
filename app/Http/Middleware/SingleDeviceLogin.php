@@ -37,7 +37,7 @@ class SingleDeviceLogin
                         action: 'concurrent_login_attempt',
                         modelName: 'Authentication',
                         modelId: $user->id,
-                        description: "Percobaan login dari device berbeda. Device lama: {$storedData['device_info']}, Device baru: " . $request->userAgent()
+                        description: substr("Percobaan login dari device berbeda. Device lama: {$storedData['device_info']}, Device baru: " . $request->userAgent(), 0, 250)
                     );
 
                     // Logout user dari session saat ini

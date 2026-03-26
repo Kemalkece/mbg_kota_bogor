@@ -30,7 +30,7 @@ class Login extends BaseAuth
 
                 $this->getRememberFormComponent(),
 
-                // ✅ reCAPTCHA v2 - Required for login
+                // reCAPTCHA
                 ViewField::make('captcha')
                     ->label('')
                     ->view('forms.components.recaptcha'),
@@ -57,54 +57,19 @@ class Login extends BaseAuth
         $data = $this->form->getState();
 
         // =========================
-        // VALIDASI RECAPTCHA (REQUIRED)
+        // VALIDASI RECAPTCHA
         // =========================
-        if (blank($data['captcha'] ?? null)) {
-            // Record log kegagalan validasi captcha (kosong)
-            \App\Models\LogAktivitas::create([
-                'user_id' => null,
-                'aktivitas' => 'Gagal Login: Captcha tidak diisi',
-            ]);
-
-            throw ValidationException::withMessages([
-                'data.captcha' => 'Mohon centang Captcha terlebih dahulu.',
-            ]);
-        }
-
-        // Verify dengan Google reCAPTCHA API
-        $recaptchaSecret = config('services.recaptcha.secret_key');
-        if (!$recaptchaSecret) {
-            if (config('app.env') === 'production') {
-                throw ValidationException::withMessages([
-                    'data.captcha' => 'reCAPTCHA tidak dikonfigurasi. Hubungi administrator.',
+        // Skip reCAPTCHA di environment local
+        if (config('app.env') !== 'local') {
+            if (blank($data['captcha'] ?? null)) {
+                // Record log kegagalan validasi captcha (kosong)
+                \App\Models\LogAktivitas::create([
+                    'user_id' => null,
+                    'aktivitas' => 'Gagal Login: Captcha tidak diisi',
                 ]);
-            }
-        } else {
-            try {
-                $response = Http::timeout(10)->asForm()->post(
-                    'https://www.google.com/recaptcha/api/siteverify',
-                    [
-                        'secret' => $recaptchaSecret,
-                        'response' => $data['captcha'],
-                    ]
-                );
 
-                $result = json_decode((string) $response->getBody(), true) ?? [];
-                
-                if (!($result['success'] ?? false)) {
-                    // Record log kegagalan verifikasi captcha ke server google
-                    \App\Models\LogAktivitas::create([
-                        'user_id' => null,
-                        'aktivitas' => 'Gagal Login: Verifikasi Captcha ditolak server Google',
-                    ]);
-
-                    throw ValidationException::withMessages([
-                        'data.captcha' => __('Verifikasi Captcha gagal. Silakan coba lagi.'),
-                    ]);
-                }
-            } catch (\Exception $e) {
                 throw ValidationException::withMessages([
-                    'data.captcha' => 'Gagal terkoneksi ke layanan reCAPTCHA. Silakan coba lagi.',
+                    'data.captcha' => 'Mohon centang Captcha terlebih dahulu.',
                 ]);
             }
         }
@@ -114,6 +79,38 @@ class Login extends BaseAuth
         // =========================
         $authGuard = Filament::auth();
         $credentials = $this->getCredentialsFromFormData($data);
+
+        // Cek apakah user ada dulu sebelum auth attempt
+        $email = $data['email'] ?? null;
+        $userModel = null;
+
+        if ($email) {
+            $userModel = \App\Models\User::where('email', $email)->first();
+
+            // Cek jika user tidak aktif
+            if ($userModel && !$userModel->is_active) {
+                \App\Models\LogAktivitas::create([
+                    'user_id' => null,
+                    'aktivitas' => 'Gagal Login: Akun tidak aktif - ' . $email,
+                ]);
+
+                throw ValidationException::withMessages([
+                    'data.email' => 'Akun Anda tidak aktif. Silakan hubungi administrator.'
+                ]);
+            }
+
+            // Cek role user
+            if ($userModel && !in_array($userModel->role, ['admin', 'super_admin'])) {
+                \App\Models\LogAktivitas::create([
+                    'user_id' => $userModel->id ?? null,
+                    'aktivitas' => 'Gagal Login: Tidak memiliki akses admin - ' . $email,
+                ]);
+
+                throw ValidationException::withMessages([
+                    'data.email' => 'Anda tidak memiliki akses ke panel admin.'
+                ]);
+            }
+        }
 
         // Fitur percobaan login maksimal 5x, blokir 3 menit
         $maxAttempts = 5;
@@ -131,7 +128,7 @@ class Login extends BaseAuth
                 ->danger()
                 ->send();
             throw ValidationException::withMessages([
-                'email' => "Terlalu banyak percobaan login. Silakan coba lagi dalam $wait detik."
+                'data.email' => "Terlalu banyak percobaan login. Silakan coba lagi dalam $wait detik."
             ]);
         }
 
@@ -139,13 +136,13 @@ class Login extends BaseAuth
             $attempts++;
             cache()->put($key, $attempts, now()->addMinutes($blockMinutes + 1));
             $sisa = $maxAttempts - $attempts;
-            
+
             // Log failed login attempt
             \App\Models\LogAktivitas::create([
                 'user_id' => null, // We don't have user yet on failed auth
                 'aktivitas' => "Gagal Login: Kata sandi salah (Percobaan ke-$attempts) - " . ($data['email'] ?? 'unknown'),
             ]);
-            
+
             if ($sisa <= 0) {
                 $blockedUntil = now()->addMinutes($blockMinutes);
                 cache()->put($blockKey, $blockedUntil, $blockedUntil);
@@ -155,7 +152,7 @@ class Login extends BaseAuth
                     ->danger()
                     ->send();
                 throw ValidationException::withMessages([
-                    'email' => "Terlalu banyak percobaan login. Silakan coba lagi dalam {$blockMinutes} menit."
+                    'data.email' => "Terlalu banyak percobaan login. Silakan coba lagi dalam {$blockMinutes} menit."
                 ]);
             }
             if ($sisa <= 3) {
@@ -166,10 +163,10 @@ class Login extends BaseAuth
                     ->send();
             }
             throw ValidationException::withMessages([
-                'email' => "Kredensial yang diberikan tidak dapat ditemukan."
+                'data.email' => "Email atau kata sandi yang Anda masukkan salah."
             ]);
-        } 
-        
+        }
+
         // Reset percobaan jika berhasil login
         cache()->forget($key);
         cache()->forget($blockKey);
@@ -184,8 +181,15 @@ class Login extends BaseAuth
         ]);
 
         // Set default password_changed_at jika null (user lama)
+        // Dan reset force_password_change jika sudah ada password_changed_at
         if (is_null($user->password_changed_at)) {
             $user->password_changed_at = now();
+            $user->save();
+        }
+
+        // Reset force_password_change jika user sudah mengganti password
+        if ($user->force_password_change && !is_null($user->password_changed_at)) {
+            $user->force_password_change = false;
             $user->save();
         }
 
@@ -200,7 +204,7 @@ class Login extends BaseAuth
             $authGuard->logout();
 
             throw ValidationException::withMessages([
-                'email' => 'Masa berlaku kata sandi telah habis. Silakan ubah kata sandi.'
+                'data.email' => 'Masa berlaku kata sandi telah habis. Silakan ubah kata sandi.'
             ]);
         }
 
@@ -231,6 +235,9 @@ class Login extends BaseAuth
         }
 
         session()->regenerate();
+
+        // Bersihkan cache device agar middleware SingleDeviceLogin mengambil session_id yang baru
+        \Illuminate\Support\Facades\Cache::forget("user_device_{$user->id}");
 
         // Mark this tab as the current active one
         $tabId = (string) Str::uuid();

@@ -10,6 +10,15 @@ use App\Listeners\LogSuccessfulLogout;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use App\Models\Berita;
+use App\Models\Sasaran;
+use App\Models\FAQ;
+use App\Models\Regulasi;
+use App\Models\DataPenyaluran;
+use App\Models\Kolaborasi;
+use App\Models\Kategori;
+use App\Models\User;
+use App\Observers\GlobalModelObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -48,5 +57,15 @@ class AppServiceProvider extends ServiceProvider
             Logout::class,
             LogSuccessfulLogout::class,
         );
+
+        // Register Observers for Activity Logging
+        Berita::observe(GlobalModelObserver::class);
+        Sasaran::observe(GlobalModelObserver::class);
+        FAQ::observe(GlobalModelObserver::class);
+        Regulasi::observe(GlobalModelObserver::class);
+        DataPenyaluran::observe(GlobalModelObserver::class);
+        Kolaborasi::observe(GlobalModelObserver::class);
+        Kategori::observe(GlobalModelObserver::class);
+        User::observe(GlobalModelObserver::class);
     }
 }

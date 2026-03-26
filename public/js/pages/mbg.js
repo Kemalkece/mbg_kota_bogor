@@ -1,14 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // ============================
-    // INISIALISASI AOS (jika ada)
+    // INISIALISASI AOS
     // ============================
     if (typeof AOS !== 'undefined') {
-        AOS.init({
-            duration: 1000,
-            once: true,
-            offset: 100
-        });
+        AOS.init({ duration: 1000, once: true, offset: 100 });
     }
 
     // ============================
@@ -16,45 +12,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // ============================
     var loader = document.getElementById('loader');
     if (loader) {
+        setTimeout(function () { loader.classList.add('hidden'); }, 800);
         setTimeout(function () {
-            loader.classList.add('hidden');
-        }, 800);
-
-        setTimeout(function () {
-            if (!loader.classList.contains('hidden')) {
-                loader.classList.add('hidden');
-            }
+            if (!loader.classList.contains('hidden')) loader.classList.add('hidden');
         }, 3000);
     }
-
-    // ============================
-    // SIMULASI STATISTIK PENGUNJUNG
-    // ============================
-    function simulateStats() {
-        var todayEl = document.getElementById('stat-today');
-        var totalEl = document.getElementById('stat-total');
-        var onlineEl = document.getElementById('stat-online');
-
-        if (todayEl && totalEl && onlineEl) {
-            var today = 1245;
-            var total = 856432;
-            var online = 243;
-
-            setInterval(function () {
-                online += Math.floor(Math.random() * 5) - 2;
-                if (online < 200) online = 200;
-                onlineEl.innerText = online.toLocaleString();
-
-                if (Math.random() > 0.7) {
-                    today++;
-                    total++;
-                    todayEl.innerText = today.toLocaleString();
-                    totalEl.innerText = total.toLocaleString();
-                }
-            }, 3000);
-        }
-    }
-    simulateStats();
 
     // ============================
     // NAVBAR SCROLL EFFECT
@@ -62,45 +24,32 @@ document.addEventListener('DOMContentLoaded', function () {
     var navbar = document.getElementById('mainNav');
     if (navbar) {
         window.addEventListener('scroll', function () {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
         });
     }
 
     // ============================
-    // TOMBOL BACK TO TOP
+    // BACK TO TOP
     // ============================
     var backToTop = document.getElementById('backToTop');
     if (backToTop) {
         window.addEventListener('scroll', function () {
-            if (window.scrollY > 300) {
-                backToTop.classList.add('show');
-            } else {
-                backToTop.classList.remove('show');
-            }
+            backToTop.classList.toggle('show', window.scrollY > 300);
         });
-
         backToTop.addEventListener('click', function () {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
     // ============================
     // HERO CAROUSEL
     // ============================
-    var currentSlide = 0;
-    var autoSlideInterval;
     var carousel = document.getElementById('heroCarousel');
-
     if (carousel) {
         var slides = carousel.querySelectorAll('.carousel-slide');
         var totalSlides = slides.length;
+        var currentSlide = 0;
+        var autoSlideInterval;
 
         console.log('Hero Carousel: ' + totalSlides + ' slide ditemukan.');
 
@@ -112,34 +61,24 @@ document.addEventListener('DOMContentLoaded', function () {
             resetAutoSlide();
         }
 
-        // Expose moveCarousel ke global supaya bisa dipanggil dari onclick HTML
-        window.moveCarousel = moveCarousel;
-
         function updateCarousel() {
             carousel.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
 
-            // Update teks berita dengan animasi
             var heroContent = document.getElementById('heroContent');
-            var newsTitle = document.getElementById('newsTitle');
-            var newsDesc = document.getElementById('newsDesc');
-            var newsLink = document.getElementById('newsLink');
+            var newsTitle  = document.getElementById('newsTitle');
+            var newsDesc   = document.getElementById('newsDesc');
+            var newsLink   = document.getElementById('newsLink');
 
             if (newsTitle && slides[currentSlide]) {
                 if (heroContent) {
                     heroContent.style.opacity = '0';
                     heroContent.style.transform = 'translateX(20px)';
                 }
-
                 setTimeout(function () {
-                    var currentSlideEl = slides[currentSlide];
-                    var title = currentSlideEl.getAttribute('data-title') || '';
-                    var desc = currentSlideEl.getAttribute('data-desc') || '';
-                    var url = currentSlideEl.getAttribute('data-url') || '#';
-
-                    newsTitle.innerText = title;
-                    if (newsDesc) newsDesc.innerText = desc;
-                    if (newsLink) newsLink.setAttribute('href', url);
-
+                    var el = slides[currentSlide];
+                    newsTitle.innerText = el.getAttribute('data-title') || '';
+                    if (newsDesc) newsDesc.innerText = el.getAttribute('data-desc') || '';
+                    if (newsLink) newsLink.setAttribute('href', el.getAttribute('data-url') || '#');
                     if (heroContent) {
                         heroContent.style.opacity = '1';
                         heroContent.style.transform = 'translateX(0)';
@@ -147,16 +86,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 }, 300);
             }
 
-            // Update dots aktif
-            document.querySelectorAll('.carousel-dot').forEach(function (dot, index) {
-                dot.classList.toggle('active', index === currentSlide);
+            document.querySelectorAll('.carousel-dot').forEach(function (dot, i) {
+                dot.classList.toggle('active', i === currentSlide);
             });
         }
 
         function startAutoSlide() {
-            autoSlideInterval = setInterval(function () {
-                moveCarousel(1);
-            }, 8000);
+            autoSlideInterval = setInterval(function () { moveCarousel(1); }, 8000);
         }
 
         function resetAutoSlide() {
@@ -164,14 +100,19 @@ document.addEventListener('DOMContentLoaded', function () {
             startAutoSlide();
         }
 
-        // Buat dots navigasi carousel
+        // Bind tombol prev & next (tidak pakai onclick inline)
+        var prevBtn = document.getElementById('carouselPrev');
+        var nextBtn = document.getElementById('carouselNext');
+        if (prevBtn) prevBtn.addEventListener('click', function () { moveCarousel(-1); });
+        if (nextBtn) nextBtn.addEventListener('click', function () { moveCarousel(1); });
+
+        // Buat dots
         var dotsContainer = document.getElementById('carouselDots');
         if (dotsContainer) {
             for (var i = 0; i < totalSlides; i++) {
                 (function (index) {
                     var dot = document.createElement('div');
-                    dot.className = 'carousel-dot';
-                    if (index === 0) dot.classList.add('active');
+                    dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
                     dot.addEventListener('click', function () {
                         currentSlide = index;
                         updateCarousel();
@@ -182,7 +123,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        // Mulai auto-slide
         if (totalSlides > 1) {
             startAutoSlide();
             console.log('Hero Carousel: auto-slide dimulai.');
@@ -192,34 +132,48 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ============================
-    // SASARAN SLIDER NAVIGASI
+    // SASARAN SLIDER
     // ============================
-    window.slideSasaran = function (direction) {
+    function slideSasaran(direction) {
         var slider = document.getElementById('sasaranSlider');
-        if (slider) {
-            var item = slider.querySelector('.sasaran-slider-item');
-            var itemWidth = item ? item.offsetWidth + 25 : 350;
-            slider.scrollBy({
-                left: direction * itemWidth,
-                behavior: 'smooth'
-            });
-        }
-    };
+        if (!slider) return;
+        slider.scrollBy({ left: direction * 400, behavior: 'smooth' });
+    }
+
+    var sasaranPrev = document.getElementById('sasaranPrev');
+    var sasaranNext = document.getElementById('sasaranNext');
+    if (sasaranPrev) sasaranPrev.addEventListener('click', function () { slideSasaran(-1); });
+    if (sasaranNext) sasaranNext.addEventListener('click', function () { slideSasaran(1); });
 
     // ============================
-    // STATS SLIDER NAVIGASI
+    // STATS SLIDER
     // ============================
-    window.slideStats = function (direction) {
+    function slideStats(direction) {
         var slider = document.getElementById('statsSlider');
-        if (slider) {
-            var item = slider.querySelector('.stats-slider-item');
-            var itemWidth = item ? item.offsetWidth + 25 : 300;
-            slider.scrollBy({
-                left: direction * itemWidth,
-                behavior: 'smooth'
-            });
-        }
-    };
+        if (!slider) return;
+        var item = slider.querySelector('.stats-slider-item');
+        var itemWidth = item ? item.offsetWidth + 25 : 300;
+        slider.scrollBy({ left: direction * itemWidth, behavior: 'smooth' });
+    }
+
+    var statsPrev = document.getElementById('statsPrev');
+    var statsNext = document.getElementById('statsNext');
+    if (statsPrev) statsPrev.addEventListener('click', function () { slideStats(-1); });
+    if (statsNext) statsNext.addEventListener('click', function () { slideStats(1); });
+
+    // ============================
+    // DATA PENYALURAN SLIDER
+    // ============================
+    function scrollSlider(direction) {
+        var slider = document.getElementById('slider');
+        if (!slider) return;
+        slider.scrollBy({ left: direction * 520, behavior: 'smooth' });
+    }
+
+    var sliderPrev = document.getElementById('sliderPrev');
+    var sliderNext = document.getElementById('sliderNext');
+    if (sliderPrev) sliderPrev.addEventListener('click', function () { scrollSlider(-1); });
+    if (sliderNext) sliderNext.addEventListener('click', function () { scrollSlider(1); });
 
     // ============================
     // SMOOTH SCROLLING
@@ -231,11 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var target = document.querySelector(href);
             if (target) {
                 e.preventDefault();
-                var offsetTop = target.offsetTop - 80;
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
             }
         });
     });
@@ -244,37 +194,27 @@ document.addEventListener('DOMContentLoaded', function () {
     // NAVIGASI AKTIF BERDASARKAN SCROLL
     // ============================
     window.addEventListener('scroll', function () {
-        var sections = document.querySelectorAll('section[id]');
         var scrollY = window.pageYOffset;
         var currentSection = '';
 
-        sections.forEach(function (section) {
-            var sectionTop = section.offsetTop - 150;
-            var sectionHeight = section.offsetHeight;
-            var sectionId = section.getAttribute('id');
-
-            if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-                currentSection = sectionId;
+        document.querySelectorAll('section[id]').forEach(function (section) {
+            var top = section.offsetTop - 150;
+            if (scrollY >= top && scrollY < top + section.offsetHeight) {
+                currentSection = section.getAttribute('id');
             }
         });
 
         document.querySelectorAll('.navbar-nav .nav-link').forEach(function (link) {
-            var section = link.getAttribute('data-section');
-            if (section === currentSection) {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
-            }
+            link.classList.toggle('active', link.getAttribute('data-section') === currentSection);
         });
     });
 
     // ============================
-    // REGULASI MENU NAVIGASI
+    // REGULASI MENU
     // ============================
     document.querySelectorAll('.regulasi-item').forEach(function (item) {
         item.addEventListener('click', function (e) {
             e.preventDefault();
-
             var wrapper = this.closest('.regulasi-wrapper');
             if (!wrapper) return;
 
@@ -285,8 +225,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 menu.classList.remove('active');
             });
 
-            var target = this.dataset.target;
-            var targetCard = document.getElementById(target);
+            var targetCard = document.getElementById(this.dataset.target);
             if (targetCard) {
                 targetCard.style.display = 'flex';
                 this.classList.add('active');
@@ -303,9 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
             alert('Login functionality coming soon!');
             var loginModal = document.getElementById('loginModal');
-            if (loginModal) {
-                bootstrap.Modal.getInstance(loginModal).hide();
-            }
+            if (loginModal) bootstrap.Modal.getInstance(loginModal).hide();
         });
     }
 
@@ -321,10 +258,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // ============================
     // FLOATING ACTION BUTTON (FAB)
     // ============================
-    window.toggleFab = function () {
-        var fab = document.getElementById('radialFab');
-        if (fab) fab.classList.toggle('active');
-    };
+    var fabToggleBtn = document.getElementById('fabToggleBtn');
+    if (fabToggleBtn) {
+        fabToggleBtn.addEventListener('click', function () {
+            var fab = document.getElementById('radialFab');
+            if (fab) fab.classList.toggle('active');
+        });
+    }
 
     document.addEventListener('click', function (event) {
         var fab = document.getElementById('radialFab');
@@ -344,66 +284,44 @@ document.addEventListener('DOMContentLoaded', function () {
         document.documentElement.style.fontSize = currentFontSize + '%';
     }
 
-    window.increaseFontSize = function () {
-        if (currentFontSize < 150) {
-            currentFontSize += 10;
-            updateFontSize();
-        }
-    };
+    var btnIncFont = document.getElementById('btnIncFont');
+    var btnDecFont = document.getElementById('btnDecFont');
+    var btnGrayscale = document.getElementById('btnGrayscale');
+    var btnContrast = document.getElementById('btnContrast');
+    var btnUnderline = document.getElementById('btnUnderline');
+    var btnCursor = document.getElementById('btnCursor');
+    var btnReadText = document.getElementById('btnReadText');
+    var btnReset = document.getElementById('btnResetAccessibility');
 
-    window.decreaseFontSize = function () {
-        if (currentFontSize > 80) {
-            currentFontSize -= 10;
-            updateFontSize();
-        }
-    };
-
-    window.toggleGrayscale = function () {
+    if (btnIncFont) btnIncFont.addEventListener('click', function () {
+        if (currentFontSize < 150) { currentFontSize += 10; updateFontSize(); }
+    });
+    if (btnDecFont) btnDecFont.addEventListener('click', function () {
+        if (currentFontSize > 80) { currentFontSize -= 10; updateFontSize(); }
+    });
+    if (btnGrayscale) btnGrayscale.addEventListener('click', function () {
         document.body.classList.toggle('accessibility-grayscale');
-        var btn = document.getElementById('btnGrayscale');
-        if (btn) btn.classList.toggle('active');
-    };
-
-    window.toggleHighContrast = function () {
+        this.classList.toggle('active');
+    });
+    if (btnContrast) btnContrast.addEventListener('click', function () {
         document.body.classList.toggle('accessibility-high-contrast');
-        var btn = document.getElementById('btnContrast');
-        if (btn) btn.classList.toggle('active');
-    };
-
-    window.toggleUnderline = function () {
+        this.classList.toggle('active');
+    });
+    if (btnUnderline) btnUnderline.addEventListener('click', function () {
         document.body.classList.toggle('accessibility-underlined');
-        var btn = document.getElementById('btnUnderline');
-        if (btn) btn.classList.toggle('active');
-    };
-
-    window.toggleBigCursor = function () {
+        this.classList.toggle('active');
+    });
+    if (btnCursor) btnCursor.addEventListener('click', function () {
         document.body.classList.toggle('accessibility-big-cursor');
-        var btn = document.getElementById('btnCursor');
-        if (btn) btn.classList.toggle('active');
-    };
-
-    window.toggleReadMode = function () {
-        var btn = document.getElementById('btnReadText');
-        if (!isReadMode) {
-            isReadMode = true;
-            if (btn) {
-                btn.classList.add('active');
-                btn.querySelector('span').innerText = 'Berhenti Membaca';
-            }
-            startReading();
-        } else {
-            stopReading();
-        }
-    };
+        this.classList.toggle('active');
+    });
 
     function startReading() {
         if ('speechSynthesis' in window) {
-            var elements = document.querySelectorAll('body > *:not(.modal)');
             var textToRead = '';
-            elements.forEach(function (el) {
+            document.querySelectorAll('body > *:not(.modal)').forEach(function (el) {
                 if (el.innerText) textToRead += el.innerText + ' ';
             });
-
             speechUtterance = new SpeechSynthesisUtterance(textToRead);
             speechUtterance.lang = 'id-ID';
             speechUtterance.onend = stopReading;
@@ -415,26 +333,40 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function stopReading() {
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-        }
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
         isReadMode = false;
-        var btn = document.getElementById('btnReadText');
-        if (btn) {
-            btn.classList.remove('active');
-            btn.querySelector('span').innerText = 'Baca Teks';
+        if (btnReadText) {
+            btnReadText.classList.remove('active');
+            var span = btnReadText.querySelector('span');
+            if (span) span.innerText = 'Baca Teks';
         }
     }
 
-    window.resetAccessibility = function () {
-        currentFontSize = 100;
-        updateFontSize();
-        document.body.classList.remove('accessibility-grayscale', 'accessibility-high-contrast', 'accessibility-underlined', 'accessibility-big-cursor');
-        stopReading();
-        document.querySelectorAll('.accessibility-btn').forEach(function (btn) {
-            btn.classList.remove('active');
+    if (btnReadText) {
+        btnReadText.addEventListener('click', function () {
+            if (!isReadMode) {
+                isReadMode = true;
+                this.classList.add('active');
+                var span = this.querySelector('span');
+                if (span) span.innerText = 'Berhenti Membaca';
+                startReading();
+            } else {
+                stopReading();
+            }
         });
-    };
+    }
+
+    if (btnReset) {
+        btnReset.addEventListener('click', function () {
+            currentFontSize = 100;
+            updateFontSize();
+            document.body.classList.remove('accessibility-grayscale', 'accessibility-high-contrast', 'accessibility-underlined', 'accessibility-big-cursor');
+            stopReading();
+            document.querySelectorAll('.accessibility-btn').forEach(function (btn) {
+                btn.classList.remove('active');
+            });
+        });
+    }
 
     // ============================
     // FORM CEK GIZI
@@ -444,23 +376,15 @@ document.addEventListener('DOMContentLoaded', function () {
         formCekGizi.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            var umur = parseFloat(document.getElementById('umur').value);
             var tinggiBadan = parseFloat(document.getElementById('tinggiBadan').value);
-            var beratBadan = parseFloat(document.getElementById('beratBadan').value);
-
+            var beratBadan  = parseFloat(document.getElementById('beratBadan').value);
             var tinggiMeter = tinggiBadan / 100;
             var bmi = beratBadan / (tinggiMeter * tinggiMeter);
 
-            var status = '';
-            var kategori = '';
-            var deskripsi = '';
-            var rekomendasi = [];
-            var source = 'Kemenkes RI';
+            var status, kategori, deskripsi, rekomendasi, source;
 
             if (bmi < 18.5) {
-                status = 'Berat Kurang (Underweight)';
-                kategori = 'Underweight';
-                source = 'Kemenkes RI';
+                status = 'Berat Kurang (Underweight)'; kategori = 'Underweight'; source = 'Kemenkes RI';
                 deskripsi = 'Indeks Massa Tubuh (IMT) Anda di bawah batas normal. Kondisi ini dapat menurunkan daya tahan tubuh dan meningkatkan risiko infeksi.';
                 rekomendasi = [
                     'Tingkatkan frekuensi makan menjadi 5-6 kali sehari dengan porsi kecil tapi sering.',
@@ -468,10 +392,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     'Hindari minum air sebelum makan agar lambung tidak cepat penuh.',
                     'Konsultasikan dengan Ahli Gizi Puskesmas terdekat untuk pengaturan menu.'
                 ];
-            } else if (bmi >= 18.5 && bmi < 25.0) {
-                status = 'Normal (Ideal)';
-                kategori = 'Normal';
-                source = 'WHO (World Health Organization)';
+            } else if (bmi < 25.0) {
+                status = 'Normal (Ideal)'; kategori = 'Normal'; source = 'WHO (World Health Organization)';
                 deskripsi = 'Selamat! Status gizi Anda optimal. Menurut WHO, menjaga IMT normal secara konsisten dapat menurunkan risiko penyakit jantung, stroke, dan diabetes tipe 2 secara signifikan.';
                 rekomendasi = [
                     'Pertahankan pola makan gizi seimbang "Isi Piringku".',
@@ -479,10 +401,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     'Jaga hidrasi dengan minum 8 gelas air per hari.',
                     'Lakukan cek kesehatan rutin setiap 6 bulan.'
                 ];
-            } else if (bmi >= 25.0 && bmi < 30.0) {
-                status = 'Berat Lebih (Overweight)';
-                kategori = 'Overweight';
-                source = 'Kemenkes RI';
+            } else if (bmi < 30.0) {
+                status = 'Berat Lebih (Overweight)'; kategori = 'Overweight'; source = 'Kemenkes RI';
                 deskripsi = 'Berat badan Anda berlebih. Kelebihan berat badan awal dapat menjadi faktor risiko sindrom metabolik jika tidak dikendalikan.';
                 rekomendasi = [
                     'Kurangi asupan gula, garam, dan lemak (GGL).',
@@ -491,9 +411,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     'Batasi camilan tinggi kalori.'
                 ];
             } else {
-                status = 'Obesitas';
-                kategori = 'Obese';
-                source = 'WHO (World Health Organization)';
+                status = 'Obesitas'; kategori = 'Obese'; source = 'WHO (World Health Organization)';
                 deskripsi = 'Perhatian Khusus. Obesitas adalah penyakit kronis yang memerlukan penanganan medis untuk mencegah komplikasi seperti hipertensi dan gangguan sendi.';
                 rekomendasi = [
                     'Segera konsultasikan ke Dokter atau Klinik Gizi di Puskesmas/RSUD.',
@@ -510,9 +428,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('expertSource').textContent = '- Berdasarkan Standar ' + source;
 
             var sourceBadge = document.querySelector('.badge.bg-soft-primary');
-            if (sourceBadge) {
-                sourceBadge.innerHTML = '<i class="bi bi-patch-check me-1"></i>Sumber: ' + source;
-            }
+            if (sourceBadge) sourceBadge.innerHTML = '<i class="bi bi-patch-check me-1"></i>Sumber: ' + source;
 
             var listaRekomendasi = document.getElementById('listaRekomendasi');
             if (listaRekomendasi) {
@@ -530,87 +446,60 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    window.resetGiziForm = function () {
-        document.getElementById('formCekGizi').reset();
-        document.getElementById('hasilGizi').classList.remove('show');
-        document.getElementById('giziFormContainer').style.display = 'block';
-        document.getElementById('giziModalTitle').innerText = 'Form Cek Gizi';
-    };
+    var btnResetGizi = document.getElementById('btnResetGizi');
+    if (btnResetGizi) {
+        btnResetGizi.addEventListener('click', function () {
+            document.getElementById('formCekGizi').reset();
+            document.getElementById('hasilGizi').classList.remove('show');
+            document.getElementById('giziFormContainer').style.display = 'block';
+            document.getElementById('giziModalTitle').innerText = 'Form Cek Gizi';
+        });
+    }
 
     // ============================
-    // NAVIGASI HALAMAN
+    // NAVIGASI HALAMAN (SPA)
     // ============================
     var sections = document.querySelectorAll('section');
     var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
 
-    function hideAllSections() {
-        sections.forEach(function (section) {
-            section.classList.remove('active');
-        });
-    }
-
-    function showSection(id) {
-        var targetSection = document.getElementById(id);
-        if (targetSection) {
-            hideAllSections();
-            targetSection.classList.add('active');
-            window.scrollTo({
-                top: targetSection.offsetTop - 80,
-                behavior: 'smooth'
-            });
-        }
-    }
-
-    // Bind SPA navigation only if home sections are present
     if (sections.length && document.getElementById('beranda')) {
+        function hideAllSections() {
+            sections.forEach(function (s) { s.classList.remove('active'); });
+        }
+
         navLinks.forEach(function (link) {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
                 var targetId = this.getAttribute('href').substring(1);
-                showSection(targetId);
+                var target = document.getElementById(targetId);
+                if (target) {
+                    hideAllSections();
+                    target.classList.add('active');
+                    window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+                }
             });
         });
 
-        // Setup awal
         hideAllSections();
-        var berandaSection = document.getElementById('beranda');
-        if (berandaSection) berandaSection.classList.add('active');
+        document.getElementById('beranda').classList.add('active');
     }
 
     // ============================
     // NAVIGASI DETAIL
     // ============================
     var btnLihatDetail = document.getElementById('btnLihatDetail');
-    if (btnLihatDetail) {
-        btnLihatDetail.addEventListener('click', function () {
-            window.location.href = '/data-detail';
-        });
-    }
+    if (btnLihatDetail) btnLihatDetail.addEventListener('click', function () {
+        window.location.href = '/detail-data';
+    });
 
     var btnSelengkapnyaRegulasi = document.querySelector('.btn-selengkapnya-regulasi');
-    if (btnSelengkapnyaRegulasi) {
-        btnSelengkapnyaRegulasi.addEventListener('click', function () {
-            window.location.href = '/regulasi-detail';
-        });
-    }
+    if (btnSelengkapnyaRegulasi) btnSelengkapnyaRegulasi.addEventListener('click', function () {
+        window.location.href = '/detail-regulasi';
+    });
 
     var faqBtn = document.getElementById('faqBtn');
-    if (faqBtn) {
-        faqBtn.addEventListener('click', function () {
-            window.location.href = '/faq-detail';
-        });
-    }
-
-    // ============================
-    // SCROLL DATA SLIDER
-    // ============================
-    window.scrollSlider = function (direction) {
-        var slider = document.getElementById('slider');
-        if (!slider) return;
-        var firstItem = slider.querySelector('div[style*="min-width"]') || slider.firstElementChild;
-        var gap = 20;
-        var itemWidth = firstItem ? (firstItem.offsetWidth + gap) : 360;
-        slider.scrollBy({ left: direction * itemWidth, behavior: 'smooth' });
-    };
+    if (faqBtn) faqBtn.addEventListener('click', function () {
+        window.location.href = '/detail-faq';
+    });
 
 }); // Akhir DOMContentLoaded

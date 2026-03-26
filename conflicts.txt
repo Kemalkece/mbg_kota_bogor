@@ -1,0 +1,13 @@
+app/Filament/Admin/Pages/Auth/Login.php
+app/Filament/Admin/Resources/Berita/Schemas/BeritaForm.php
+app/Filament/Admin/Resources/DataPenyaluran/Schemas/DataPenyaluranForm.php
+app/Filament/Admin/Resources/FAQ/Schemas/FAQForm.php
+app/Filament/Admin/Resources/Regulasi/Schemas/RegulasiForm.php
+app/Filament/Admin/Resources/Sasaran/Schemas/SasaranForm.php
+app/Models/User.php
+app/Providers/AppServiceProvider.php
+app/Providers/Filament/AdminPanelProvider.php
+database/seeders/DatabaseSeeder.php
+resources/views/components/detail/detail_regulasi.blade.php
+routes/console.php
+routes/web.php

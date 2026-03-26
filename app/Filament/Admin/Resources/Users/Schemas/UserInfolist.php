@@ -23,7 +23,6 @@ class UserInfolist
                 TextEntry::make('updated_at')
                     ->dateTime()
                     ->placeholder('-'),
-                TextEntry::make('user_type'),
                 TextEntry::make('role'),
                 TextEntry::make('instansi')
                     ->placeholder('-'),

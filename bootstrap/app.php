@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Middleware global: tambahkan security headers ke semua response.
         $middleware->append(\App\Http\Middleware\SecurityHeadersMiddleware::class);
+        $middleware->append(\App\Http\Middleware\TrackVisitors::class);
 
         // Tambahkan CORS middleware ke API group.
         $middleware->api(prepend: [

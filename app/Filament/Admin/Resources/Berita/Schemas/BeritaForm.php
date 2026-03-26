@@ -16,12 +16,12 @@ class BeritaForm
             TextInput::make('judul')
                 ->label('Judul')
                 ->required()
-                ->maxLength(255)
+                ->maxLength(100)
                 ->regex('/^[^<>]*$/')
                 ->validationMessages([
                     'regex' => 'Judul tidak boleh mengandung karakter script atau HTML.',
                 ])
-                ->helperText('Maksimal 255 karakter.'),
+                ->helperText('Maksimal 100 karakter.'),
 
             FileUpload::make('gambar')
                 ->label('Gambar')

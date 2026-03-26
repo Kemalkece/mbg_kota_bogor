@@ -26,19 +26,6 @@ class UserForm
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->maxLength(255),
-                \Filament\Forms\Components\Select::make('user_type')
-                    ->label('Tipe Pengguna')
-                    ->options([
-                        'Perangkat Daerah' => 'Perangkat Daerah',
-                        'Publik' => 'Publik',
-                    ])
-                    ->required()
-                    ->default('Publik')
-                    ->disabled(function() {
-                        /** @var \App\Models\User|null $user */
-                        $user = \Illuminate\Support\Facades\Auth::user();
-                        return ! ($user?->isSuperAdmin() ?? false);
-                    }),
                 \Filament\Forms\Components\Select::make('role')
                     ->label('Peran (Role)')
                     ->options([
@@ -48,7 +35,7 @@ class UserForm
                     ])
                     ->required()
                     ->default('admin')
-                    ->disabled(function() {
+                    ->disabled(function () {
                         /** @var \App\Models\User|null $user */
                         $user = \Illuminate\Support\Facades\Auth::user();
                         return ! ($user?->isSuperAdmin() ?? false);
@@ -57,7 +44,7 @@ class UserForm
                     ->label('Instansi / OPD')
                     ->maxLength(100)
                     ->regex('/^[^<>]*$/')
-                    ->disabled(function() {
+                    ->disabled(function () {
                         /** @var \App\Models\User|null $user */
                         $user = \Illuminate\Support\Facades\Auth::user();
                         return ! ($user?->isSuperAdmin() ?? false);

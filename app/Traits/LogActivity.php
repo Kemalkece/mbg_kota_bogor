@@ -57,7 +57,7 @@ trait LogActivity
                 'model_type' => $modelName,
                 'model_id' => $modelId,
                 'model_name' => $modelName,
-                'changes' => $changes ? json_encode($changes) : null,
+                'changes' => $changes,
                 'description' => $description ?? ($email ? "Login attempt untuk email: $email" : 'Aktivitas tanpa deskripsi'),
                 'ip_address' => Request::ip(),
                 'user_agent' => Request::userAgent(),

@@ -43,64 +43,6 @@
                            <input type="text" placeholder="Masukkan nama kecamatan atau sekolah..."
                                style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 10px;">
                        </div>
-                       <div class="map-control-group" id="provinsiCombo">
-                           <label class="map-label">Filter Provinsi</label>
-
-                           <input type="text" class="map-combobox" placeholder="Ketik atau pilih provinsi..."
-                               autocomplete="off">
-
-                           <div class="combo-dropdown">
-                               <div class="combo-option">Semua Provinsi</div>
-                               <div class="combo-option">DKI Jakarta</div>
-                               <div class="combo-option">Jawa Barat</div>
-                               <div class="combo-option">Jawa Tengah</div>
-                               <div class="combo-option">Jawa Timur</div>
-                               <div class="combo-option">Banten</div>
-                           </div>
-                       </div>
-                       <script nonce="{{ Vite::cspNonce() }}">
-                           const combo = document.getElementById('provinsiCombo');
-                           const input = combo.querySelector('.map-combobox');
-                           const dropdown = combo.querySelector('.combo-dropdown');
-                           const options = combo.querySelectorAll('.combo-option');
-
-                           /* buka dropdown */
-                           input.addEventListener('focus', () => {
-                               dropdown.classList.add('show');
-                           });
-
-                           /* filter */
-                           input.addEventListener('input', () => {
-                               const val = input.value.toLowerCase();
-                               options.forEach(opt => {
-                                   opt.style.display = opt.textContent.toLowerCase().includes(val) ?
-                                       'block' :
-                                       'none';
-                               });
-                           });
-
-                           /* klik option */
-                           options.forEach(opt => {
-                               opt.addEventListener('click', () => {
-                                   input.value = opt.textContent;
-                                   dropdown.classList.remove('show');
-                               });
-                           });
-
-                           /* 🔥 INI KUNCINYA — KLIK LUAR = TUTUP */
-                           document.addEventListener('mousedown', (e) => {
-                               if (!combo.contains(e.target)) {
-                                   dropdown.classList.remove('show');
-                               }
-                           });
-
-                           /* optional: pas input blur */
-                           input.addEventListener('blur', () => {
-                               setTimeout(() => {
-                                   dropdown.classList.remove('show');
-                               }, 150);
-                           });
-                       </script>
 
                    </div>
                </div>

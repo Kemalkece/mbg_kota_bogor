@@ -21,10 +21,6 @@ class UsersTable
                 TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
-                TextColumn::make('user_type')
-                    ->label('Tipe')
-                    ->badge()
-                    ->color('info'),
                 TextColumn::make('role')
                     ->label('Peran')
                     ->badge()

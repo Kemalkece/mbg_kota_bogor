@@ -9,6 +9,8 @@ class CreateSasaran extends CreateRecord
 {
     protected static string $resource = SasaranResource::class;
 
+    protected static bool $canCreateAnother = false;
+
     public function afterCreate(): void
     {
         $this->redirect($this->getResource()::getUrl('index'));

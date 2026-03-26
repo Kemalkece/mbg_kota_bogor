@@ -26,11 +26,11 @@
                         </a>
                     </li>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-
-                    <button onclick="window.location.href='/detail-faq'" class="btn-faq mt-4">
-                        Selengkapnya
-                    </button>
                 </ul>
+
+                <a href="/detail-faq" class="btn-faq mt-4">
+                    Selengkapnya
+                </a>
             </div>
 
             <!-- Content -->
@@ -68,8 +68,8 @@
                         <div class="faq-poin-wrapper pb-2 border-b border-gray-200">
                             <ul class="list-none pl-0" style="margin:0; list-style:none; padding-left:0;">
                                 <?php
-                                    $poin = array_filter(array_map('trim', explode("\n", $item->penjelasan)));
-                                    $poin = array_slice($poin, 0, 6);
+                                $poin = array_filter(array_map('trim', explode("\n", $item->penjelasan)));
+                                $poin = array_slice($poin, 0, 6);
                                 ?>
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $poin; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $point): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <li class="flex items-start gap-2 text-sm text-gray-600" style="margin-bottom:4px;">

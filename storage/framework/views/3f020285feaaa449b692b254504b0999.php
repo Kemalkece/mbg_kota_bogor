@@ -36,11 +36,10 @@ unset($__defined_vars, $__key, $__value); ?>
                 dan berkualitas.</p>
         </div>
 
-        <div class="sasaran-slider-wrapper" data-aos="fade-up">
+        <div class="sasaran-slider-wrapper" data-aos="fade-up" style="position:relative;">
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($sasarans->isEmpty()): ?>
             <div style="background:white;border-radius:24px;border:1px solid #F0F4F8;box-shadow:0 8px 30px rgba(0,0,0,0.06);padding:60px 40px;text-align:center;width:100%;">
                 <div style="display:flex;justify-content:center;gap:12px;margin-bottom:28px;">
-                    
                     <div style="width:70px;height:90px;border-radius:14px;background:linear-gradient(135deg,#F0F4FF,#E8EFFF);border:1px dashed #C7D7F5;opacity:1;"></div>
                     <div style="width:70px;height:90px;border-radius:14px;background:linear-gradient(135deg,#F0F4FF,#E8EFFF);border:1px dashed #C7D7F5;opacity:0.6;"></div>
                     <div style="width:70px;height:90px;border-radius:14px;background:linear-gradient(135deg,#F0F4FF,#E8EFFF);border:1px dashed #C7D7F5;opacity:0.3;"></div>
@@ -54,12 +53,12 @@ unset($__defined_vars, $__key, $__value); ?>
                 </p>
             </div>
             <?php else: ?>
-            <button class="slider-nav prev" onclick="slideSasaran(-1)">
+            
+            <button id="sasaranPrev" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);z-index:99999;width:50px;height:50px;border-radius:50%;border:none;background:white;box-shadow:0 4px 12px rgba(0,0,0,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;">
                 <i class="bi bi-chevron-left"></i>
             </button>
 
             <div class="sasaran-slider-container" id="sasaranSlider">
-                <!-- Card 1: Text Info (Always show first if there is data) -->
                 <div class="sasaran-slider-item">
                     <div class="flip-card">
                         <div class="flip-card-inner">
@@ -71,15 +70,13 @@ unset($__defined_vars, $__key, $__value); ?>
                             <div class="flip-card-back">
                                 <h3>Komitmen Kami</h3>
                                 <p>Melayani seluruh lapisan masyarakat dari Sabang sampai Merauke dengan standar
-                                    gizi
-                                    terbaik dan pengawasan ketat demi masa depan bangsa.</p>
+                                    gizi terbaik dan pengawasan ketat demi masa depan bangsa.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $sasarans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <!-- Card: Dynamic Sasaran Item -->
                 <div class="sasaran-slider-item">
                     <div class="flip-card">
                         <div class="flip-card-inner">
@@ -97,9 +94,11 @@ unset($__defined_vars, $__key, $__value); ?>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
 
-            <button class="slider-nav next" onclick="slideSasaran(1)">
+            
+            <button id="sasaranNext" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);z-index:9999;width:50px;height:50px;border-radius:50%;border:none;background:white;box-shadow:0 4px 12px rgba(0,0,0,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;transition:all 0.3s ease;">
                 <i class="bi bi-chevron-right"></i>
             </button>
             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
+    </div>
 </section><?php /**PATH C:\laragon\www\mbg_kota_bogor\resources\views/components/sasaran.blade.php ENDPATH**/ ?>

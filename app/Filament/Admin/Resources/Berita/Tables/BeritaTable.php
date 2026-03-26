@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Berita\Tables;
 
+use Illuminate\Support\Str;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -22,9 +23,7 @@ class BeritaTable
 
                 TextColumn::make('deskripsi')
                     ->label('Deskripsi')
-                    ->limit(50)
-                    ->formatStateUsing(fn ($state) => strip_tags($state)),
-
+                    ->formatStateUsing(fn ($state) => Str::limit(strip_tags($state), 50)),
 
                 ImageColumn::make('gambar')
                     ->label('Gambar')

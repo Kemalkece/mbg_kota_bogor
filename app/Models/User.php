@@ -29,7 +29,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'name',
         'email',
         'password',
-        'user_type',
         'instansi',
         'role',
         'force_password_change',

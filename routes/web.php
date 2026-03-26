@@ -10,6 +10,8 @@ use App\Http\Controllers\ChangePasswordController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
+use App\Http\Controllers\DataPenyaluranController;
+
 // Redirect login ke Filament
 Route::get('/login', function () {
     return redirect('/admin/login');
@@ -50,9 +52,7 @@ Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show
 Route::get('/sasaran', [SasaranController::class, 'index'])->name('sasaran');
 Route::get('/hero', [BeritaController::class, 'index'])->name('hero');
 
-Route::get('/detail-data', function () {
-    return view('components.detail.detail_data');
-})->name('detail_data');
+Route::get('/detail-data', [DataPenyaluranController::class, 'apiDataPenyaluran'])->name('detail_data');
 
 Route::get('/detail-regulasi', [RegulasiController::class, 'index'])->name('detail_regulasi');
 

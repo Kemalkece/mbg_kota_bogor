@@ -359,9 +359,10 @@ body {
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    z-index: 10;
+    z-index: 500 !important;
     color: white;
     font-size: 1.2rem;
+    pointer-events: auto !important;
 }
 
 .carousel-arrow:hover {
@@ -420,7 +421,7 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 10;
+    z-index: 500 !important;
     width: 46px;
     height: 46px;
     border-radius: 50%;
@@ -428,6 +429,7 @@ body {
     background: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
     cursor: pointer;
+    pointer-events: auto !important;
 }
 
 .slider-btn:hover {
@@ -437,16 +439,14 @@ body {
 
 .slider-btn:hover i {
     color: #fff;
-    /* ini bikin icon jadi putih */
 }
 
-
 .slider-btn.prev {
-    left: -28px;
+    left: 10px;
 }
 
 .slider-btn.next {
-    right: -28px;
+    right: 10px;
 }
 
 .slider-btn i {
@@ -2154,8 +2154,10 @@ body {
     width: 220px;
     padding: 12px 16px;
 
- background: rgba(255, 255, 255, 0.08); /* merah transparan */
-    backdrop-filter: blur(10px); /* efek kaca */
+    background: rgba(255, 255, 255, 0.08);
+    /* merah transparan */
+    backdrop-filter: blur(10px);
+    /* efek kaca */
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -2166,7 +2168,8 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
-    color: rgba(255,255,255,0.8); /* semi-transparent white */
+    color: rgba(255, 255, 255, 0.8);
+    /* semi-transparent white */
 }
 
 /* Newsletter */
@@ -2479,7 +2482,7 @@ body {
 
 .stat-value-w {
     font-weight: 700;
-    color: rgba(255,255,255,0.9);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 
@@ -3309,12 +3312,12 @@ body {
     justify-content: center;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
     cursor: pointer;
-    z-index: 100;
+    z-index: 500 !important;
     /* Higher z-index */
     border: 1px solid #eee;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     color: #071E49;
-    pointer-events: auto;
+    pointer-events: auto !important;
 }
 
 .slider-nav:hover {

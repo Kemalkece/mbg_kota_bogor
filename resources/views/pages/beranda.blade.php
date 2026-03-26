@@ -2,6 +2,7 @@
 
 @section('content')
 <!-- Navbar -->
+<!-- TEST BUTTON FOR CAROUSEL -->
 
 <!-- Hero Section -->
 <x-hero :beritas="$beritas" />

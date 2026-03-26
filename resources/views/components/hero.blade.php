@@ -58,10 +58,10 @@
                         </div>
                         @endforeach
                     </div>
-                    <button class="carousel-arrow prev" onclick="moveCarousel(-1)">
+                    <button class="carousel-arrow prev" id="carouselPrev">
                         <i class="bi bi-chevron-left"></i>
                     </button>
-                    <button class="carousel-arrow next" onclick="moveCarousel(1)">
+                    <button class="carousel-arrow next" id="carouselNext">
                         <i class="bi bi-chevron-right"></i>
                     </button>
 

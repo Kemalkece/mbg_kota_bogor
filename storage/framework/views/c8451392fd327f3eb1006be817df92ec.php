@@ -1,5 +1,6 @@
 <?php $__env->startSection('content'); ?>
 <!-- Navbar -->
+<!-- TEST BUTTON FOR CAROUSEL -->
 
 <!-- Hero Section -->
 <?php if (isset($component)) { $__componentOriginal04f02f1e0f152287a127192de01fe241 = $component; } ?>

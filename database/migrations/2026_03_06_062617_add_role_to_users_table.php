@@ -12,8 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->enum('role', ['user', 'admin', 'super_admin'])->default('user')->after('password');
-            $table->boolean('is_active')->default(true)->after('role');
+            if (!Schema::hasColumn('users', 'role')) {
+                $table->enum('role', ['user', 'admin', 'super_admin'])->default('user')->after('password');
+            } else {
+                // If it exists as a string from previous migration, we might want to change it to enum
+                $table->enum('role', ['user', 'admin', 'super_admin'])->default('user')->change();
+            }
+
+            if (!Schema::hasColumn('users', 'is_active')) {
+                $table->boolean('is_active')->default(true)->after('role');
+            }
         });
     }
 

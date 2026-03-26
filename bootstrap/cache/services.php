@@ -44,10 +44,12 @@
     40 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     41 => 'Termwind\\Laravel\\TermwindServiceProvider',
     42 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
-    43 => 'Spatie\\Honeypot\\HoneypotServiceProvider',
-    44 => 'App\\Providers\\AppServiceProvider',
-    45 => 'App\\Providers\\Filament\\AdminPanelProvider',
-    46 => 'App\\Providers\\FilamentServiceProvider',
+    43 => 'Spatie\\Backup\\BackupServiceProvider',
+    44 => 'Spatie\\Honeypot\\HoneypotServiceProvider',
+    45 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
+    46 => 'App\\Providers\\AppServiceProvider',
+    47 => 'App\\Providers\\Filament\\AdminPanelProvider',
+    48 => 'App\\Providers\\FilamentServiceProvider',
   ),
   'eager' => 
   array (
@@ -79,10 +81,12 @@
     25 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     26 => 'Termwind\\Laravel\\TermwindServiceProvider',
     27 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
-    28 => 'Spatie\\Honeypot\\HoneypotServiceProvider',
-    29 => 'App\\Providers\\AppServiceProvider',
-    30 => 'App\\Providers\\Filament\\AdminPanelProvider',
-    31 => 'App\\Providers\\FilamentServiceProvider',
+    28 => 'Spatie\\Backup\\BackupServiceProvider',
+    29 => 'Spatie\\Honeypot\\HoneypotServiceProvider',
+    30 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
+    31 => 'App\\Providers\\AppServiceProvider',
+    32 => 'App\\Providers\\Filament\\AdminPanelProvider',
+    33 => 'App\\Providers\\FilamentServiceProvider',
   ),
   'deferred' => 
   array (
