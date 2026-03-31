@@ -42,7 +42,7 @@ unset($__defined_vars, $__key, $__value); ?>
     dir="<?php echo e(__('filament-panels::layout.direction') ?? 'ltr'); ?>"
     class="<?php echo \Illuminate\Support\Arr::toCssClasses([
         'fi',
-        'dark' => filament()->hasDarkModeForced(),
+        'dark' => filament()->hasDarkMode() && filament()->hasDarkModeForced(),
     ]); ?>"
 >
     <head>
@@ -63,7 +63,11 @@ unset($__defined_vars, $__key, $__value); ?>
         ?>
 
         <title>
-            <?php echo e(filled($title) ? "{$title} - " : null); ?> <?php echo e($brandName); ?>
+            <?php echo e(filled($title) ? $title : null); ?>
+
+            <?php echo e(filled($brandName) && filled($title) ? ' - ' : null); ?>
+
+            <?php echo e(filled($brandName) ? $brandName : null); ?>
 
         </title>
 
@@ -98,6 +102,12 @@ unset($__defined_vars, $__key, $__value); ?>
 
         <?php echo e(filament()->getTheme()->getHtml()); ?>
 
+        <?php echo e(filament()->getFontPreloadHtml()); ?>
+
+        <?php echo e(filament()->getMonoFontPreloadHtml()); ?>
+
+        <?php echo e(filament()->getSerifFontPreloadHtml()); ?>
+
         <?php echo e(filament()->getFontHtml()); ?>
 
         <?php echo e(filament()->getMonoFontHtml()); ?>
@@ -113,6 +123,10 @@ unset($__defined_vars, $__key, $__value); ?>
                 --sidebar-width: <?php echo e(filament()->getSidebarWidth()); ?>;
                 --collapsed-sidebar-width: <?php echo e(filament()->getCollapsedSidebarWidth()); ?>;
                 --default-theme-mode: <?php echo e(filament()->getDefaultThemeMode()->value); ?>;
+            }
+
+            html.fi {
+                --livewire-progress-bar-color: var(--primary-500);
             }
         </style>
 
@@ -175,15 +189,16 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split(Filament\Livewire\Notifications::class);
 
-$key = null;
+$__key = null;
 
-$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-3254880600-0', null);
+$__key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-3254880600-0', $__key);
 
-$__html = app('livewire')->mount($__name, $__params, $key);
+$__html = app('livewire')->mount($__name, $__params, $__key);
 
 echo $__html;
 
 unset($__html);
+unset($__key);
 unset($__name);
 unset($__params);
 unset($__split);
@@ -203,7 +218,7 @@ if (isset($__slots)) unset($__slots);
             </script>
         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-        <?php if(filament()->hasDarkMode() && (! filament()->hasDarkModeForced())): ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(filament()->hasDarkMode() && (! filament()->hasDarkModeForced())): ?>
             <script>
                 loadDarkMode()
             </script>

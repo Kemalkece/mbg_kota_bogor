@@ -90,6 +90,10 @@ unset($__defined_vars, $__key, $__value); ?>
     if ($hasLoadingIndicator) {
         $loadingIndicatorTarget = html_entity_decode($wireTarget, ENT_QUOTES);
     }
+
+    $hasFocusInputListener = $attributes->has('x-on:focus-input.stop');
+    $canClickPrefixAffix = $hasFocusInputListener && ($prefixIcon || filled($prefix));
+    $canClickSuffixAffix = $hasFocusInputListener && ($suffixIcon || filled($suffix));
 ?>
 
 <div
@@ -117,6 +121,9 @@ unset($__defined_vars, $__key, $__value); ?>
                 wire:target="<?php echo e($loadingIndicatorTarget); ?>"
                 wire:key="<?php echo e(\Illuminate\Support\Str::random()); ?>" 
             <?php endif; ?>
+            <?php if($canClickPrefixAffix): ?>
+                x-on:click="$dispatch('focus-input')"
+            <?php endif; ?>
             class="<?php echo \Illuminate\Support\Arr::toCssClasses([
                 'fi-input-wrp-prefix',
                 'fi-input-wrp-prefix-has-content' => $hasPrefix,
@@ -125,7 +132,10 @@ unset($__defined_vars, $__key, $__value); ?>
             ]); ?>"
         >
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($prefixActions)): ?>
-                <div class="fi-input-wrp-actions">
+                <div
+                    class="<?php echo \Illuminate\Support\Arr::toCssClasses(['fi-input-wrp-actions']); ?>"
+                    <?php if($canClickPrefixAffix): ?> x-on:click.stop <?php endif; ?>
+                >
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $prefixActions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $prefixAction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php echo e($prefixAction); ?>
 
@@ -177,6 +187,9 @@ unset($__defined_vars, $__key, $__value); ?>
 
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasSuffix): ?>
         <div
+            <?php if($canClickSuffixAffix): ?>
+                x-on:click="$dispatch('focus-input')"
+            <?php endif; ?>
             class="<?php echo \Illuminate\Support\Arr::toCssClasses([
                 'fi-input-wrp-suffix',
                 'fi-inline' => $inlineSuffix,
@@ -199,7 +212,10 @@ unset($__defined_vars, $__key, $__value); ?>
 
 
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($suffixActions)): ?>
-                <div class="fi-input-wrp-actions">
+                <div
+                    class="<?php echo \Illuminate\Support\Arr::toCssClasses(['fi-input-wrp-actions']); ?>"
+                    <?php if($canClickSuffixAffix): ?> x-on:click.stop <?php endif; ?>
+                >
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $suffixActions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $suffixAction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php echo e($suffixAction); ?>
 

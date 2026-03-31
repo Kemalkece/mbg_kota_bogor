@@ -70,20 +70,21 @@ unset($__defined_vars, $__key, $__value); ?>
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
-[$__name, $__params] = $__split(Filament\Livewire\DatabaseNotifications::class, [
+[$__name, $__params] = $__split(filament()->getDatabaseNotificationsLivewireComponent(), [
                         'lazy' => filament()->hasLazyLoadedDatabaseNotifications(),
                         'position' => \Filament\Enums\DatabaseNotificationsPosition::Topbar,
                     ]);
 
-$key = null;
+$__key = null;
 
-$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-277769491-0', null);
+$__key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-277769491-0', $__key);
 
-$__html = app('livewire')->mount($__name, $__params, $key);
+$__html = app('livewire')->mount($__name, $__params, $__key);
 
 echo $__html;
 
 unset($__html);
+unset($__key);
 unset($__name);
 unset($__params);
 unset($__split);
@@ -91,22 +92,23 @@ if (isset($__slots)) unset($__slots);
 ?>
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                <?php if(filament()->hasUserMenu()): ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(filament()->hasUserMenu()): ?>
                     <?php
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
 [$__name, $__params] = $__split(Filament\Livewire\SimpleUserMenu::class);
 
-$key = null;
+$__key = null;
 
-$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-277769491-1', null);
+$__key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-277769491-1', $__key);
 
-$__html = app('livewire')->mount($__name, $__params, $key);
+$__html = app('livewire')->mount($__name, $__params, $__key);
 
 echo $__html;
 
 unset($__html);
+unset($__key);
 unset($__name);
 unset($__params);
 unset($__split);

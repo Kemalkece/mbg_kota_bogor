@@ -1,3 +1,34 @@
+// ============================
+// FAB TOGGLE FUNCTION
+// ============================
+function toggleFab() {
+    const fab = document.getElementById('radialFab');
+    if (fab) {
+        fab.classList.toggle('active');
+    }
+}
+
+// Close FAB when clicking outside
+document.addEventListener('click', function (event) {
+    const fab = document.getElementById('radialFab');
+    if (fab && !fab.contains(event.target) && fab.classList.contains('active')) {
+        fab.classList.remove('active');
+    }
+});
+
+// ============================
+// RESET GIZI FORM FUNCTION
+// ============================
+function resetGiziForm() {
+    var form = document.getElementById('formCekGizi');
+    if (form) {
+        form.reset();
+    }
+    document.getElementById('hasilGizi').classList.remove('show');
+    document.getElementById('giziFormContainer').style.display = 'block';
+    document.getElementById('giziModalTitle').innerText = 'Form Cek Gizi';
+}
+
 document.addEventListener('DOMContentLoaded', function () {
 
     // ============================

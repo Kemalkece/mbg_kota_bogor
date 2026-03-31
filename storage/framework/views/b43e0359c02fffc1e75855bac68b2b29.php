@@ -157,7 +157,7 @@ unset($__defined_vars, $__key, $__value); ?>
                 <?php echo e($beforeLabelSchema); ?>
 
 
-                <?php if((filled($label) && (! $labelSrOnly)) || $labelPrefix || $labelSuffix): ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if((filled($label) && (! $labelSrOnly)) || $labelPrefix || $labelSuffix): ?>
                     <<?php echo e($labelTag); ?>
 
                         <?php if($labelTag === 'label'): ?>
@@ -170,7 +170,7 @@ unset($__defined_vars, $__key, $__value); ?>
                         <?php echo e($labelPrefix); ?>
 
 
-                        <?php if(filled($label) && (! $labelSrOnly)): ?>
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(filled($label) && (! $labelSrOnly)): ?>
                             <span class="fi-fo-field-label-content">
                                 <?php echo e($label); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($required && (! $isDisabled)): ?><sup class="fi-fo-field-label-required-mark">*</sup>
                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>

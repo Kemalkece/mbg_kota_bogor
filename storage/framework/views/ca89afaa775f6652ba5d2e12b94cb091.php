@@ -175,6 +175,8 @@ unset($__defined_vars, $__key, $__value); ?>
             'fi-modal',
             'fi-absolute-positioning-context',
             'fi-modal-slide-over' => $slideOver,
+            'fi-modal-has-sticky-header' => $stickyHeader,
+            'fi-modal-has-sticky-footer' => $stickyFooter,
             'fi-width-screen' => $width === Width::Screen,
         ])); ?>
 
@@ -198,7 +200,7 @@ unset($__defined_vars, $__key, $__value); ?>
         <<?php echo e(filled($wireSubmitHandler) ? 'form' : 'div'); ?>
 
             <?php if($closeByEscaping): ?>
-                x-on:keydown.window.escape="<?php echo e($closeEventHandler); ?>"
+                x-on:keydown.window.escape="if (isTopmost()) <?php echo e($closeEventHandler); ?>"
             <?php endif; ?>
             x-show="isWindowVisible"
             x-transition:enter="fi-transition-enter"
@@ -221,7 +223,6 @@ unset($__defined_vars, $__key, $__value); ?>
                     'fi-modal-window-has-content' => $hasContent,
                     'fi-modal-window-has-footer' => $hasFooter,
                     'fi-modal-window-has-icon' => $hasIcon,
-                    'fi-modal-window-has-sticky-header' => $stickyHeader,
                     'fi-hidden' => ! $visible,
                     ($alignment instanceof Alignment) ? "fi-align-{$alignment->value}" : null,
                     ($width instanceof Width) ? "fi-width-{$width->value}" : (is_string($width) ? $width : null),
@@ -235,7 +236,6 @@ unset($__defined_vars, $__key, $__value); ?>
                     <?php endif; ?>
                     class="<?php echo \Illuminate\Support\Arr::toCssClasses([
                         'fi-modal-header',
-                        'fi-sticky' => $stickyHeader,
                         'fi-vertical-align-center' => $hasIcon && $hasHeading && (! $hasDescription) && in_array($alignment, [Alignment::Start, Alignment::Left]),
                     ]); ?>"
                 >
@@ -314,7 +314,6 @@ unset($__defined_vars, $__key, $__value); ?>
                     <?php endif; ?>
                     class="<?php echo \Illuminate\Support\Arr::toCssClasses([
                         'fi-modal-footer',
-                        'fi-sticky' => $stickyFooter,
                         ($footerActionsAlignment instanceof Alignment) ? "fi-align-{$footerActionsAlignment->value}" : null,
                     ]); ?>"
                 >

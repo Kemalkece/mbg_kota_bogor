@@ -5,7 +5,9 @@
     $isAutofocused = $isAutofocused();
     $isDisabled = $isDisabled();
     $isMultiple = $isMultiple();
+    $isReorderable = $isReorderable();
     $isSearchable = $isSearchable();
+    $hasInitialNoOptionsMessage = $hasInitialNoOptionsMessage();
     $canOptionLabelsWrap = $canOptionLabelsWrap();
     $isRequired = $isRequired();
     $isConcealed = $isConcealed();
@@ -24,7 +26,7 @@
     $suffixIconColor = $getSuffixIconColor();
     $suffixLabel = $getSuffixLabel();
     $statePath = $getStatePath();
-    $state = $getState();
+    $state = $getRawState();
     $livewireKey = $getLivewireKey();
 ?>
 
@@ -40,7 +42,7 @@
 <?php $component->withAttributes(['field' => $field,'class' => 'fi-fo-select-wrp']); ?>
     <?php if (isset($component)) { $__componentOriginal505efd9768415fdb4543e8c564dad437 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal505efd9768415fdb4543e8c564dad437 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.input.wrapper','data' => ['disabled' => $isDisabled,'inlinePrefix' => $isPrefixInline,'inlineSuffix' => $isSuffixInline,'prefix' => $prefixLabel,'prefixActions' => $prefixActions,'prefixIcon' => $prefixIcon,'prefixIconColor' => $prefixIconColor,'suffix' => $suffixLabel,'suffixActions' => $suffixActions,'suffixIcon' => $suffixIcon,'suffixIconColor' => $suffixIconColor,'valid' => ! $errors->has($statePath),'attributes' => 
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.input.wrapper','data' => ['disabled' => $isDisabled,'inlinePrefix' => $isPrefixInline,'inlineSuffix' => $isSuffixInline,'prefix' => $prefixLabel,'prefixActions' => $prefixActions,'prefixIcon' => $prefixIcon,'prefixIconColor' => $prefixIconColor,'suffix' => $suffixLabel,'suffixActions' => $suffixActions,'suffixIcon' => $suffixIcon,'suffixIconColor' => $suffixIconColor,'valid' => ! $errors->has($statePath),'xOn:focusInput.stop' => $isNative ? '$el.querySelector(\'select\')?.focus()' : '$el.querySelector(\'.fi-select-input-btn\')?.focus()','attributes' => 
             \Filament\Support\prepare_inherited_attributes($getExtraAttributeBag())
                 ->class([
                     'fi-fo-select',
@@ -54,7 +56,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['disabled' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($isDisabled),'inline-prefix' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($isPrefixInline),'inline-suffix' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($isSuffixInline),'prefix' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($prefixLabel),'prefix-actions' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($prefixActions),'prefix-icon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($prefixIcon),'prefix-icon-color' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($prefixIconColor),'suffix' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($suffixLabel),'suffix-actions' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($suffixActions),'suffix-icon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($suffixIcon),'suffix-icon-color' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($suffixIconColor),'valid' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(! $errors->has($statePath)),'attributes' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(
+<?php $component->withAttributes(['disabled' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($isDisabled),'inline-prefix' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($isPrefixInline),'inline-suffix' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($isSuffixInline),'prefix' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($prefixLabel),'prefix-actions' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($prefixActions),'prefix-icon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($prefixIcon),'prefix-icon-color' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($prefixIconColor),'suffix' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($suffixLabel),'suffix-actions' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($suffixActions),'suffix-icon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($suffixIcon),'suffix-icon-color' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($suffixIconColor),'valid' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(! $errors->has($statePath)),'x-on:focus-input.stop' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($isNative ? '$el.querySelector(\'select\')?.focus()' : '$el.querySelector(\'.fi-select-input-btn\')?.focus()'),'attributes' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(
             \Filament\Support\prepare_inherited_attributes($getExtraAttributeBag())
                 ->class([
                     'fi-fo-select',
@@ -142,7 +144,6 @@
                 x-data="selectFormComponent({
                             canOptionLabelsWrap: <?php echo \Illuminate\Support\Js::from($canOptionLabelsWrap)->toHtml() ?>,
                             canSelectPlaceholder: <?php echo \Illuminate\Support\Js::from($canSelectPlaceholder)->toHtml() ?>,
-                            isHtmlAllowed: <?php echo \Illuminate\Support\Js::from($isHtmlAllowed)->toHtml() ?>,
                             getOptionLabelUsing: async () => {
                                 return await $wire.callSchemaComponentMethod(<?php echo \Illuminate\Support\Js::from($key)->toHtml() ?>, 'getOptionLabel')
                             },
@@ -165,19 +166,23 @@
                                     { search },
                                 )
                             },
+                            hasDynamicOptions: <?php echo \Illuminate\Support\Js::from($hasDynamicOptions())->toHtml() ?>,
+                            hasDynamicSearchResults: <?php echo \Illuminate\Support\Js::from($hasDynamicSearchResults())->toHtml() ?>,
+                            hasInitialNoOptionsMessage: <?php echo \Illuminate\Support\Js::from($hasInitialNoOptionsMessage)->toHtml() ?>,
                             initialOptionLabel: <?php echo \Illuminate\Support\Js::from((blank($state) || $isMultiple) ? null : $getOptionLabel())->toHtml() ?>,
                             initialOptionLabels: <?php echo \Illuminate\Support\Js::from((filled($state) && $isMultiple) ? $getOptionLabelsForJs() : [])->toHtml() ?>,
                             initialState: <?php echo \Illuminate\Support\Js::from($state)->toHtml() ?>,
                             isAutofocused: <?php echo \Illuminate\Support\Js::from($isAutofocused)->toHtml() ?>,
                             isDisabled: <?php echo \Illuminate\Support\Js::from($isDisabled)->toHtml() ?>,
+                            isHtmlAllowed: <?php echo \Illuminate\Support\Js::from($isHtmlAllowed)->toHtml() ?>,
                             isMultiple: <?php echo \Illuminate\Support\Js::from($isMultiple)->toHtml() ?>,
+                            isReorderable: <?php echo \Illuminate\Support\Js::from($isReorderable)->toHtml() ?>,
                             isSearchable: <?php echo \Illuminate\Support\Js::from($isSearchable)->toHtml() ?>,
                             livewireId: <?php echo \Illuminate\Support\Js::from($this->getId())->toHtml() ?>,
-                            hasDynamicOptions: <?php echo \Illuminate\Support\Js::from($hasDynamicOptions())->toHtml() ?>,
-                            hasDynamicSearchResults: <?php echo \Illuminate\Support\Js::from($hasDynamicSearchResults())->toHtml() ?>,
                             loadingMessage: <?php echo \Illuminate\Support\Js::from($getLoadingMessage())->toHtml() ?>,
                             maxItems: <?php echo \Illuminate\Support\Js::from($getMaxItems())->toHtml() ?>,
                             maxItemsMessage: <?php echo \Illuminate\Support\Js::from($getMaxItemsMessage())->toHtml() ?>,
+                            noOptionsMessage: <?php echo \Illuminate\Support\Js::from($getNoOptionsMessage())->toHtml() ?>,
                             noSearchResultsMessage: <?php echo \Illuminate\Support\Js::from($getNoSearchResultsMessage())->toHtml() ?>,
                             options: <?php echo \Illuminate\Support\Js::from($getOptionsForJs())->toHtml() ?>,
                             optionsLimit: <?php echo \Illuminate\Support\Js::from($getOptionsLimit())->toHtml() ?>,
@@ -193,6 +198,7 @@
                 wire:ignore
                 wire:key="<?php echo e($livewireKey); ?>.<?php echo e(substr(md5(serialize([
                         $isDisabled,
+                        $isReorderable,
                     ])), 0, 64)); ?>"
                 x-on:keydown.esc="select.dropdown.isActive && $event.stopPropagation()"
                 x-on:set-select-property="$event.detail.isDisabled ? select.disable() : select.enable()"

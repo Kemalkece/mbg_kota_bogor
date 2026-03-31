@@ -129,7 +129,7 @@ unset($__defined_vars, $__key, $__value); ?>
     <?php endif; ?>
     <?php if($keyBindings): ?>
         x-bind:id="$id('key-bindings')"
-        x-mousetrap.global.<?php echo e(collect($keyBindings)->map(fn (string $keyBinding): string => str_replace('+', '-', $keyBinding))->implode('.')); ?>="document.getElementById($el.id).click()"
+        x-mousetrap.global.<?php echo e(collect($keyBindings)->map(fn (string $keyBinding): string => str_replace('+', '-', $keyBinding))->implode('.')); ?>="document.getElementById($el.id)?.click()"
     <?php endif; ?>
     <?php if($hasTooltip): ?>
         x-tooltip="{

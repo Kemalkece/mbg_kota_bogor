@@ -64,6 +64,7 @@ unset($__defined_vars, $__key, $__value); ?>
                 "></div>
 
                 
+<<<<<<< HEAD
                 <div class="stat-icon" style="
                     width:56px;height:56px;border-radius:16px;
                     background:<?php echo e($stat['gradient']); ?>;
@@ -93,6 +94,14 @@ unset($__defined_vars, $__key, $__value); ?>
                 </div>
                 <div style="font-size:13px;color:#9CA3AF;font-weight:400;">
                     <?php echo e($stat['sublabel']); ?>
+=======
+                <button id="sliderPrev" style="position:absolute;top:50%;transform:translateY(-50%);left:-40px;width:50px;height:50px;border-radius:50%;border:none;background:white;box-shadow:0 4px 12px rgba(0,0,0,0.15);cursor:pointer;z-index:30;font-size:24px;display:flex;align-items:center;justify-content:center;color:#071E49;font-weight:bold;">
+                    ‹
+                </button>
+                <button id="sliderNext" style="position:absolute;top:50%;transform:translateY(-50%);right:-40px;width:50px;height:50px;border-radius:50%;border:none;background:white;box-shadow:0 4px 12px rgba(0,0,0,0.15);cursor:pointer;z-index:30;font-size:24px;display:flex;align-items:center;justify-content:center;color:#071E49;font-weight:bold;">
+                    ›
+                </button>
+>>>>>>> 7f9d534 (backup sebelum pull)
 
                 </div>
             </div>

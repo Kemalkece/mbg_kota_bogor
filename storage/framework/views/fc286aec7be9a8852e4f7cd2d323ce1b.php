@@ -74,6 +74,8 @@ unset($__defined_vars, $__key, $__value); ?>
 
 >
     <div
+        x-on:keyup.enter="toggle($event)"
+        x-on:keyup.space="toggle($event)"
         x-on:mousedown="if ($event.button === 0) toggle($event)"
         <?php echo e($trigger->attributes->class(['fi-dropdown-trigger'])); ?>
 

@@ -337,8 +337,8 @@
 
     /* ===== FLOATING MENU ===== */
     .floating-menu {
-      position: absolute;
-      top: 10 0px;
+      position: fixed;
+      top: 100px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -348,19 +348,27 @@
       background: #fff;
       box-shadow: 0 14px 35px rgba(0, 0, 0, 0.08);
       border: 2px solid #D1B06C;
-      z-index: 3;
+      z-index: 1000;
     }
 
     /* ===== ITEM ===== */
     .floating-item {
       padding: 14px 28px;
-      /* diperbesar */
       border-radius: 999px;
       font-size: 15px;
       font-weight: 700;
       color: #D1B06C;
       cursor: pointer;
-      transition: .25s;
+      transition: all 0.25s ease;
+      pointer-events: auto;
+      user-select: none;
+      background: transparent;
+      border: none;
+      display: inline-block;
+      min-width: 100px;
+      text-align: center;
+      position: relative;
+      z-index: 1001;
     }
 
     /* ===== HOVER ===== */
@@ -415,10 +423,10 @@
 
   <!-- FLOATING MENU -->
   <div class="floating-menu">
-    <div class="floating-item active" data-target="berandaPage">Beranda</div>
-    <div class="floating-item" data-target="filterPage">Penyaringan</div>
-    <div class="floating-item" data-target="chartPage">Grafik</div>
-    <div class="floating-item" data-target="rekapPage">Rekapitulasi</div>
+    <div class="floating-item active" data-target="berandaPage" onclick="switchPage('berandaPage')">Beranda</div>
+    <div class="floating-item" data-target="filterPage" onclick="switchPage('filterPage')">Penyaringan</div>
+    <div class="floating-item" data-target="chartPage" onclick="switchPage('chartPage')">Grafik</div>
+    <div class="floating-item" data-target="rekapPage" onclick="switchPage('rekapPage')">Rekapitulasi</div>
   </div>
 
   <!-- BERANDA -->
@@ -2699,15 +2707,51 @@ transition:.25s;
       }
     </script>
 
+<<<<<<< HEAD
     <script nonce="{{ Vite::cspNonce() }}">
       // Script untuk floating menu (Langsung dieksekusi tanpa DOMContentLoaded agar tidak gagal ter-bind jika ada async load)
       (function() {
+=======
+      // Function untuk switch page
+      function switchPage(pageId) {
+        console.log('Switching to:', pageId);
+        
+        // Hapus active dari semua floating items dan page sections
+        const floatingItems = document.querySelectorAll('.floating-item');
+        const pageSections = document.querySelectorAll('.page-section');
+        
+        floatingItems.forEach(item => item.classList.remove('active'));
+        pageSections.forEach(section => section.classList.remove('active'));
+        
+        // Tambah active ke item yang diklik
+        document.querySelector(`[data-target="${pageId}"]`).classList.add('active');
+        
+        // Tampilkan page section yang sesuai
+        const targetSection = document.getElementById(pageId);
+        if (targetSection) {
+          targetSection.classList.add('active');
+          
+          // Jika chartPage, inisialisasi chart
+          if (pageId === 'chartPage') {
+            setTimeout(initCharts, 100);
+          }
+        }
+      }
+
+      // Script untuk floating menu - lebih simple
+      document.addEventListener('DOMContentLoaded', function() {
+>>>>>>> 7f9d534 (backup sebelum pull)
         const floatingItems = document.querySelectorAll('.floating-item');
         const pageSections = document.querySelectorAll('.page-section');
 
         floatingItems.forEach(item => {
           item.addEventListener('click', function(e) {
             e.preventDefault();
+<<<<<<< HEAD
+=======
+            e.stopPropagation();
+            
+>>>>>>> 7f9d534 (backup sebelum pull)
             // Hapus class active dari semua item dan section
             floatingItems.forEach(i => i.classList.remove('active'));
             pageSections.forEach(s => s.classList.remove('active'));

@@ -37,7 +37,7 @@
                     x-bind:id="$id('input')"
                     x-on:keydown.down.prevent.stop="$dispatch('focus-first-global-search-result')"
                     wire:model.live.debounce.<?php echo e($debounce); ?>="search"
-                    x-mousetrap.global.<?php echo e(collect($keyBindings)->map(fn (string $keyBinding): string => str_replace('+', '-', $keyBinding))->implode('.')); ?>="document.getElementById($id('input')).focus()"
+                    x-mousetrap.global.<?php echo e(collect($keyBindings)->map(fn (string $keyBinding): string => str_replace('+', '-', $keyBinding))->implode('.')); ?>="document.getElementById($id('input'))?.focus()"
                     class="fi-input fi-input-has-inline-prefix"
                 />
              <?php echo $__env->renderComponent(); ?>

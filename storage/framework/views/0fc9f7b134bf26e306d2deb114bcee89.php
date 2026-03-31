@@ -6,7 +6,10 @@
     use Filament\Tables\Actions\HeaderActionsPosition;
     use Filament\Tables\Columns\Column;
     use Filament\Tables\Columns\ColumnGroup;
+    use Filament\Tables\Enums\ColumnManagerLayout;
+    use Filament\Tables\Enums\ColumnManagerResetActionPosition;
     use Filament\Tables\Enums\FiltersLayout;
+    use Filament\Tables\Enums\FiltersResetActionPosition;
     use Filament\Tables\Enums\RecordActionsPosition;
     use Filament\Tables\Enums\RecordCheckboxPosition;
     use Filament\Tables\View\TablesRenderHook;
@@ -36,9 +39,13 @@
     $filtersApplyAction = $getFiltersApplyAction();
     $filtersForm = $getFiltersForm();
     $filtersFormWidth = $getFiltersFormWidth();
+    $filtersResetActionPosition = $getFiltersResetActionPosition();
+    $columnManagerResetActionPosition = $getColumnManagerResetActionPosition();
     $hasColumnGroups = $hasColumnGroups();
     $hasColumnsLayout = $hasColumnsLayout();
-    $hasSummary = $hasSummary($this->getAllTableSummaryQuery());
+    $hasPageSummary = $hasPageSummary();
+    $hasAllTableSummary = $hasAllTableSummary();
+    $hasSummary = ($hasPageSummary || $hasAllTableSummary) && $hasSummary($this->getAllTableSummaryQuery());
     $header = $getHeader();
     $headerActions = array_filter(
         $getHeaderActions(),
@@ -93,6 +100,7 @@
     $selectsGroupsOnly = $selectsGroupsOnly();
     $recordCheckboxPosition = $getRecordCheckboxPosition();
     $isStriped = $isStriped();
+    $isStackedOnMobile = $isStackedOnMobile();
     $isLoaded = $isLoaded();
     $hasFilters = $isFilterable();
     $filtersLayout = $getFiltersLayout();
@@ -105,13 +113,14 @@
     $hasCollapsibleFilters = $hasFilters && in_array($filtersLayout, [FiltersLayout::AboveContentCollapsible, FiltersLayout::BeforeContentCollapsible, FiltersLayout::AfterContentCollapsible]);
     $hasFiltersTrigger = $hasFilters && ($hasFiltersDialog || $hasFiltersBeforeContent || $hasFiltersAfterContent);
     $filtersFormMaxHeight = $getFiltersFormMaxHeight();
-    $hasColumnManagerDropdown = $hasColumnManager();
+    $hasColumnManager = $hasColumnManager();
+    $columnManagerLayout = $getColumnManagerLayout();
     $hasReorderableColumns = $hasReorderableColumns();
     $hasToggleableColumns = $hasToggleableColumns();
     $columnManagerApplyAction = $getColumnManagerApplyAction();
     $columnManagerTriggerAction = $getColumnManagerTriggerAction();
-    $hasHeader = $header || $heading || $description || ($headerActions && (! $isReordering)) || $isReorderable || $areGroupingSettingsVisible || $isGlobalSearchVisible || $hasFilters || count($filterIndicators) || $hasColumnManagerDropdown;
-    $hasHeaderToolbar = $isReorderable || $areGroupingSettingsVisible || $isGlobalSearchVisible || $hasFiltersTrigger || $hasColumnManagerDropdown;
+    $hasHeader = $header || $heading || $description || ($headerActions && (! $isReordering)) || $isReorderable || $areGroupingSettingsVisible || $isGlobalSearchVisible || $hasFilters || count($filterIndicators) || $hasColumnManager;
+    $hasHeaderToolbar = $isReorderable || $areGroupingSettingsVisible || $isGlobalSearchVisible || $hasFiltersTrigger || $hasColumnManager;
     $headingTag = $getHeadingTag();
     $secondLevelHeadingTag = $heading ? $getHeadingTag(1) : $headingTag;
     $pluralModelLabel = $getPluralModelLabel();
@@ -178,6 +187,7 @@
     >
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasFiltersBeforeContent): ?>
             <div
+                wire:ignore.self
                 x-ref="filtersContentContainer"
                 x-transition:enter-start="fi-opacity-0"
                 x-transition:leave-end="fi-opacity-0"
@@ -190,14 +200,14 @@
             >
                 <?php if (isset($component)) { $__componentOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.filters','data' => ['applyAction' => $filtersApplyAction,'form' => $filtersForm,'headingTag' => $secondLevelHeadingTag,'class' => 'fi-ta-filters-before-content']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.filters','data' => ['applyAction' => $filtersApplyAction,'form' => $filtersForm,'headingTag' => $secondLevelHeadingTag,'class' => 'fi-ta-filters-before-content','resetActionPosition' => $filtersResetActionPosition]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('filament-tables::filters'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['apply-action' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersApplyAction),'form' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersForm),'heading-tag' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($secondLevelHeadingTag),'class' => 'fi-ta-filters-before-content']); ?>
+<?php $component->withAttributes(['apply-action' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersApplyAction),'form' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersForm),'heading-tag' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($secondLevelHeadingTag),'class' => 'fi-ta-filters-before-content','reset-action-position' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersResetActionPosition)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39)): ?>
@@ -278,14 +288,14 @@
                     >
                         <?php if (isset($component)) { $__componentOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.filters','data' => ['applyAction' => $filtersApplyAction,'form' => $filtersForm,'headingTag' => $secondLevelHeadingTag,'xCloak' => true,'xShow' => $hasCollapsibleFilters ? 'areFiltersOpen' : null]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.filters','data' => ['applyAction' => $filtersApplyAction,'form' => $filtersForm,'headingTag' => $secondLevelHeadingTag,'xCloak' => true,'xShow' => $hasCollapsibleFilters ? 'areFiltersOpen' : null,'resetActionPosition' => $filtersResetActionPosition]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('filament-tables::filters'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['apply-action' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersApplyAction),'form' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersForm),'heading-tag' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($secondLevelHeadingTag),'x-cloak' => true,'x-show' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hasCollapsibleFilters ? 'areFiltersOpen' : null)]); ?>
+<?php $component->withAttributes(['apply-action' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersApplyAction),'form' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersForm),'heading-tag' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($secondLevelHeadingTag),'x-cloak' => true,'x-show' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hasCollapsibleFilters ? 'areFiltersOpen' : null),'reset-action-position' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersResetActionPosition)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39)): ?>
@@ -332,7 +342,7 @@
                         <?php echo e(FilamentView::renderHook(TablesRenderHook::TOOLBAR_REORDER_TRIGGER_AFTER, scopes: static::class)); ?>
 
 
-                        <?php if((! $isReordering) && count($toolbarActions)): ?>
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if((! $isReordering) && count($toolbarActions)): ?>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $toolbarActions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php echo e($action); ?>
 
@@ -661,7 +671,7 @@
 
                     </div>
 
-                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($isGlobalSearchVisible || $hasFiltersTrigger || $hasColumnManagerDropdown): ?>
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($isGlobalSearchVisible || $hasFiltersTrigger || $hasColumnManager): ?>
                         <div>
                             <?php echo e(FilamentView::renderHook(TablesRenderHook::TOOLBAR_SEARCH_BEFORE, scopes: static::class)); ?>
 
@@ -696,7 +706,7 @@
                             <?php echo e(FilamentView::renderHook(TablesRenderHook::TOOLBAR_SEARCH_AFTER, scopes: static::class)); ?>
 
 
-                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasFiltersTrigger || $hasColumnManagerDropdown): ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasFiltersTrigger || $hasColumnManager): ?>
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasFiltersDialog): ?>
                                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($filtersLayout === FiltersLayout::Modal) || $filtersTriggerAction->isModalSlideOver()): ?>
                                         <?php
@@ -767,14 +777,14 @@
 
                                             <?php if (isset($component)) { $__componentOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.filters','data' => ['applyAction' => $filtersApplyAction,'form' => $filtersForm,'headingTag' => $secondLevelHeadingTag]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.filters','data' => ['applyAction' => $filtersApplyAction,'form' => $filtersForm,'headingTag' => $secondLevelHeadingTag,'resetActionPosition' => $filtersResetActionPosition]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('filament-tables::filters'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['apply-action' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersApplyAction),'form' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersForm),'heading-tag' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($secondLevelHeadingTag)]); ?>
+<?php $component->withAttributes(['apply-action' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersApplyAction),'form' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersForm),'heading-tag' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($secondLevelHeadingTag),'reset-action-position' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersResetActionPosition)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39)): ?>
@@ -813,14 +823,94 @@
                                 <?php echo e(FilamentView::renderHook(TablesRenderHook::TOOLBAR_COLUMN_MANAGER_TRIGGER_BEFORE, scopes: static::class)); ?>
 
 
-                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasColumnManagerDropdown): ?>
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasColumnManager): ?>
                                     <?php
                                         $columnManagerMaxHeight = $getColumnManagerMaxHeight();
                                         $columnManagerWidth = $getColumnManagerWidth();
                                         $columnManagerColumns = $getColumnManagerColumns();
                                     ?>
 
-                                    <?php if (isset($component)) { $__componentOriginal22ab0dbc2c6619d5954111bba06f01db = $component; } ?>
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(($columnManagerLayout === ColumnManagerLayout::Modal) || $columnManagerTriggerAction->isModalSlideOver()): ?>
+                                        <?php
+                                            $columnManagerTriggerActionModalAlignment = $columnManagerTriggerAction->getModalAlignment();
+                                            $columnManagerTriggerActionIsModalAutofocused = $columnManagerTriggerAction->isModalAutofocused();
+                                            $columnManagerTriggerActionHasModalCloseButton = $columnManagerTriggerAction->hasModalCloseButton();
+                                            $columnManagerTriggerActionIsModalClosedByClickingAway = $columnManagerTriggerAction->isModalClosedByClickingAway();
+                                            $columnManagerTriggerActionIsModalClosedByEscaping = $columnManagerTriggerAction->isModalClosedByEscaping();
+                                            $columnManagerTriggerActionModalDescription = $columnManagerTriggerAction->getModalDescription();
+                                            $columnManagerTriggerActionVisibleModalFooterActions = $columnManagerTriggerAction->getVisibleModalFooterActions();
+                                            $columnManagerTriggerActionModalFooterActionsAlignment = $columnManagerTriggerAction->getModalFooterActionsAlignment();
+                                            $columnManagerTriggerActionModalHeading = $columnManagerTriggerAction->getCustomModalHeading() ?? __('filament-tables::table.column_manager.heading');
+                                            $columnManagerTriggerActionModalIcon = $columnManagerTriggerAction->getModalIcon();
+                                            $columnManagerTriggerActionModalIconColor = $columnManagerTriggerAction->getModalIconColor();
+                                            $columnManagerTriggerActionIsModalSlideOver = $columnManagerTriggerAction->isModalSlideOver();
+                                            $columnManagerTriggerActionIsModalFooterSticky = $columnManagerTriggerAction->isModalFooterSticky();
+                                            $columnManagerTriggerActionIsModalHeaderSticky = $columnManagerTriggerAction->isModalHeaderSticky();
+                                        ?>
+
+                                        <?php if (isset($component)) { $__componentOriginal0942a211c37469064369f887ae8d1cef = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal0942a211c37469064369f887ae8d1cef = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.modal.index','data' => ['alignment' => $columnManagerTriggerActionModalAlignment,'autofocus' => $columnManagerTriggerActionIsModalAutofocused,'closeButton' => $columnManagerTriggerActionHasModalCloseButton,'closeByClickingAway' => $columnManagerTriggerActionIsModalClosedByClickingAway,'closeByEscaping' => $columnManagerTriggerActionIsModalClosedByEscaping,'description' => $columnManagerTriggerActionModalDescription,'footerActions' => $columnManagerTriggerActionVisibleModalFooterActions,'footerActionsAlignment' => $columnManagerTriggerActionModalFooterActionsAlignment,'heading' => $columnManagerTriggerActionModalHeading,'icon' => $columnManagerTriggerActionModalIcon,'iconColor' => $columnManagerTriggerActionModalIconColor,'slideOver' => $columnManagerTriggerActionIsModalSlideOver,'stickyFooter' => $columnManagerTriggerActionIsModalFooterSticky,'stickyHeader' => $columnManagerTriggerActionIsModalHeaderSticky,'width' => $columnManagerWidth,'wire:key' => $this->getId() . '.table.column-manager','class' => 'fi-ta-col-manager-modal']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('filament::modal'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['alignment' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionModalAlignment),'autofocus' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionIsModalAutofocused),'close-button' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionHasModalCloseButton),'close-by-clicking-away' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionIsModalClosedByClickingAway),'close-by-escaping' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionIsModalClosedByEscaping),'description' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionModalDescription),'footer-actions' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionVisibleModalFooterActions),'footer-actions-alignment' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionModalFooterActionsAlignment),'heading' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionModalHeading),'icon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionModalIcon),'icon-color' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionModalIconColor),'slide-over' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionIsModalSlideOver),'sticky-footer' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionIsModalFooterSticky),'sticky-header' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerTriggerActionIsModalHeaderSticky),'width' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerWidth),'wire:key' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($this->getId() . '.table.column-manager'),'class' => 'fi-ta-col-manager-modal']); ?>
+                                             <?php $__env->slot('trigger', null, []); ?> 
+                                                <?php echo e($columnManagerTriggerAction); ?>
+
+                                             <?php $__env->endSlot(); ?>
+
+                                            <?php echo e($columnManagerTriggerAction->getModalContent()); ?>
+
+
+                                            <div
+                                                x-data="filamentTableColumnManager({
+                                                            columns: $wire.entangle('tableColumns'),
+                                                            isLive: <?php echo e($columnManagerApplyAction->isVisible() ? 'false' : 'true'); ?>,
+                                                        })"
+                                                x-on:apply-table-column-manager.window="applyTableColumnManager()"
+                                                x-on:reset-table-column-manager.window="resetDeferredColumns()"
+                                                class="fi-ta-col-manager"
+                                            >
+                                                <?php if (isset($component)) { $__componentOriginalf3d81e3cbf32c6805000da498e4f41db = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalf3d81e3cbf32c6805000da498e4f41db = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.column-manager.content','data' => ['columns' => $columnManagerColumns,'hasReorderableColumns' => $hasReorderableColumns,'hasToggleableColumns' => $hasToggleableColumns,'reorderAnimationDuration' => $getReorderAnimationDuration()]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('filament-tables::column-manager.content'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerColumns),'has-reorderable-columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hasReorderableColumns),'has-toggleable-columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hasToggleableColumns),'reorder-animation-duration' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($getReorderAnimationDuration())]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalf3d81e3cbf32c6805000da498e4f41db)): ?>
+<?php $attributes = $__attributesOriginalf3d81e3cbf32c6805000da498e4f41db; ?>
+<?php unset($__attributesOriginalf3d81e3cbf32c6805000da498e4f41db); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalf3d81e3cbf32c6805000da498e4f41db)): ?>
+<?php $component = $__componentOriginalf3d81e3cbf32c6805000da498e4f41db; ?>
+<?php unset($__componentOriginalf3d81e3cbf32c6805000da498e4f41db); ?>
+<?php endif; ?>
+                                            </div>
+
+                                            <?php echo e($columnManagerTriggerAction->getModalContentFooter()); ?>
+
+                                         <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal0942a211c37469064369f887ae8d1cef)): ?>
+<?php $attributes = $__attributesOriginal0942a211c37469064369f887ae8d1cef; ?>
+<?php unset($__attributesOriginal0942a211c37469064369f887ae8d1cef); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal0942a211c37469064369f887ae8d1cef)): ?>
+<?php $component = $__componentOriginal0942a211c37469064369f887ae8d1cef; ?>
+<?php unset($__componentOriginal0942a211c37469064369f887ae8d1cef); ?>
+<?php endif; ?>
+                                    <?php else: ?>
+                                        <?php if (isset($component)) { $__componentOriginal22ab0dbc2c6619d5954111bba06f01db = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal22ab0dbc2c6619d5954111bba06f01db = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.dropdown.index','data' => ['maxHeight' => $columnManagerMaxHeight,'placement' => 'bottom-end','shift' => true,'flip' => false,'width' => $columnManagerWidth,'wire:key' => $this->getId() . '.table.column-manager','class' => 'fi-ta-col-manager-dropdown']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('filament::dropdown'); ?>
@@ -830,21 +920,21 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['max-height' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerMaxHeight),'placement' => 'bottom-end','shift' => true,'flip' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(false),'width' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerWidth),'wire:key' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($this->getId() . '.table.column-manager'),'class' => 'fi-ta-col-manager-dropdown']); ?>
-                                         <?php $__env->slot('trigger', null, []); ?> 
-                                            <?php echo e($columnManagerTriggerAction); ?>
+                                             <?php $__env->slot('trigger', null, []); ?> 
+                                                <?php echo e($columnManagerTriggerAction); ?>
 
-                                         <?php $__env->endSlot(); ?>
+                                             <?php $__env->endSlot(); ?>
 
-                                        <?php if (isset($component)) { $__componentOriginale0a88ee0f601f2ff5f39fba36ac88c56 = $component; } ?>
+                                            <?php if (isset($component)) { $__componentOriginale0a88ee0f601f2ff5f39fba36ac88c56 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginale0a88ee0f601f2ff5f39fba36ac88c56 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.column-manager','data' => ['applyAction' => $columnManagerApplyAction,'columns' => $columnManagerColumns,'hasReorderableColumns' => $hasReorderableColumns,'hasToggleableColumns' => $hasToggleableColumns,'headingTag' => $secondLevelHeadingTag,'reorderAnimationDuration' => $getReorderAnimationDuration()]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.column-manager.index','data' => ['applyAction' => $columnManagerApplyAction,'columns' => $columnManagerColumns,'resetActionPosition' => $columnManagerResetActionPosition,'hasReorderableColumns' => $hasReorderableColumns,'hasToggleableColumns' => $hasToggleableColumns,'headingTag' => $secondLevelHeadingTag,'reorderAnimationDuration' => $getReorderAnimationDuration()]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('filament-tables::column-manager'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['apply-action' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerApplyAction),'columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerColumns),'has-reorderable-columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hasReorderableColumns),'has-toggleable-columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hasToggleableColumns),'heading-tag' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($secondLevelHeadingTag),'reorder-animation-duration' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($getReorderAnimationDuration())]); ?>
+<?php $component->withAttributes(['apply-action' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerApplyAction),'columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerColumns),'reset-action-position' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columnManagerResetActionPosition),'has-reorderable-columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hasReorderableColumns),'has-toggleable-columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hasToggleableColumns),'heading-tag' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($secondLevelHeadingTag),'reorder-animation-duration' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($getReorderAnimationDuration())]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginale0a88ee0f601f2ff5f39fba36ac88c56)): ?>
@@ -855,7 +945,7 @@
 <?php $component = $__componentOriginale0a88ee0f601f2ff5f39fba36ac88c56; ?>
 <?php unset($__componentOriginale0a88ee0f601f2ff5f39fba36ac88c56); ?>
 <?php endif; ?>
-                                     <?php echo $__env->renderComponent(); ?>
+                                         <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal22ab0dbc2c6619d5954111bba06f01db)): ?>
 <?php $attributes = $__attributesOriginal22ab0dbc2c6619d5954111bba06f01db; ?>
@@ -865,6 +955,7 @@
 <?php $component = $__componentOriginal22ab0dbc2c6619d5954111bba06f01db; ?>
 <?php unset($__componentOriginal22ab0dbc2c6619d5954111bba06f01db); ?>
 <?php endif; ?>
+                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                                 <?php echo e(FilamentView::renderHook(TablesRenderHook::TOOLBAR_COLUMN_MANAGER_TRIGGER_AFTER, scopes: static::class)); ?>
@@ -1394,7 +1485,7 @@
                                                 'fi-collapsible' => $isRecordGroupCollapsible,
                                             ]); ?>"
                                         >
-                                            <?php if($isSelectionEnabled && ($maxSelectableRecords !== 1)): ?>
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($isSelectionEnabled && ($maxSelectableRecords !== 1)): ?>
                                                 <input
                                                     aria-label="<?php echo e(__('filament-tables::table.fields.bulk_select_group.label', ['title' => $recordGroupTitle])); ?>"
                                                     type="checkbox"
@@ -1532,7 +1623,8 @@
                                                     <a
                                                         <?php echo e(\Filament\Support\generate_href_html($recordUrl, $openRecordUrlInNewTab, hasNestedClickEventHandler: true)); ?>
 
-                                                        class="fi-ta-record-content"
+                                                        <?php echo e($getExtraRecordLinkAttributeBag($record)->class(['fi-ta-record-content'])); ?>
+
                                                     >
                                                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $columnsLayout; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $columnsLayoutComponent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <?php echo e($columnsLayoutComponent
@@ -1633,7 +1725,7 @@
                                     ?>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                                <?php if($hasSummary && (! $isReordering) && filled($previousRecordGroupTitle) && ((! $records instanceof \Illuminate\Contracts\Pagination\Paginator) || (! $records->hasMorePages()))): ?>
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasSummary && (! $isReordering) && filled($previousRecordGroupTitle) && ((! $records instanceof \Illuminate\Contracts\Pagination\Paginator) || (! $records->hasMorePages()))): ?>
                                     <table class="fi-ta-table">
                                         <tbody>
                                             <?php
@@ -1674,19 +1766,19 @@
 
                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                        <?php if($hasSummary && (! $isReordering)): ?>
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasSummary && (! $isReordering)): ?>
                             <table class="fi-ta-table">
                                 <tbody>
                                     <?php if (isset($component)) { $__componentOriginala8bb2de295dfa9cddf00151a9ea585e7 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginala8bb2de295dfa9cddf00151a9ea585e7 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.summary.index','data' => ['columns' => $columns,'extraHeadingColumn' => true,'placeholderColumns' => false,'pluralModelLabel' => $pluralModelLabel,'records' => $records]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.summary.index','data' => ['allTableSummary' => $hasAllTableSummary,'columns' => $columns,'extraHeadingColumn' => true,'pageSummary' => $hasPageSummary,'placeholderColumns' => false,'pluralModelLabel' => $pluralModelLabel,'records' => $records]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('filament-tables::summary'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columns),'extra-heading-column' => true,'placeholder-columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(false),'plural-model-label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($pluralModelLabel),'records' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($records)]); ?>
+<?php $component->withAttributes(['all-table-summary' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hasAllTableSummary),'columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columns),'extra-heading-column' => true,'page-summary' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hasPageSummary),'placeholder-columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(false),'plural-model-label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($pluralModelLabel),'records' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($records)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginala8bb2de295dfa9cddf00151a9ea585e7)): ?>
@@ -1701,8 +1793,236 @@
                             </table>
                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     <?php elseif((! ($content || $hasColumnsLayout)) && ($records !== null)): ?>
-                        <table class="fi-ta-table">
+                        <?php
+                            $sortableColumns = $isStackedOnMobile ? array_filter(
+                                $columns,
+                                fn (\Filament\Tables\Columns\Column $column): bool => $column->isSortable(),
+                            ) : [];
+                        ?>
+
+                        <table
+                            class="<?php echo \Illuminate\Support\Arr::toCssClasses([
+                                'fi-ta-table',
+                                'fi-ta-table-stacked-on-mobile' => $isStackedOnMobile,
+                            ]); ?>"
+                        >
                             <thead>
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($isStackedOnMobile && (count($sortableColumns) || ($isSelectionEnabled && ($maxSelectableRecords !== 1) && (! $selectsGroupsOnly))) && (! $isReordering)): ?>
+                                    <tr class="fi-ta-table-stacked-header-row">
+                                        <th
+                                            colspan="100%"
+                                            class="fi-ta-table-stacked-header-cell"
+                                        >
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($sortableColumns)): ?>
+                                                <div
+                                                    x-data="{
+                                                        sort: $wire.$entangle('tableSort', true),
+                                                        column: null,
+                                                        direction: null,
+                                                    }"
+                                                    x-init="
+                                                        if (sort) {
+                                                            ;[column, direction] = sort.split(':')
+                                                            direction ??= 'asc'
+                                                        }
+
+                                                        $watch('sort', function () {
+                                                            if (! sort) {
+                                                                return
+                                                            }
+
+                                                            ;[column, direction] = sort.split(':')
+                                                            direction ??= 'asc'
+                                                        })
+
+                                                        $watch('direction', function () {
+                                                            sort = column ? `${column}:${direction}` : null
+                                                        })
+
+                                                        $watch('column', function (newColumn, oldColumn) {
+                                                            if (! newColumn) {
+                                                                direction = null
+                                                                sort = column ? `${column}:${direction}` : null
+
+                                                                return
+                                                            }
+
+                                                            if (oldColumn) {
+                                                                sort = column ? `${column}:${direction}` : null
+
+                                                                return
+                                                            }
+
+                                                            direction = 'asc'
+                                                            sort = column ? `${column}:${direction}` : null
+                                                        })
+                                                    "
+                                                    class="fi-ta-table-stacked-sorting"
+                                                >
+                                                    <label>
+                                                        <?php if (isset($component)) { $__componentOriginal505efd9768415fdb4543e8c564dad437 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal505efd9768415fdb4543e8c564dad437 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.input.wrapper','data' => ['prefix' => __('filament-tables::table.sorting.fields.column.label')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('filament::input.wrapper'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['prefix' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('filament-tables::table.sorting.fields.column.label'))]); ?>
+                                                            <?php if (isset($component)) { $__componentOriginal97dc683fe4ff7acce9e296503563dd85 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal97dc683fe4ff7acce9e296503563dd85 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.input.select','data' => ['xModel' => 'column']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('filament::input.select'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['x-model' => 'column']); ?>
+                                                                <option
+                                                                    value=""
+                                                                >
+                                                                    <?php echo e($defaultSortOptionLabel); ?>
+
+                                                                </option>
+
+                                                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $sortableColumns; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sortableColumn): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <option
+                                                                        value="<?php echo e($sortableColumn->getName()); ?>"
+                                                                    >
+                                                                        <?php echo e($sortableColumn->getLabel()); ?>
+
+                                                                    </option>
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                                             <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal97dc683fe4ff7acce9e296503563dd85)): ?>
+<?php $attributes = $__attributesOriginal97dc683fe4ff7acce9e296503563dd85; ?>
+<?php unset($__attributesOriginal97dc683fe4ff7acce9e296503563dd85); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal97dc683fe4ff7acce9e296503563dd85)): ?>
+<?php $component = $__componentOriginal97dc683fe4ff7acce9e296503563dd85; ?>
+<?php unset($__componentOriginal97dc683fe4ff7acce9e296503563dd85); ?>
+<?php endif; ?>
+                                                         <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal505efd9768415fdb4543e8c564dad437)): ?>
+<?php $attributes = $__attributesOriginal505efd9768415fdb4543e8c564dad437; ?>
+<?php unset($__attributesOriginal505efd9768415fdb4543e8c564dad437); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal505efd9768415fdb4543e8c564dad437)): ?>
+<?php $component = $__componentOriginal505efd9768415fdb4543e8c564dad437; ?>
+<?php unset($__componentOriginal505efd9768415fdb4543e8c564dad437); ?>
+<?php endif; ?>
+                                                    </label>
+
+                                                    <label
+                                                        x-cloak
+                                                        x-show="column"
+                                                    >
+                                                        <span
+                                                            class="fi-sr-only"
+                                                        >
+                                                            <?php echo e(__('filament-tables::table.sorting.fields.direction.label')); ?>
+
+                                                        </span>
+
+                                                        <?php if (isset($component)) { $__componentOriginal505efd9768415fdb4543e8c564dad437 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal505efd9768415fdb4543e8c564dad437 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.input.wrapper','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('filament::input.wrapper'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+                                                            <?php if (isset($component)) { $__componentOriginal97dc683fe4ff7acce9e296503563dd85 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal97dc683fe4ff7acce9e296503563dd85 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.input.select','data' => ['xModel' => 'direction']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('filament::input.select'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['x-model' => 'direction']); ?>
+                                                                <option
+                                                                    value="asc"
+                                                                >
+                                                                    <?php echo e(__('filament-tables::table.sorting.fields.direction.options.asc')); ?>
+
+                                                                </option>
+
+                                                                <option
+                                                                    value="desc"
+                                                                >
+                                                                    <?php echo e(__('filament-tables::table.sorting.fields.direction.options.desc')); ?>
+
+                                                                </option>
+                                                             <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal97dc683fe4ff7acce9e296503563dd85)): ?>
+<?php $attributes = $__attributesOriginal97dc683fe4ff7acce9e296503563dd85; ?>
+<?php unset($__attributesOriginal97dc683fe4ff7acce9e296503563dd85); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal97dc683fe4ff7acce9e296503563dd85)): ?>
+<?php $component = $__componentOriginal97dc683fe4ff7acce9e296503563dd85; ?>
+<?php unset($__componentOriginal97dc683fe4ff7acce9e296503563dd85); ?>
+<?php endif; ?>
+                                                         <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal505efd9768415fdb4543e8c564dad437)): ?>
+<?php $attributes = $__attributesOriginal505efd9768415fdb4543e8c564dad437; ?>
+<?php unset($__attributesOriginal505efd9768415fdb4543e8c564dad437); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal505efd9768415fdb4543e8c564dad437)): ?>
+<?php $component = $__componentOriginal505efd9768415fdb4543e8c564dad437; ?>
+<?php unset($__componentOriginal505efd9768415fdb4543e8c564dad437); ?>
+<?php endif; ?>
+                                                    </label>
+                                                </div>
+                                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($isSelectionEnabled && ($maxSelectableRecords !== 1) && (! $selectsGroupsOnly)): ?>
+                                                <input
+                                                    aria-label="<?php echo e(__('filament-tables::table.fields.bulk_select_page.label')); ?>"
+                                                    type="checkbox"
+                                                    <?php if($isSelectionDisabled): ?>
+                                                        disabled
+                                                    <?php elseif($maxSelectableRecords): ?>
+                                                        x-bind:disabled="
+                                                            const recordsOnPage = getRecordsOnPage()
+
+                                                            return recordsOnPage.length && ! areRecordsToggleable(recordsOnPage)
+                                                        "
+                                                    <?php endif; ?>
+                                                    x-bind:checked="
+                                                        const recordsOnPage = getRecordsOnPage()
+
+                                                        if (recordsOnPage.length && areRecordsSelected(recordsOnPage)) {
+                                                            $el.checked = true
+
+                                                            return 'checked'
+                                                        }
+
+                                                        $el.checked = false
+
+                                                        return null
+                                                    "
+                                                    x-on:click="toggleSelectRecordsOnPage"
+                                                    
+                                                    wire:key="<?php echo e($this->getId()); ?>.table.bulk-select-page.checkbox.stacked.<?php echo e(\Illuminate\Support\Str::random()); ?>"
+                                                    wire:loading.attr="disabled"
+                                                    wire:target="<?php echo e(implode(',', \Filament\Tables\Table::LOADING_TARGETS)); ?>"
+                                                    class="fi-ta-page-checkbox fi-checkbox-input"
+                                                />
+                                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                        </th>
+                                    </tr>
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasColumnGroups): ?>
                                     <tr class="fi-ta-table-head-groups-row">
                                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($records)): ?>
@@ -1748,8 +2068,8 @@
                                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                                        <?php if((! $isReordering) && count($records)): ?>
-                                            <?php if(count($defaultRecordActions) && in_array($recordActionsPosition, [RecordActionsPosition::AfterColumns, RecordActionsPosition::AfterCells])): ?>
+                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if((! $isReordering) && count($records)): ?>
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($defaultRecordActions) && in_array($recordActionsPosition, [RecordActionsPosition::AfterColumns, RecordActionsPosition::AfterCells])): ?>
                                                 <th></th>
                                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
@@ -1765,7 +2085,7 @@
                                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($isReordering): ?>
                                             <th></th>
                                         <?php else: ?>
-                                            <?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::BeforeCells): ?>
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::BeforeCells): ?>
                                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($recordActionsColumnLabel): ?>
                                                     <th
                                                         class="fi-ta-header-cell"
@@ -1822,7 +2142,7 @@
                                                 </th>
                                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                                            <?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::BeforeColumns): ?>
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::BeforeColumns): ?>
                                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($recordActionsColumnLabel): ?>
                                                     <th
                                                         class="fi-ta-header-cell"
@@ -1859,6 +2179,10 @@
                                                 $columnWidth = $column->getWidth();
                                                 $isColumnActivelySorted = $getSortColumn() === $column->getName();
                                                 $isColumnSortable = $column->isSortable() && (! $isReordering);
+                                                $columnHeaderTooltip = $column->getHeaderTooltip();
+                                                $columnHeaderTooltipAttribute = ($columnHeaderTooltip instanceof \Illuminate\Contracts\Support\Htmlable)
+                                                    ? 'x-tooltip.html'
+                                                    : 'x-tooltip';
                                             ?>
 
                                             <th
@@ -1893,26 +2217,61 @@
                                                         wire:loading.attr="disabled"
                                                         class="fi-ta-header-cell-sort-btn"
                                                     >
-                                                        <?php echo e($columnLabel); ?>
+                                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(filled($columnHeaderTooltip)): ?>
+                                                            <span
+                                                                <?php echo e($columnHeaderTooltipAttribute); ?>="{
+                                                                    content: <?php echo \Illuminate\Support\Js::from($columnHeaderTooltip)->toHtml() ?>,
+                                                                    theme: $store.theme,
+                                                                }"
+                                                                class="fi-ta-header-cell-tooltip"
+                                                            >
+                                                                <?php echo e($columnLabel); ?>
 
+                                                            </span>
+                                                        <?php else: ?>
+                                                            <?php echo e($columnLabel); ?>
+
+                                                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                                                         <?php echo e(\Filament\Support\generate_icon_html(($isColumnActivelySorted && $sortDirection === 'asc') ? \Filament\Support\Icons\Heroicon::ChevronUp : \Filament\Support\Icons\Heroicon::ChevronDown, alias: match (true) {
                                                                 $isColumnActivelySorted && ($sortDirection === 'asc') => \Filament\Tables\View\TablesIconAlias::HEADER_CELL_SORT_ASC_BUTTON,
                                                                 $isColumnActivelySorted && ($sortDirection === 'desc') => \Filament\Tables\View\TablesIconAlias::HEADER_CELL_SORT_DESC_BUTTON,
                                                                 default => \Filament\Tables\View\TablesIconAlias::HEADER_CELL_SORT_BUTTON,
-                                                            })); ?>
+                                                            }, attributes: (new \Illuminate\View\ComponentAttributeBag([
+                                                                'wire:loading.remove.delay.' . config('filament.livewire_loading_delay', 'default') => true,
+                                                                'wire:target' => "sortTable('{$columnName}')",
+                                                            ])))); ?>
+
+
+                                                        <?php echo e(\Filament\Support\generate_loading_indicator_html(new \Illuminate\View\ComponentAttributeBag([
+                                                                'wire:loading.delay.' . config('filament.livewire_loading_delay', 'default') => '',
+                                                                'wire:target' => "sortTable('{$columnName}')",
+                                                            ]))); ?>
 
                                                     </span>
                                                 <?php else: ?>
-                                                    <?php echo e($columnLabel); ?>
+                                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(filled($columnHeaderTooltip)): ?>
+                                                        <span
+                                                            <?php echo e($columnHeaderTooltipAttribute); ?>="{
+                                                                content: <?php echo \Illuminate\Support\Js::from($columnHeaderTooltip)->toHtml() ?>,
+                                                                theme: $store.theme,
+                                                            }"
+                                                            class="fi-ta-header-cell-tooltip"
+                                                        >
+                                                            <?php echo e($columnLabel); ?>
 
+                                                        </span>
+                                                    <?php else: ?>
+                                                        <?php echo e($columnLabel); ?>
+
+                                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                             </th>
                                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                                    <?php if((! $isReordering) && count($records)): ?>
-                                        <?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::AfterColumns): ?>
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if((! $isReordering) && count($records)): ?>
+                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::AfterColumns): ?>
                                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($recordActionsColumnLabel): ?>
                                                 <th
                                                     class="fi-ta-header-cell fi-align-end"
@@ -1969,7 +2328,7 @@
                                             </th>
                                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                                        <?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::AfterCells): ?>
+                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::AfterCells): ?>
                                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($recordActionsColumnLabel): ?>
                                                 <th
                                                     class="fi-ta-header-cell fi-align-end"
@@ -2056,8 +2415,8 @@
                                                 </td>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                                            <?php if((! $isReordering) && count($records)): ?>
-                                                <?php if(count($defaultRecordActions) && in_array($recordActionsPosition, [RecordActionsPosition::AfterColumns, RecordActionsPosition::AfterCells])): ?>
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if((! $isReordering) && count($records)): ?>
+                                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($defaultRecordActions) && in_array($recordActionsPosition, [RecordActionsPosition::AfterColumns, RecordActionsPosition::AfterCells])): ?>
                                                     <td></td>
                                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
@@ -2157,7 +2516,7 @@
                                                         ?>
 
                                                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($isSelectionEnabled && $recordCheckboxPosition === RecordCheckboxPosition::BeforeCells): ?>
-                                                            <?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::BeforeCells): ?>
+                                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::BeforeCells): ?>
                                                                 <td></td>
                                                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
@@ -2335,7 +2694,7 @@
                                                         </td>
                                                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                                                    <?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::BeforeCells && (! $isReordering)): ?>
+                                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::BeforeCells && (! $isReordering)): ?>
                                                         <td class="fi-ta-cell">
                                                             <div
                                                                 class="<?php echo \Illuminate\Support\Arr::toCssClasses([
@@ -2382,7 +2741,7 @@
                                                         </td>
                                                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                                                    <?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::BeforeColumns && (! $isReordering)): ?>
+                                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::BeforeColumns && (! $isReordering)): ?>
                                                         <td class="fi-ta-cell">
                                                             <div
                                                                 class="<?php echo \Illuminate\Support\Arr::toCssClasses([
@@ -2448,11 +2807,17 @@
                                                                 ])); ?>
 
                                                         >
+                                                            <?php echo $isStackedOnMobile ? '<div class="fi-ta-cell-label">' . e($column->getLabel()) . '</div><div class="fi-ta-cell-content">' : ''; ?>
+
                                                             <<?php echo e($columnWrapperTag); ?>
 
                                                                 <?php if($columnWrapperTag === 'a'): ?>
                                                                     <?php echo e(\Filament\Support\generate_href_html($columnUrl ?: $recordUrl, $columnUrl ? $column->shouldOpenUrlInNewTab() : $openRecordUrlInNewTab, hasNestedClickEventHandler: true)); ?>
 
+                                                                    <?php if(blank($columnUrl) && filled($recordUrl)): ?>
+                                                                        <?php echo e($getExtraRecordLinkAttributeBag($record)); ?>
+
+                                                                    <?php endif; ?>
                                                                 <?php elseif($columnWrapperTag === 'button'): ?>
                                                                     type="button"
                                                                     wire:click.prevent.stop="<?php echo e($columnWireClickAction); ?>"
@@ -2467,10 +2832,12 @@
                                                                 <?php echo e($column); ?>
 
                                                             </<?php echo e($columnWrapperTag); ?>>
+                                                            <?php echo $isStackedOnMobile ? '</div>' : ''; ?>
+
                                                         </td>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                                                    <?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::AfterColumns && (! $isReordering)): ?>
+                                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::AfterColumns && (! $isReordering)): ?>
                                                         <td class="fi-ta-cell">
                                                             <div
                                                                 class="<?php echo \Illuminate\Support\Arr::toCssClasses([
@@ -2517,7 +2884,7 @@
                                                         </td>
                                                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                                                    <?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::AfterCells && (! $isReordering)): ?>
+                                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($defaultRecordActions) && $recordActionsPosition === RecordActionsPosition::AfterCells && (! $isReordering)): ?>
                                                         <td class="fi-ta-cell">
                                                             <div
                                                                 class="<?php echo \Illuminate\Support\Arr::toCssClasses([
@@ -2549,7 +2916,7 @@
                                             ?>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                                        <?php if($hasSummary && (! $isReordering) && filled($previousRecordGroupTitle) && ((! $records instanceof \Illuminate\Contracts\Pagination\Paginator) || (! $records->hasMorePages()))): ?>
+                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasSummary && (! $isReordering) && filled($previousRecordGroupTitle) && ((! $records instanceof \Illuminate\Contracts\Pagination\Paginator) || (! $records->hasMorePages()))): ?>
                                             <?php
                                                 $groupColumn = $group->getColumn();
                                                 $groupScopedAllTableSummaryQuery = $group->scopeQuery($this->getAllTableSummaryQuery(), $previousRecord);
@@ -2577,21 +2944,21 @@
 <?php endif; ?>
                                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                                        <?php if($hasSummary && (! $isReordering)): ?>
+                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasSummary && (! $isReordering)): ?>
                                             <?php
                                                 $groupColumn = $group?->getColumn();
                                             ?>
 
                                             <?php if (isset($component)) { $__componentOriginala8bb2de295dfa9cddf00151a9ea585e7 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginala8bb2de295dfa9cddf00151a9ea585e7 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.summary.index','data' => ['actions' => count($defaultRecordActions),'actionsPosition' => $recordActionsPosition,'columns' => $columns,'groupColumn' => $groupColumn,'groupsOnly' => $isGroupsOnly,'pluralModelLabel' => $pluralModelLabel,'recordCheckboxPosition' => $recordCheckboxPosition,'records' => $records,'selectionEnabled' => $isSelectionEnabled]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.summary.index','data' => ['actions' => count($defaultRecordActions),'actionsPosition' => $recordActionsPosition,'allTableSummary' => $hasAllTableSummary,'columns' => $columns,'groupColumn' => $groupColumn,'groupsOnly' => $isGroupsOnly,'pageSummary' => $hasPageSummary,'pluralModelLabel' => $pluralModelLabel,'recordCheckboxPosition' => $recordCheckboxPosition,'records' => $records,'selectionEnabled' => $isSelectionEnabled]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('filament-tables::summary'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['actions' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(count($defaultRecordActions)),'actions-position' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($recordActionsPosition),'columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columns),'group-column' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($groupColumn),'groups-only' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($isGroupsOnly),'plural-model-label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($pluralModelLabel),'record-checkbox-position' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($recordCheckboxPosition),'records' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($records),'selection-enabled' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($isSelectionEnabled)]); ?>
+<?php $component->withAttributes(['actions' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(count($defaultRecordActions)),'actions-position' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($recordActionsPosition),'all-table-summary' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hasAllTableSummary),'columns' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($columns),'group-column' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($groupColumn),'groups-only' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($isGroupsOnly),'page-summary' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($hasPageSummary),'plural-model-label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($pluralModelLabel),'record-checkbox-position' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($recordCheckboxPosition),'records' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($records),'selection-enabled' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($isSelectionEnabled)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginala8bb2de295dfa9cddf00151a9ea585e7)): ?>
@@ -2704,14 +3071,14 @@
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasFiltersBelowContent): ?>
                 <?php if (isset($component)) { $__componentOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.filters','data' => ['applyAction' => $filtersApplyAction,'form' => $filtersForm,'headingTag' => $secondLevelHeadingTag,'class' => 'fi-ta-filters-below-content']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.filters','data' => ['applyAction' => $filtersApplyAction,'form' => $filtersForm,'headingTag' => $secondLevelHeadingTag,'class' => 'fi-ta-filters-below-content','resetActionPosition' => $filtersResetActionPosition]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('filament-tables::filters'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['apply-action' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersApplyAction),'form' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersForm),'heading-tag' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($secondLevelHeadingTag),'class' => 'fi-ta-filters-below-content']); ?>
+<?php $component->withAttributes(['apply-action' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersApplyAction),'form' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersForm),'heading-tag' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($secondLevelHeadingTag),'class' => 'fi-ta-filters-below-content','reset-action-position' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersResetActionPosition)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39)): ?>
@@ -2727,6 +3094,7 @@
 
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasFiltersAfterContent): ?>
             <div
+                wire:ignore.self
                 x-ref="filtersContentContainer"
                 x-transition:enter-start="fi-opacity-0"
                 x-transition:leave-end="fi-opacity-0"
@@ -2739,14 +3107,14 @@
             >
                 <?php if (isset($component)) { $__componentOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.filters','data' => ['applyAction' => $filtersApplyAction,'form' => $filtersForm,'headingTag' => $secondLevelHeadingTag,'class' => 'fi-ta-filters-after-content']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament-tables::components.filters','data' => ['applyAction' => $filtersApplyAction,'form' => $filtersForm,'headingTag' => $secondLevelHeadingTag,'class' => 'fi-ta-filters-after-content','resetActionPosition' => $filtersResetActionPosition]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('filament-tables::filters'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['apply-action' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersApplyAction),'form' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersForm),'heading-tag' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($secondLevelHeadingTag),'class' => 'fi-ta-filters-after-content']); ?>
+<?php $component->withAttributes(['apply-action' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersApplyAction),'form' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersForm),'heading-tag' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($secondLevelHeadingTag),'class' => 'fi-ta-filters-after-content','reset-action-position' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($filtersResetActionPosition)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal8fcc8bb3dcedd6e3c85ec7cd95e48b39)): ?>

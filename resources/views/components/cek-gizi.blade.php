@@ -1,35 +1,9 @@
-    <section id="cek-gizi" class="cek-gizi-section" style="display: none;">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">Cek Status Gizi</h2>
-                <p class="section-subtitle">Pantau kesehatan Anda dengan mudah</p>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-4 mx-auto" data-aos="fade-up">
-                    <div class="cek-gizi-card">
-                        <div class="cek-gizi-icon">
-                            <i class="bi bi-heart-pulse"></i>
-                        </div>
-                        <h3 class="cek-gizi-title">Hitung BMI</h3>
-                        <p class="cek-gizi-description">Masukkan data untuk mengetahui status gizi dan rekomendasi
-                            kesehatan.</p>
-                        <button class="cek-gizi-button" data-bs-toggle="modal" data-bs-target="#cekGiziModal">
-                            <i class="bi bi-calculator"></i> Mulai
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Cek Gizi Modal -->
     <div class="modal fade" id="cekGiziModal" tabindex="-1" aria-labelledby="cekGiziModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content modal-content-modern">
                 <div class="modal-header modal-header-modern">
                     <h5 class="modal-title" id="cekGiziModalLabel">
-                        <i class="bi bi-bar-chart-line text-primary"></i>
                         <span id="giziModalTitle">Form Cek Gizi</span>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
