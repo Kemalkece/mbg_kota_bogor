@@ -48,6 +48,7 @@
                     </svg>
                 </div>
 
+
                 {{-- Value --}}
                 <div style="
                     font-size:36px;
