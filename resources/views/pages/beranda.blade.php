@@ -1,4 +1,4 @@
-@extends('layouts.app')
+    @extends('layouts.app')
 
 @section('content')
 <!-- Navbar -->
@@ -12,6 +12,9 @@
 
 <!-- Tentang Section -->
 <x-tentang :tentang="$tentang" />
+
+<!-- Menu Harian Section -->
+<x-menu :menus="$menus" />
 
 <!-- Data Section -->
 <x-data :dataPenyalurans="$dataPenyalurans" />

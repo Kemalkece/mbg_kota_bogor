@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 use App\Http\Controllers\DataPenyaluranController;
+use App\Http\Controllers\PetaController;
 
 // Redirect login ke Filament
 Route::get('/login', function () {
@@ -55,6 +56,7 @@ Route::get('/hero', [BeritaController::class, 'index'])->name('hero');
 Route::get('/detail-data', [DataPenyaluranController::class, 'apiDataPenyaluran'])->name('detail_data');
 
 Route::get('/detail-regulasi', [RegulasiController::class, 'index'])->name('detail_regulasi');
+Route::get('/api/map-data', [PetaController::class, 'getMapsData'])->name('api.map-data');
 
 Route::get('/detail-faq', [\App\Http\Controllers\FAQController::class, 'index'])->name('detail_faq');
 

@@ -1,5 +1,5 @@
     <div class="fab-container" id="radialFab">
-        <button class="fab-main" onclick="toggleFab()">
+        <button class="fab-main" id="fabToggleBtn">
             <i class="bi bi-list text-white"></i>
         </button>
         <div class="fab-items">

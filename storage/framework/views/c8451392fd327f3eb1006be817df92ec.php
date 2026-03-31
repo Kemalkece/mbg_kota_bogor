@@ -1,3 +1,5 @@
+    
+
 <?php $__env->startSection('content'); ?>
 <!-- Navbar -->
 <!-- TEST BUTTON FOR CAROUSEL -->
@@ -66,6 +68,28 @@
 <?php if (isset($__componentOriginala6200ecfa980c4c5064c4020d9cb6568)): ?>
 <?php $component = $__componentOriginala6200ecfa980c4c5064c4020d9cb6568; ?>
 <?php unset($__componentOriginala6200ecfa980c4c5064c4020d9cb6568); ?>
+<?php endif; ?>
+
+<!-- Menu Harian Section -->
+<?php if (isset($component)) { $__componentOriginal5893a4ae82cbde8a6e1ba16203c33ac0 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal5893a4ae82cbde8a6e1ba16203c33ac0 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.menu','data' => ['menus' => $menus]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('menu'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['menus' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($menus)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal5893a4ae82cbde8a6e1ba16203c33ac0)): ?>
+<?php $attributes = $__attributesOriginal5893a4ae82cbde8a6e1ba16203c33ac0; ?>
+<?php unset($__attributesOriginal5893a4ae82cbde8a6e1ba16203c33ac0); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal5893a4ae82cbde8a6e1ba16203c33ac0)): ?>
+<?php $component = $__componentOriginal5893a4ae82cbde8a6e1ba16203c33ac0; ?>
+<?php unset($__componentOriginal5893a4ae82cbde8a6e1ba16203c33ac0); ?>
 <?php endif; ?>
 
 <!-- Data Section -->

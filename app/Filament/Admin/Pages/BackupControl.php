@@ -34,29 +34,32 @@ class BackupControl extends Page implements HasTable
 
     public function table(Table $table): Table
     {
-        $files = Storage::disk('local')->files('Laravel');
-        $backups = [];
-
-        foreach ($files as $file) {
-            if (str_ends_with($file, '.zip')) {
-                $sizeInBytes = Storage::disk('local')->size($file);
-                $sizeDisplay = $sizeInBytes < 1024 * 100
-                    ? round($sizeInBytes / 1024, 2) . ' KB'
-                    : round($sizeInBytes / 1024 / 1024, 2) . ' MB';
-
-                $backups[] = [
-                    'id' => $file,
-                    'path' => $file,
-                    'name' => basename($file),
-                    'size' => $sizeDisplay,
-                    'date' => date('Y-m-d H:i:s', Storage::disk('local')->lastModified($file)),
-                    'raw_date' => Storage::disk('local')->lastModified($file),
-                ];
-            }
-        }
-
         return $table
-            ->records(fn() => collect($backups)->sortByDesc('raw_date')->values())
+            ->records(function () {
+                $folder = config('backup.backup.name', env('APP_NAME', 'Laravel'));
+                $files = Storage::disk('local')->files($folder);
+                $backups = [];
+
+                foreach ($files as $file) {
+                    if (str_ends_with($file, '.zip')) {
+                        $sizeInBytes = Storage::disk('local')->size($file);
+                        $sizeDisplay = $sizeInBytes < 1024 * 100
+                            ? round($sizeInBytes / 1024, 2) . ' KB'
+                            : round($sizeInBytes / 1024 / 1024, 2) . ' MB';
+
+                        $backups[] = [
+                            'id' => $file,
+                            'path' => $file,
+                            'name' => basename($file),
+                            'size' => $sizeDisplay,
+                            'date' => date('Y-m-d H:i:s', Storage::disk('local')->lastModified($file)),
+                            'raw_date' => Storage::disk('local')->lastModified($file),
+                        ];
+                    }
+                }
+
+                return collect($backups)->sortByDesc('raw_date')->values();
+            })
             ->modelLabel('Data Backup')
             ->pluralModelLabel('Daftar Backup Data & Database')
             ->columns([
@@ -97,6 +100,7 @@ class BackupControl extends Page implements HasTable
                         ->modalDescription('File ini akan dihapus permanen dari server.')
                         ->action(function ($record) {
                             $this->deleteBackup($record['path']);
+                            return redirect(static::getUrl());
                         }),
                 ])
                     ->icon('heroicon-m-ellipsis-horizontal')
@@ -121,6 +125,7 @@ class BackupControl extends Page implements HasTable
                     try {
                         Artisan::call('backup:run');
                         Notification::make()->title('Backup Berhasil!')->success()->send();
+                        return redirect(static::getUrl());
                     } catch (\Exception $e) {
                         Notification::make()->title('Gagal!')->danger()->body($e->getMessage())->send();
                     }

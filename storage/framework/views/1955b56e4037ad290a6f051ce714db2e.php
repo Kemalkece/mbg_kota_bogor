@@ -1,12 +1,13 @@
 <?php
 $navData = [
-    ['label' => 'Beranda', 'type' => 'anchor', 'target' => 'beranda'],
-    ['label' => 'Sasaran', 'type' => 'anchor', 'target' => 'sasaran'],
-    ['label' => 'Tentang', 'type' => 'anchor', 'target' => 'tentang'],
-    ['label' => 'Data', 'type' => 'route',  'route' => 'detail_data'],
-    ['label' => 'Regulasi', 'type' => 'route', 'route' => 'detail_regulasi'],
-    ['label' => 'Peta MBG', 'type' => 'anchor', 'target' => 'peta-mbg'],
-    ['label' => 'FAQ', 'type' => 'route', 'route' => 'detail_faq'],
+['label' => 'Beranda', 'type' => 'anchor', 'target' => 'beranda'],
+['label' => 'Sasaran', 'type' => 'anchor', 'target' => 'sasaran'],
+['label' => 'Tentang', 'type' => 'anchor', 'target' => 'tentang'],
+['label' => 'Menu', 'type' => 'anchor', 'target' => 'menu-harian'],
+['label' => 'Data', 'type' => 'route', 'route' => 'detail_data'],
+['label' => 'Regulasi', 'type' => 'route', 'route' => 'detail_regulasi'],
+['label' => 'Peta MBG', 'type' => 'anchor', 'target' => 'peta-mbg'],
+['label' => 'FAQ', 'type' => 'route', 'route' => 'detail_faq'],
 ];
 ?>
 
@@ -32,14 +33,14 @@ $navData = [
                 <li class="nav-item">
 
                     <?php
-                        // compute href based on type
-                        $link = '#';
-                        if ($nav['type'] === 'route' && isset($nav['route']) && Route::has($nav['route'])) {
-                            $link = route($nav['route']);
-                        } elseif ($nav['type'] === 'anchor' && isset($nav['target'])) {
-                            // always navigate to homepage anchor (ensure slash before #)
-                            $link = url('/') . '/#' . $nav['target'];
-                        }
+                    // compute href based on type
+                    $link = '#';
+                    if ($nav['type'] === 'route' && isset($nav['route']) && Route::has($nav['route'])) {
+                    $link = route($nav['route']);
+                    } elseif ($nav['type'] === 'anchor' && isset($nav['target'])) {
+                    // always navigate to homepage anchor (ensure slash before #)
+                    $link = url('/') . '/#' . $nav['target'];
+                    }
                     ?>
                     <a class="nav-link" href="<?php echo e($link); ?>" onclick="window.location.href=this.href;">
                         <?php echo e($nav['label']); ?>

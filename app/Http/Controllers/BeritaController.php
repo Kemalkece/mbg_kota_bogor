@@ -21,7 +21,18 @@ class BeritaController extends Controller
         $kolaborasi = Kolaborasi::all();
         $dataPenyalurans = DataPenyaluran::all();
         $tentang = Tentang::first();
-        return view("pages.beranda", compact("beritas", "sasarans", "regulasis", "faqs", "kolaborasi", "dataPenyalurans", "tentang"));
+        $menus = MenuHarianController::getMenuHarian(10);
+        
+        return view("pages.beranda", compact(
+            "beritas", 
+            "sasarans", 
+            "regulasis", 
+            "faqs", 
+            "kolaborasi", 
+            "dataPenyalurans", 
+            "tentang",
+            "menus"
+        ));
     }
 
     public function show($id)

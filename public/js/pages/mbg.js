@@ -65,9 +65,9 @@ document.addEventListener('DOMContentLoaded', function () {
             carousel.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
 
             var heroContent = document.getElementById('heroContent');
-            var newsTitle  = document.getElementById('newsTitle');
-            var newsDesc   = document.getElementById('newsDesc');
-            var newsLink   = document.getElementById('newsLink');
+            var newsTitle = document.getElementById('newsTitle');
+            var newsDesc = document.getElementById('newsDesc');
+            var newsLink = document.getElementById('newsLink');
 
             if (newsTitle && slides[currentSlide]) {
                 if (heroContent) {
@@ -377,7 +377,7 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
 
             var tinggiBadan = parseFloat(document.getElementById('tinggiBadan').value);
-            var beratBadan  = parseFloat(document.getElementById('beratBadan').value);
+            var beratBadan = parseFloat(document.getElementById('beratBadan').value);
             var tinggiMeter = tinggiBadan / 100;
             var bmi = beratBadan / (tinggiMeter * tinggiMeter);
 

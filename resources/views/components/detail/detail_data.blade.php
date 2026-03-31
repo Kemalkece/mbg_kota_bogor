@@ -56,15 +56,15 @@
 
     .dist-detail-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 25px;
-      margin-bottom: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
     }
 
     .dist-detail-card {
       background: #f8f9fa;
-      border-radius: 15px;
-      padding: 25px;
+      border-radius: 12px;
+      padding: 15px 10px;
       text-align: center;
       border: 1px solid rgba(0, 0, 0, 0.05);
       transition: all 0.3s ease;
@@ -77,30 +77,33 @@
     }
 
     .dist-detail-icon {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
+      font-size: 1.6rem;
+      margin-bottom: 8px;
     }
 
     .dist-detail-card h3 {
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #071E49;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
 
     .dist-detail-number {
-      font-size: 1.8rem;
+      font-size: 1.4rem;
       font-weight: 800;
       color: #071E49;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
 
     .dist-detail-bar {
       background: #e0e0e0;
-      height: 10px;
+      height: 8px;
       border-radius: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       overflow: hidden;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .dist-detail-fill {
@@ -428,16 +431,16 @@
 
         <!-- API calculations -->
         @php
-          $totalSiswa = (float) str_replace('.', '', $posts['data']['jml_penerima_mbg'] ?? '1');
-          $smaSiswa = (float) str_replace('.', '', $posts['data']['sekolah_mbg']['sma']['siswa'] ?? '0');
-          $smpSiswa = (float) str_replace('.', '', $posts['data']['sekolah_mbg']['smp']['siswa'] ?? '0');
-          $sdSiswa = (float) str_replace('.', '', $posts['data']['sekolah_mbg']['sd']['siswa'] ?? '0');
-          $tkSiswa = (float) str_replace('.', '', $posts['data']['sekolah_mbg']['tk']['siswa'] ?? '0');
+        $totalSiswa = (float) str_replace('.', '', $posts['data']['jml_penerima_mbg'] ?? '1');
+        $smaSiswa = (float) str_replace('.', '', $posts['data']['sekolah_mbg']['sma']['siswa'] ?? '0');
+        $smpSiswa = (float) str_replace('.', '', $posts['data']['sekolah_mbg']['smp']['siswa'] ?? '0');
+        $sdSiswa = (float) str_replace('.', '', $posts['data']['sekolah_mbg']['sd']['siswa'] ?? '0');
+        $tkSiswa = (float) str_replace('.', '', $posts['data']['sekolah_mbg']['tk']['siswa'] ?? '0');
 
-          $pctSma = $totalSiswa > 0 ? round(($smaSiswa / $totalSiswa) * 100, 1) : 0;
-          $pctSmp = $totalSiswa > 0 ? round(($smpSiswa / $totalSiswa) * 100, 1) : 0;
-          $pctSd = $totalSiswa > 0 ? round(($sdSiswa / $totalSiswa) * 100, 1) : 0;
-          $pctTk = $totalSiswa > 0 ? round(($tkSiswa / $totalSiswa) * 100, 1) : 0;
+        $pctSma = $totalSiswa > 0 ? round(($smaSiswa / $totalSiswa) * 100, 1) : 0;
+        $pctSmp = $totalSiswa > 0 ? round(($smpSiswa / $totalSiswa) * 100, 1) : 0;
+        $pctSd = $totalSiswa > 0 ? round(($sdSiswa / $totalSiswa) * 100, 1) : 0;
+        $pctTk = $totalSiswa > 0 ? round(($tkSiswa / $totalSiswa) * 100, 1) : 0;
         @endphp
 
         <!-- Cards -->
@@ -737,12 +740,18 @@ transition:.25s;
         <h1 class="page-title">Visualisasi Data</h1>
         <p class="text-center text-muted mb-5">Grafik distribusi penerima manfaat berdasarkan jenjang pendidikan.</p>
 
-        <div class="row">
-          <div class="col-md-6">
-            <canvas id="distributionChart"></canvas>
+        <div class="row gy-5">
+          <div class="col-12 text-center">
+            <h4 class="fw-bold mb-4" style="color: #6c757d; font-size: 1.1rem;">Jumlah Institusi Berdasarkan Kecamatan</h4>
+            <div style="height: 400px; width: 100%; position: relative;">
+              <canvas id="institusiChart"></canvas>
+            </div>
           </div>
-          <div class="col-md-6">
-            <canvas id="trendChart"></canvas>
+          <div class="col-12 text-center mt-5">
+            <h4 class="fw-bold mb-4" style="color: #6c757d; font-size: 1.1rem;">Distribusi Penerima Berdasarkan Kecamatan</h4>
+            <div style="height: 400px; width: 100%; position: relative;">
+              <canvas id="penerimaChart"></canvas>
+            </div>
           </div>
         </div>
       </div>
@@ -830,13 +839,15 @@ transition:.25s;
             }
 
             .edu-title {
-              padding: 20px 24px;
+              padding: 14px 20px;
               font-weight: 700;
+              font-size: 15px;
               cursor: pointer;
               display: flex;
               justify-content: space-between;
               align-items: center;
-              border-left: 6px solid #D1B06C;
+              border-left: 5px solid #D1B06C;
+              color: #444;
             }
 
             .edu-arrow {
@@ -856,23 +867,28 @@ transition:.25s;
               max-height: 0;
               overflow: hidden;
               opacity: 0;
-              transition: .5s;
-              padding: 0 24px;
+              transition: .4s ease-in-out;
+              padding: 0 20px;
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+              gap: 15px;
             }
 
             .edu-main.active .edu-body {
-              max-height: 3000px;
+              max-height: 5000px;
               opacity: 1;
-              padding: 20px 24px;
+              padding: 15px 20px 20px;
             }
 
             /* ===== CARD ===== */
             .edu-card {
-              border: 1px solid #eee;
-              border-radius: 12px;
-              padding: 16px;
-              margin-bottom: 14px;
+              border: 1px solid #f0f0f0;
+              border-radius: 10px;
+              padding: 15px;
+              margin-bottom: 0;
               transition: .3s;
+              background: #fff;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             }
 
             .edu-card:hover {
@@ -882,7 +898,10 @@ transition:.25s;
 
             .edu-card h4 {
               margin: 0 0 10px;
-              color: #D1B06C
+              color: #D1B06C;
+              font-size: 13px;
+              text-transform: uppercase;
+              letter-spacing: 0.8px;
             }
 
             /* ===== GRID ===== */
@@ -904,13 +923,14 @@ transition:.25s;
 
             .edu-item h3 {
               margin: 0;
-              font-size: 20px
+              font-size: 17px;
+              color: #333;
             }
 
             .edu-item p {
-              margin: 3px 0 0;
-              font-size: 12px;
-              color: #777
+              margin: 1px 0 0;
+              font-size: 11px;
+              color: #888
             }
 
             /* ===== DROPDOWN SPPG ===== */
@@ -918,13 +938,14 @@ transition:.25s;
               background: #D1B06C;
               color: #fff;
               border: none;
-              padding: 14px 20px;
-              border-radius: 12px;
+              padding: 12px 18px;
+              border-radius: 10px;
               width: 100%;
               text-align: left;
               cursor: pointer;
               font-weight: 600;
-              margin-bottom: 10px;
+              font-size: 14px;
+              margin-bottom: 8px;
               transition: .3s;
             }
 
@@ -999,7 +1020,7 @@ transition:.25s;
           <div class="edu-wrapper">
 
             <h1 class="page-title">REKAP KECAMATAN</h1>
-            <p class="text-center text-muted mb-5">Data Penyaluran MBG Per Kecamatan</p>
+            <p class="text-center text-muted mb-4">Data Penyaluran MBG Per Kecamatan</p>
 
             <!-- SATUAN PENDIDIKAN -->
             <div class="edu-main">
@@ -1240,7 +1261,7 @@ transition:.25s;
 
               <div class="edu-body">
 
-                <h3 style="margin-bottom:15px;color:#D1B06C;font-weight:600;text-align:center">
+                <h3 style="margin-bottom:12px;color:#D1B06C;font-weight:600;text-align:center;font-size:16px;">
                   Jumlah Pegawai
                 </h3>
 
@@ -1250,10 +1271,10 @@ transition:.25s;
       overflow:hidden;
       border:1px solid #eee;
     ">
-                  <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                  <table style="width:100%;border-collapse:collapse;font-size:13px;">
                     <thead style="background:#D1B06C;color:white;">
                       <tr>
-                        <th style="padding:14px">No</th>
+                        <th style="padding:10px 8px">No</th>
                         <th>Kecamatan</th>
                         <th>Sudah SLHS</th>
                         <th>Belum SLHS</th>
@@ -1265,7 +1286,7 @@ transition:.25s;
 
                     <tbody>
                       <tr>
-                        <td style="padding:12px">1</td>
+                        <td style="padding:8px">1</td>
                         <td>Bogor Utara</td>
                         <td>19</td>
                         <td>303</td>
@@ -1274,7 +1295,7 @@ transition:.25s;
                         <td>9</td>
                       </tr>
                       <tr style="background:#faf8f2">
-                        <td style="padding:12px">2</td>
+                        <td style="padding:8px">2</td>
                         <td>Bogor Selatan</td>
                         <td>15</td>
                         <td>442</td>
@@ -2668,18 +2689,25 @@ transition:.25s;
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" nonce="{{ Vite::cspNonce() }}"></script>
     <script nonce="{{ Vite::cspNonce() }}">
-      AOS.init({
-        duration: 800,
-        once: true
-      });
+      try {
+        AOS.init({
+          duration: 800,
+          once: true
+        });
+      } catch (e) {
+        console.error('AOS Error', e);
+      }
+    </script>
 
-      // Script untuk floating menu
-      document.addEventListener('DOMContentLoaded', function() {
+    <script nonce="{{ Vite::cspNonce() }}">
+      // Script untuk floating menu (Langsung dieksekusi tanpa DOMContentLoaded agar tidak gagal ter-bind jika ada async load)
+      (function() {
         const floatingItems = document.querySelectorAll('.floating-item');
         const pageSections = document.querySelectorAll('.page-section');
 
         floatingItems.forEach(item => {
-          item.addEventListener('click', function() {
+          item.addEventListener('click', function(e) {
+            e.preventDefault();
             // Hapus class active dari semua item dan section
             floatingItems.forEach(i => i.classList.remove('active'));
             pageSections.forEach(s => s.classList.remove('active'));
@@ -2762,36 +2790,170 @@ transition:.25s;
           `;
           });
         }
-      });
+      })();
 
       function initCharts() {
-        // Distribution Chart
-        const ctx1 = document.getElementById('distributionChart').getContext('2d');
-        new Chart(ctx1, {
-          type: 'pie',
-          data: {
-            labels: ['SMA & Sederajat', 'SMP & Sederajat', 'SD & Sederajat', 'TK/PAUD & Sederajat'],
-            datasets: [{
-              data: [650000, 915000, 765000, 170000],
-              backgroundColor: ['#D1B06C', '#B8964F', '#A67C52', '#8B5A2B']
-            }]
-          }
-        });
+        // Safe access (in case 'rekap' missing)
+        const rekapKelompok = @json($posts['data']['rekap']['kelompok_kecamatan'] ?? []);
+        const rekapPenerima = @json($posts['data']['rekap']['penerima_kecamatan'] ?? []);
 
-        // Trend Chart
-        const ctx2 = document.getElementById('trendChart').getContext('2d');
-        new Chart(ctx2, {
-          type: 'line',
-          data: {
-            labels: ['2023', '2024', '2025', '2026'],
-            datasets: [{
-              label: 'Jumlah Penerima',
-              data: [1800000, 2100000, 2400000, 2500000],
-              borderColor: '#D1B06C',
-              fill: false
-            }]
+        if (!rekapKelompok || rekapKelompok.length === 0 || !rekapPenerima || rekapPenerima.length === 0) {
+          console.error('Data rekapitulasi grafik kosong atau API gagal termuat.');
+          return;
+        }
+
+        const labels = rekapKelompok.map(item => item.kecamatan);
+
+        const colorSMA = '#7D91E9';
+        const colorSMP = '#9C77B7';
+        const colorSD = '#74BFFF';
+        const colorTK = '#FF8BA7';
+        const colorPosyandu = '#59D68A';
+
+        const ctx1 = document.getElementById('institusiChart');
+        if (ctx1) {
+          if (window.institusiChartInstance) {
+            window.institusiChartInstance.destroy();
           }
-        });
+
+          window.institusiChartInstance = new Chart(ctx1.getContext('2d'), {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [{
+                  label: 'SMA',
+                  data: rekapKelompok.map(i => i.jml_sma),
+                  backgroundColor: colorSMA,
+                  borderRadius: 6
+                },
+                {
+                  label: 'SMP',
+                  data: rekapKelompok.map(i => i.jml_smp),
+                  backgroundColor: colorSMP,
+                  borderRadius: 6
+                },
+                {
+                  label: 'SD',
+                  data: rekapKelompok.map(i => i.jml_sd),
+                  backgroundColor: colorSD,
+                  borderRadius: 6
+                },
+                {
+                  label: 'TK',
+                  data: rekapKelompok.map(i => i.jml_tk),
+                  backgroundColor: colorTK,
+                  borderRadius: 6
+                },
+                {
+                  label: 'Posyandu',
+                  data: rekapKelompok.map(i => i.jml_posyandu),
+                  backgroundColor: colorPosyandu,
+                  borderRadius: 6
+                },
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'bottom',
+                  labels: {
+                    usePointStyle: true,
+                    padding: 20
+                  }
+                },
+                tooltip: {
+                  mode: 'index',
+                  intersect: false
+                }
+              },
+              scales: {
+                x: {
+                  stacked: true,
+                  grid: { color: '#f0f0f0' }
+                },
+                y: {
+                  stacked: true,
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        }
+
+        const ctx2 = document.getElementById('penerimaChart');
+        if (ctx2) {
+          if (window.penerimaChartInstance) {
+            window.penerimaChartInstance.destroy();
+          }
+          window.penerimaChartInstance = new Chart(ctx2.getContext('2d'), {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [{
+                  label: 'SMA',
+                  data: rekapPenerima.map(i => i.jml_sma),
+                  backgroundColor: colorSMA,
+                  borderRadius: 6
+                },
+                {
+                  label: 'SMP',
+                  data: rekapPenerima.map(i => i.jml_smp),
+                  backgroundColor: colorSMP,
+                  borderRadius: 6
+                },
+                {
+                  label: 'SD',
+                  data: rekapPenerima.map(i => i.jml_sd),
+                  backgroundColor: colorSD,
+                  borderRadius: 6
+                },
+                {
+                  label: 'TK',
+                  data: rekapPenerima.map(i => i.jml_tk),
+                  backgroundColor: colorTK,
+                  borderRadius: 6
+                },
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'bottom',
+                  labels: {
+                    usePointStyle: true,
+                    padding: 20
+                  }
+                },
+                tooltip: {
+                  mode: 'index',
+                  intersect: false
+                }
+              },
+              scales: {
+                x: {
+                  stacked: true,
+                  grid: { color: '#f0f0f0' },
+                  ticks: {
+                    callback: function(value) {
+                      if (value >= 1000) return (value / 1000) + 'K';
+                      return value;
+                    }
+                  }
+                },
+                y: {
+                  stacked: true,
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        }
       }
     </script>
 </body>
