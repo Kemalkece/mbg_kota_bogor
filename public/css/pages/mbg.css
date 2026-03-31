@@ -9,8 +9,10 @@
     --primary-color: #667eea;
     --secondary-color: #764ba2;
     --accent-color: #f5576c;
-    --text-dark: #2d3436;
-    --text-light: #636e72;
+    --text-dark: #071E49;
+    --text-light: #4F5C61;
+    --text-large: #071E49;
+    --text-small: #4F5C61;
     --bg-light: #f8f9fa;
     --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     --hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
@@ -395,13 +397,13 @@ body {
 .data-header h2 {
     font-size: 1.8rem;
     font-weight: 800;
-    color: #2d3436;
+    color: #071E49;
     margin-bottom: 12px;
 }
 
 .data-header p {
     font-size: 0.9rem;
-    color: #636e72;
+    color: #4F5C61;
 }
 
 .data-wrapper {
@@ -707,13 +709,13 @@ body {
     font-size: 2rem;
     font-weight: 800;
     letter-spacing: 1px;
-    color: #2D3436;
+    color: #071E49;
 }
 
 #visi-misi .section-subtitle {
     font-size: 1.4rem;
     margin-top: 10px;
-    color: #2D3436;
+    color: #071E49;
 }
 
 .about-section .section-title {
@@ -1220,7 +1222,7 @@ body {
 
 .stat-label {
     font-size: 0.75rem;
-    color: #636e72;
+    color: #4F5C61;
     font-weight: 600;
 }
 
@@ -1255,7 +1257,7 @@ body {
 
 .section-subtitle {
     font-size: 0.9rem;
-    color: #636e72;
+    color: #4F5C61;
     max-width: 450px;
     margin: 0 auto;
 }
@@ -1369,7 +1371,7 @@ body {
 
 .dist-detail-percent {
     font-size: 0.95rem;
-    color: #636e72;
+    color: #4F5C61;
     font-weight: 600;
 }
 
@@ -1425,7 +1427,7 @@ body {
 }
 
 .analysis-item p {
-    color: #636e72;
+    color: #4F5C61;
     line-height: 1.7;
     margin: 0;
 }
@@ -1500,7 +1502,7 @@ body {
 }
 
 .cek-gizi-description {
-    color: #636e72;
+    color: #4F5C61;
     line-height: 1.4;
     font-size: 0.8rem;
     margin-bottom: 15px;
@@ -1825,7 +1827,7 @@ body {
 
 .regulasi-points li {
     font-size: 0.9rem;
-    color: #636e72;
+    color: #4F5C61;
     margin-bottom: 12px;
     display: flex;
     align-items: center;
@@ -1848,7 +1850,7 @@ body {
 
 .regulasi-card-desc {
     font-size: 0.9rem;
-    color: #636e72;
+    color: #4F5C61;
     line-height: 1.5;
     margin: 8px 0;
 }
@@ -2008,7 +2010,7 @@ body {
 }
 
 .map-info-description {
-    color: #636e72;
+    color: #4F5C61;
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 20px;
@@ -2264,7 +2266,7 @@ body {
     background: #f8f9fa;
     border: 2px solid #e0e0e0;
     border-radius: 12px;
-    color: #2d3436;
+    color: #071E49;
     transition: all 0.3s ease;
 }
 
@@ -2331,7 +2333,7 @@ body {
 
 .info-label {
     font-size: 0.75rem;
-    color: #636e72;
+    color: #4F5C61;
     font-weight: 600;
     margin-bottom: 5px;
 }
@@ -2366,7 +2368,7 @@ body {
 
 .expert-text {
     font-size: 0.9rem;
-    color: #2d3436;
+    color: #071E49;
     line-height: 1.5;
 }
 
@@ -2390,7 +2392,7 @@ body {
 
 .hasil-gizi-rekomendasi li {
     font-size: 0.8rem;
-    color: #636e72;
+    color: #4F5C61;
     margin-bottom: 8px;
     line-height: 1.4;
 }
@@ -2702,7 +2704,7 @@ body {
 
 .dist-detail-percent {
     font-size: 0.95rem;
-    color: #636e72;
+    color: #4F5C61;
     font-weight: 600;
 }
 
@@ -2758,7 +2760,7 @@ body {
 }
 
 .analysis-item p {
-    color: #636e72;
+    color: #4F5C61;
     line-height: 1.7;
     margin: 0;
 }
@@ -2945,7 +2947,7 @@ body {
 
     .dist-detail-percent {
         font-size: 0.95rem;
-        color: #636e72;
+        color: #4F5C61;
         font-weight: 600;
     }
 
@@ -3001,7 +3003,7 @@ body {
     }
 
     .analysis-item p {
-        color: #636e72;
+        color: #4F5C61;
         line-height: 1.7;
         margin: 0;
     }
@@ -3071,7 +3073,7 @@ body {
 }
 
 .sasaran-subtitle {
-    color: #636e72;
+    color: #4F5C61;
     font-size: 1.1rem;
     line-height: 1.6;
 }

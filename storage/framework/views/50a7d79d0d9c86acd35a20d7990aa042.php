@@ -98,7 +98,7 @@ unset($__defined_vars, $__key, $__value); ?>
             <span style="display:inline-block; padding:8px 16px; background:rgba(37,99,235,0.1); color:#2563EB; font-weight:700; border-radius:30px; margin-bottom:16px; font-size:14px; letter-spacing:1px; text-transform:uppercase;">
                 Nutrisi Terjaga
             </span>
-            <h2 style="font-weight:900; color:#0f172a; font-size:36px; margin-bottom:16px; letter-spacing:-0.5px;">
+            <h2 style="font-weight:900; color:#071E49; font-size:36px; margin-bottom:16px; letter-spacing:-0.5px;">
                 Daftar Makanan Harian MBG
             </h2>
             <p style="color:#64748b; font-size:16px; max-width:600px; margin:0 auto; line-height:1.6;">
@@ -109,12 +109,9 @@ unset($__defined_vars, $__key, $__value); ?>
         <div class="menu-scroll-container" style="
             display:flex; 
             gap:24px; 
-            overflow-x:auto; 
+            justify-content: center;
+            flex-wrap: wrap;
             padding:10px 10px 32px;
-            scroll-behavior: smooth;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: thin;
-            scrollbar-color: #cbd5e1 transparent;
         ">
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $menus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $menu): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php
@@ -141,14 +138,12 @@ unset($__defined_vars, $__key, $__value); ?>
                 ?>
 
             <div class="menu-card" style="
-                min-width:320px; 
-                flex: 0 0 auto;
+                width: 320px;
                 background:white; 
                 border-radius:24px; 
                 overflow:hidden;
                 box-shadow:0 10px 30px -10px rgba(0,0,0,0.1);
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
-                scroll-snap-align: start;
                 border: 1px solid #e2e8f0;
                 display:flex;
                 flex-direction:column;

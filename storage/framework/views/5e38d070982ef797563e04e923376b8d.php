@@ -1,1 +1,0 @@
-<?php /**PATH C:\laragon\www\mbg_kota_bogor\resources\views\auth\partials\change-password-link.blade.php ENDPATH**/ ?>

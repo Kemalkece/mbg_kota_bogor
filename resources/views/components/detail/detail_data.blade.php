@@ -750,13 +750,13 @@ transition:.25s;
 
         <div class="row gy-5">
           <div class="col-12 text-center">
-            <h4 class="fw-bold mb-4" style="color: #6c757d; font-size: 1.1rem;">Jumlah Institusi Berdasarkan Kecamatan</h4>
+            <h4 class="fw-bold mb-4" style="color: #071E49; font-size: 1.1rem;">Jumlah Institusi Berdasarkan Kecamatan</h4>
             <div style="height: 400px; width: 100%; position: relative;">
               <canvas id="institusiChart"></canvas>
             </div>
           </div>
           <div class="col-12 text-center mt-5">
-            <h4 class="fw-bold mb-4" style="color: #6c757d; font-size: 1.1rem;">Distribusi Penerima Berdasarkan Kecamatan</h4>
+            <h4 class="fw-bold mb-4" style="color: #071E49; font-size: 1.1rem;">Distribusi Penerima Berdasarkan Kecamatan</h4>
             <div style="height: 400px; width: 100%; position: relative;">
               <canvas id="penerimaChart"></canvas>
             </div>
@@ -1269,7 +1269,7 @@ transition:.25s;
 
               <div class="edu-body">
 
-                <h3 style="margin-bottom:12px;color:#D1B06C;font-weight:600;text-align:center;font-size:16px;">
+                <h3 style="margin-bottom:12px;color:#071E49;font-weight:600;text-align:center;font-size:16px;">
                   Jumlah Pegawai
                 </h3>
 
@@ -2707,51 +2707,17 @@ transition:.25s;
       }
     </script>
 
-<<<<<<< HEAD
     <script nonce="{{ Vite::cspNonce() }}">
-      // Script untuk floating menu (Langsung dieksekusi tanpa DOMContentLoaded agar tidak gagal ter-bind jika ada async load)
-      (function() {
-=======
-      // Function untuk switch page
-      function switchPage(pageId) {
-        console.log('Switching to:', pageId);
-        
-        // Hapus active dari semua floating items dan page sections
-        const floatingItems = document.querySelectorAll('.floating-item');
-        const pageSections = document.querySelectorAll('.page-section');
-        
-        floatingItems.forEach(item => item.classList.remove('active'));
-        pageSections.forEach(section => section.classList.remove('active'));
-        
-        // Tambah active ke item yang diklik
-        document.querySelector(`[data-target="${pageId}"]`).classList.add('active');
-        
-        // Tampilkan page section yang sesuai
-        const targetSection = document.getElementById(pageId);
-        if (targetSection) {
-          targetSection.classList.add('active');
-          
-          // Jika chartPage, inisialisasi chart
-          if (pageId === 'chartPage') {
-            setTimeout(initCharts, 100);
-          }
-        }
-      }
-
-      // Script untuk floating menu - lebih simple
+      // Script untuk floating menu
       document.addEventListener('DOMContentLoaded', function() {
->>>>>>> 7f9d534 (backup sebelum pull)
         const floatingItems = document.querySelectorAll('.floating-item');
         const pageSections = document.querySelectorAll('.page-section');
 
         floatingItems.forEach(item => {
           item.addEventListener('click', function(e) {
             e.preventDefault();
-<<<<<<< HEAD
-=======
             e.stopPropagation();
             
->>>>>>> 7f9d534 (backup sebelum pull)
             // Hapus class active dari semua item dan section
             floatingItems.forEach(i => i.classList.remove('active'));
             pageSections.forEach(s => s.classList.remove('active'));

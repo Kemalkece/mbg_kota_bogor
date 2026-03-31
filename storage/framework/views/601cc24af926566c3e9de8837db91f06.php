@@ -64,7 +64,6 @@ unset($__defined_vars, $__key, $__value); ?>
                 "></div>
 
                 
-<<<<<<< HEAD
                 <div class="stat-icon" style="
                     width:56px;height:56px;border-radius:16px;
                     background:<?php echo e($stat['gradient']); ?>;
@@ -76,6 +75,7 @@ unset($__defined_vars, $__key, $__value); ?>
                         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="white"/>
                     </svg>
                 </div>
+
 
                 
                 <div style="
@@ -94,14 +94,6 @@ unset($__defined_vars, $__key, $__value); ?>
                 </div>
                 <div style="font-size:13px;color:#9CA3AF;font-weight:400;">
                     <?php echo e($stat['sublabel']); ?>
-=======
-                <button id="sliderPrev" style="position:absolute;top:50%;transform:translateY(-50%);left:-40px;width:50px;height:50px;border-radius:50%;border:none;background:white;box-shadow:0 4px 12px rgba(0,0,0,0.15);cursor:pointer;z-index:30;font-size:24px;display:flex;align-items:center;justify-content:center;color:#071E49;font-weight:bold;">
-                    ‹
-                </button>
-                <button id="sliderNext" style="position:absolute;top:50%;transform:translateY(-50%);right:-40px;width:50px;height:50px;border-radius:50%;border:none;background:white;box-shadow:0 4px 12px rgba(0,0,0,0.15);cursor:pointer;z-index:30;font-size:24px;display:flex;align-items:center;justify-content:center;color:#071E49;font-weight:bold;">
-                    ›
-                </button>
->>>>>>> 7f9d534 (backup sebelum pull)
 
                 </div>
             </div>

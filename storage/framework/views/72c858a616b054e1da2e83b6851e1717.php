@@ -31,9 +31,9 @@ unset($__defined_vars, $__key, $__value); ?>
 <section id="regulasi" class="regulations-section py-20 bg-[#F5FAFB]">
     <div class="container mx-auto px-4">
         <div class="section-header text-center mb-10" data-aos="fade-up">
-            <h2 class="section-title text-3xl font-extrabold text-[#2d3436] mb-3">
-                Peraturan & Regulasi
-            </h2>
+<h5 class="section-title text-4xl font-extrabold text-[#071E49] mb-5">
+    Peraturan & Regulasi
+</h5>
             <p class="section-subtitle text-sm text-[#636e72]">
                 Dokumen resmi program Makan Bergizi Gratis
             </p>
