@@ -8,9 +8,9 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="{{ asset('css/pages/mbg.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/pages/gabung.css') }}">
-    <style nonce="{{ Vite::cspNonce() }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/pages/mbg.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/pages/gabung.css')); ?>">
+    <style nonce="<?php echo e(Vite::cspNonce()); ?>">
         body {
             background: #f5f7fa;
             font-family: 'Inter', sans-serif;
@@ -80,15 +80,15 @@
     <nav class="navbar-detail">
         <div class="container-xl d-flex justify-content-between align-items-center">
 
-            <a href="{{ route('beranda') }}" class="d-flex align-items-center gap-2 text-decoration-none">
-                <img src="{{ asset('images/logo.png') }}" width="40">
+            <a href="<?php echo e(route('beranda')); ?>" class="d-flex align-items-center gap-2 text-decoration-none">
+                <img src="<?php echo e(asset('images/logo.png')); ?>" width="40">
                 <div>
                     <div class="brand-label">Program Nasional</div>
                     <div class="brand-name">Makan Bergizi Gratis</div>
                 </div>
             </a>
 
-            <a href="{{ route('beranda') }}" class="btn-back">
+            <a href="<?php echo e(route('beranda')); ?>" class="btn-back">
                 <i class="bi bi-arrow-left"></i> Kembali ke Dashboard
             </a>
 
@@ -114,70 +114,72 @@
         </div>
         <div class="regulasi-wrapper">
 
-            {{-- SIDEBAR --}}
+            
             <div class="regulasi-sidebar">
                 <h6>Pertanyaan Umum</h6>
 
                 <ul class="regulasi-menu">
-                    @foreach($faqs as $index => $faq)
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $faqs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $faq): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <li>
                         <a href="#"
-                            class="regulasi-item {{ $index == 0 ? 'active' : '' }}"
-                            data-target="faq-card-{{ $faq->id }}">
-                            {{ $faq->pertanyaan }}
+                            class="regulasi-item <?php echo e($index == 0 ? 'active' : ''); ?>"
+                            data-target="faq-card-<?php echo e($faq->id); ?>">
+                            <?php echo e($faq->pertanyaan); ?>
+
                         </a>
                     </li>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </ul>
             </div>
 
-            {{-- CONTENT --}}
+            
             <div class="regulasi-content" id="faqContent">
-                @forelse($faqs as $index => $faq)
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $faqs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $faq): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                 <div class="regulasi-card-compact faq-card"
-                    id="faq-card-{{ $faq->id }}"
-                    data-question="{{ $faq->pertanyaan }}"
-                    style="display: {{ $index == 0 ? 'flex' : 'none' }};">
+                    id="faq-card-<?php echo e($faq->id); ?>"
+                    data-question="<?php echo e($faq->pertanyaan); ?>"
+                    style="display: <?php echo e($index == 0 ? 'flex' : 'none'); ?>;">
 
                     <div class="regulasi-card-icon">
                         <i class="bi bi-question-circle-fill"></i>
                     </div>
 
                     <div class="regulasi-card-main">
-                        <h4>{{ $faq->pertanyaan }}</h4>
+                        <h4><?php echo e($faq->pertanyaan); ?></h4>
 
                         <div class="regulasi-card-desc">
-                            {!! nl2br(e($faq->jawaban)) !!}
+                            <?php echo nl2br(e($faq->jawaban)); ?>
+
                         </div>
 
-                        @if($faq->penjelasan)
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($faq->penjelasan): ?>
                         <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
                             <h6 style="font-weight: 600; color: #133056; margin-bottom: 16px; font-size: 1.1rem;">Poin Penjelasan</h6>
                             <ul style="list-style: none; padding: 0; margin: 0;">
-                                @php
+                                <?php
                                 $poin = array_filter(array_map('trim', explode("\n", $faq->penjelasan)));
                                 $poin = array_slice($poin, 0, 6);
-                                @endphp
-                                @foreach($poin as $point)
+                                ?>
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $poin; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $point): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;">
                                     <span style="color: #4ade80; font-size: 1.5rem; font-weight: bold; margin-top: -6px; flex-shrink: 0;">✓</span>
-                                    <span style="color: #636e72; font-size: 1rem; line-height: 1.5;">{{ $point }}</span>
+                                    <span style="color: #636e72; font-size: 1rem; line-height: 1.5;"><?php echo e($point); ?></span>
                                 </li>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </ul>
                         </div>
-                        @endif
+                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </div>
 
                 </div>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                 <div class="regulasi-card-compact text-center">
                     <div>
                         <h4>Belum ada FAQ</h4>
                         <p>Silakan tambahkan melalui Admin Panel.</p>
                     </div>
                 </div>
-                @endforelse
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                 <!-- No Results Message -->
                 <div id="faqNoResults" class="text-center py-5" style="display: none; padding: 60px 20px !important;">
@@ -193,8 +195,8 @@
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" nonce="{{ Vite::cspNonce() }}"></script>
-    <script nonce="{{ Vite::cspNonce() }}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" nonce="<?php echo e(Vite::cspNonce()); ?>"></script>
+    <script nonce="<?php echo e(Vite::cspNonce()); ?>">
         document.addEventListener('DOMContentLoaded', function() {
             const faqSearch = document.getElementById('faqSearch');
             const faqItems = document.querySelectorAll('.regulasi-item');
@@ -284,4 +286,4 @@
 
 </body>
 
-</html>
+</html><?php /**PATH C:\laragon\www\mbg_kota_bogor\resources\views/components/detail/detail_faq.blade.php ENDPATH**/ ?>

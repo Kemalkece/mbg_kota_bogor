@@ -8,8 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/pages/gabung.css') }}">
-    <style nonce="{{ Vite::cspNonce() }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/pages/gabung.css')); ?>">
+    <style nonce="<?php echo e(Vite::cspNonce()); ?>">
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
         body {
@@ -203,15 +203,15 @@
     <nav class="navbar-detail">
         <div class="container-xl d-flex justify-content-between align-items-center">
 
-            <a href="{{ route('beranda') }}" class="d-flex align-items-center gap-2 text-decoration-none">
-                <img src="{{ asset('images/logo.png') }}" width="40">
+            <a href="<?php echo e(route('beranda')); ?>" class="d-flex align-items-center gap-2 text-decoration-none">
+                <img src="<?php echo e(asset('images/logo.png')); ?>" width="40">
                 <div>
                     <div class="brand-label">Program Nasional</div>
                     <div class="brand-name">Makan Bergizi Gratis</div>
                 </div>
             </a>
 
-            <a href="{{ route('beranda') }}" class="btn-back">
+            <a href="<?php echo e(route('beranda')); ?>" class="btn-back">
                 <i class="bi bi-arrow-left"></i> Kembali ke Dashboard
             </a>
 
@@ -250,13 +250,14 @@
                             <i class="bi bi-grid-fill me-2"></i> Semua Dokumen
                         </a>
 
-                        @foreach($kategoris as $kategori)
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $kategoris; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $kategori): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <a href="#"
-                            data-category="{{ $kategori->id }}"
+                            data-category="<?php echo e($kategori->id); ?>"
                             class="list-group-item list-group-item-action border-0 rounded py-2 mb-1 category-filter">
-                            <i class="bi bi-file-earmark-text-fill me-2"></i> {{ $kategori->nama_kategori }}
+                            <i class="bi bi-file-earmark-text-fill me-2"></i> <?php echo e($kategori->nama_kategori); ?>
+
                         </a>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -265,13 +266,13 @@
             <div class="col-lg-9">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h5 class="fw-bold mb-0 text-secondary">Daftar Dokumen</h5>
-                    <small class="text-muted" id="resultsCount">{{ count($regulasis) }} Dokumen ditemukan</small>
+                    <small class="text-muted" id="resultsCount"><?php echo e(count($regulasis)); ?> Dokumen ditemukan</small>
                 </div>
 
                 <div id="fileContainer">
-                    @forelse($regulasis as $regulasi)
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $regulasis; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $regulasi): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <!-- File Item Wrapper -->
-                    <div data-aos="fade-up" data-category-id="{{ $regulasi->kategori_id }}" class="searchable-item">
+                    <div data-aos="fade-up" data-category-id="<?php echo e($regulasi->kategori_id); ?>" class="searchable-item">
                         <!-- File Card -->
                         <div class="file-card">
                             <div class="d-flex align-items-center flex-grow-1">
@@ -279,23 +280,23 @@
                                     <i class="bi bi-file-earmark-pdf-fill"></i>
                                 </div>
                                 <div class="file-info">
-                                    <div class="file-title">{{ $regulasi->judul }}</div>
+                                    <div class="file-title"><?php echo e($regulasi->judul); ?></div>
                                     <div class="file-meta">
-                                        <span class="category-badge utama">{{ $regulasi->kategori->nama_kategori ?? 'Dokumen' }}</span>
-                                        <span><i class="bi bi-calendar3"></i> {{ \Carbon\Carbon::parse($regulasi->tahun)->format('d M Y') }}</span>
-                                        <span><i class="bi bi-info-circle"></i> {{ $regulasi->status }}</span>
+                                        <span class="category-badge utama"><?php echo e($regulasi->kategori->nama_kategori ?? 'Dokumen'); ?></span>
+                                        <span><i class="bi bi-calendar3"></i> <?php echo e(\Carbon\Carbon::parse($regulasi->tahun)->format('d M Y')); ?></span>
+                                        <span><i class="bi bi-info-circle"></i> <?php echo e($regulasi->status); ?></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end gap-2 mt-2">
-                                <a href="{{ asset('storage/' . $regulasi->file_pdf) }}"
+                                <a href="<?php echo e(asset('storage/' . $regulasi->file_pdf)); ?>"
                                     class="btn-download-file"
                                     title="Lihat File PDF"
                                     target="_blank"
                                     rel="noopener noreferrer">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a href="{{ asset('storage/' . $regulasi->file_pdf) }}"
+                                <a href="<?php echo e(asset('storage/' . $regulasi->file_pdf)); ?>"
                                     class="btn-download-file"
                                     title="Unduh"
                                     download
@@ -308,11 +309,11 @@
 
                     </div>
 
-                    @empty
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <div class="text-center py-5">
                         <p class="text-muted">Belum ada dokumen yang diunggah.</p>
                     </div>
-                    @endforelse
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </div>
 
                 <!-- No Results Message -->
@@ -331,8 +332,8 @@
     </div>
     </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" nonce="{{ Vite::cspNonce() }}"></script>
-    <script nonce="{{ Vite::cspNonce() }}">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" nonce="<?php echo e(Vite::cspNonce()); ?>"></script>
+    <script nonce="<?php echo e(Vite::cspNonce()); ?>">
         let activeCategory = 'all';
 
         function doFilter() {
@@ -432,4 +433,4 @@
     </script>
 </body>
 
-</html>
+</html><?php /**PATH C:\laragon\www\mbg_kota_bogor\resources\views/components/detail/detail_regulasi.blade.php ENDPATH**/ ?>
